@@ -14,7 +14,7 @@ app
     console.log("Data received:", requestData);
 
     // 2. Construct the URL for listing Ordered Data Stores
-    const url = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/ordered-datastores?limit=100`;
+    const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/recentlyReviewedData/scopes/global/entries`;
 
     try {
       // 3. Make the request to Roblox Open Cloud
