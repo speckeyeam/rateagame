@@ -1,7 +1,11 @@
 {
   "name": "rateagame",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write . && eslint . --fix",
+    "build": "bun build --minify --target=bun --outfile=dist/index.js ./src/index.ts",
+    "start": "bun dist/index.js"
   },
   "dependencies": {
     "hono": "^4.6.18"
