@@ -1,0 +1,12 @@
+{
+  "name": "rateagame",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.6.18"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
