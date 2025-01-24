@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  userId         String           @id
+  dateJoined     String
+  reviews        review[]
+  awardsGiven    award[]          @relation("GiverRelation")
+  awardsReceived award[]          @relation("ReceiverRelation")
+  awardInventory awardInventory[]
+  coins          Int
+}
+
+model game {
+  gameId  String   @unique
+  reviews review[]
+}
+
+model reviewData {
+  reviewId   String   @unique
+  time       String
+  text       String   @db.VarChar(2000)
+  likes      like[]
+  review     review[]
+  awards     award[]
+  gameId     String
+  recommends Boolean
+}
+
+model review {
+  review     reviewData @relation(fields: [reviewId], references: [reviewId])
+  time       String
+  reviewId   String     @id //this will be the time + userid + gameid 
+  gameId     String
+  user       user?      @relation(fields: [userId], references: [userId])
+  userId     String?
+  recommends Boolean
+  game       game?      @relation(fields: [gameId], references: [gameId])
+}
+
+model like {
+  id           Int         @id @default(autoincrement())
+  reviewId     String
+  reviewGameId String
+  gameId       String
+  userId       String
+  reviewData   reviewData? @relation(fields: [reviewId], references: [reviewId])
+}
+
+model award {
+  id             Int         @id @default(autoincrement())
+  time           String
+  reviewId       String
+  awardId        String
+  reviewData     reviewData? @relation(fields: [reviewId], references: [reviewId])
+  givenUserId    String
+  receivedUserId String
+  giver          user        @relation("GiverRelation", fields: [givenUserId], references: [userId])
+  receiver       user        @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
+}
+
+model awardInventory {
+  id      Int     @id @default(autoincrement())
+  awardId String
+  user    user?   @relation(fields: [userId], references: [userId])
+  userId  String?
+}
