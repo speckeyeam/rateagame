@@ -30,7 +30,7 @@ model game {
 
 model reviewData {
   reviewId   String   @unique
-  time       String
+  time       DateTime
   text       String   @db.VarChar(2000)
   likes      like[]
   review     review[]
@@ -41,7 +41,7 @@ model reviewData {
 
 model review {
   review     reviewData @relation(fields: [reviewId], references: [reviewId])
-  time       String
+  time       DateTime
   reviewId   String     @id //this will be the time + userid + gameid 
   gameId     String
   user       user?      @relation(fields: [userId], references: [userId])
@@ -61,7 +61,7 @@ model like {
 
 model award {
   id             Int         @id @default(autoincrement())
-  time           String
+  time           DateTime
   reviewId       String
   awardId        String
   reviewData     reviewData? @relation(fields: [reviewId], references: [reviewId])
@@ -77,3 +77,53 @@ model awardInventory {
   user    user?   @relation(fields: [userId], references: [userId])
   userId  String?
 }
+
+//finish this later, make models for trending, top and lowest rated stuff
+
+/**
+ * const gamesWithRecommendations = await prisma.review.groupBy({
+ * by: ['gameId'], // Group by the game ID
+ * _count: {
+ * recommends: true, // Count all reviews
+ * },
+ * _sum: {
+ * recommends: true, // Sum the "recommends" field (true = 1, false = 0)
+ * },
+ * orderBy: {
+ * _sum: {
+ * recommends: 'desc', // Sort by the most positive recommendations
+ * },
+ * },
+ * });
+ */
+
+/**
+ * import { subDays } from "date-fns"; // To calculate 7 days ago
+ * async function getTrendingGames() {
+ * // Calculate the date 7 days ago
+ * const oneWeekAgo = subDays(new Date(), 7);
+ * const trendingGames = await prisma.review.groupBy({
+ * by: ["gameId"], // Group by gameId
+ * _count: {
+ * gameId: true, // Count the number of reviews
+ * },
+ * where: {
+ * time: {
+ * gte: oneWeekAgo.toISOString(), // Only consider reviews from the last week
+ * },
+ * },
+ * orderBy: {
+ * _count: {
+ * gameId: "desc", // Sort by the number of reviews in descending order
+ * },
+ * },
+ * take: 10, // Optional: Limit to top 10 trending games
+ * });
+ * return trendingGames;
+ * }
+ * // Example usage
+ * getTrendingGames().then((games) => {
+ * console.log("Trending games in the last week:", games);
+ * });
+ * //getting games that were trending in the past week
+ */
