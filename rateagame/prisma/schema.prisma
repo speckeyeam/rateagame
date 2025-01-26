@@ -21,6 +21,7 @@ model user {
   awardsReceived award[]          @relation("ReceiverRelation")
   awardInventory awardInventory[]
   coins          Int
+  savedGames     saved[]
 }
 
 model game {
@@ -78,52 +79,59 @@ model awardInventory {
   userId  String?
 }
 
+model saved {
+  id     Int      @id @default(autoincrement())
+  gameId String
+  userId String
+  time   DateTime
+  user   user?    @relation(fields: [userId], references: [userId])
+}
+
 //finish this later, make models for trending, top and lowest rated stuff
+// //*
+// * const gamesWithRecommendations = await prisma.review.groupBy({
+// * by: ['gameId'], // Group by the game ID
+// * _count: {
+// * recommends: true, // Count all reviews
+// * },
+// * _sum: {
+// * recommends: true, // Sum the "recommends" field (true = 1, false = 0)
+// * },
+// * orderBy: {
+// * _sum: {
+// * recommends: 'desc', // Sort by the most positive recommendations
+// * },
+// * },
+// * });
+// */
 
-/**
- * const gamesWithRecommendations = await prisma.review.groupBy({
- * by: ['gameId'], // Group by the game ID
- * _count: {
- * recommends: true, // Count all reviews
- * },
- * _sum: {
- * recommends: true, // Sum the "recommends" field (true = 1, false = 0)
- * },
- * orderBy: {
- * _sum: {
- * recommends: 'desc', // Sort by the most positive recommendations
- * },
- * },
- * });
- */
-
-/**
- * import { subDays } from "date-fns"; // To calculate 7 days ago
- * async function getTrendingGames() {
- * // Calculate the date 7 days ago
- * const oneWeekAgo = subDays(new Date(), 7);
- * const trendingGames = await prisma.review.groupBy({
- * by: ["gameId"], // Group by gameId
- * _count: {
- * gameId: true, // Count the number of reviews
- * },
- * where: {
- * time: {
- * gte: oneWeekAgo.toISOString(), // Only consider reviews from the last week
- * },
- * },
- * orderBy: {
- * _count: {
- * gameId: "desc", // Sort by the number of reviews in descending order
- * },
- * },
- * take: 10, // Optional: Limit to top 10 trending games
- * });
- * return trendingGames;
- * }
- * // Example usage
- * getTrendingGames().then((games) => {
- * console.log("Trending games in the last week:", games);
- * });
- * //getting games that were trending in the past week
- */
+// /**
+// * import { subDays } from "date-fns"; // To calculate 7 days ago
+// * async function getTrendingGames() {
+// * // Calculate the date 7 days ago
+// * const oneWeekAgo = subDays(new Date(), 7);
+// * const trendingGames = await prisma.review.groupBy({
+// * by: ["gameId"], // Group by gameId
+// * _count: {
+// * gameId: true, // Count the number of reviews
+// * },
+// * where: {
+// * time: {
+// * gte: oneWeekAgo.toISOString(), // Only consider reviews from the last week
+// * },
+// * },
+// * orderBy: {
+// * _count: {
+// * gameId: "desc", // Sort by the number of reviews in descending order
+// * },
+// * },
+// * take: 10, // Optional: Limit to top 10 trending games
+// * });
+// * return trendingGames;
+// * }
+// * // Example usage
+// * getTrendingGames().then((games) => {
+// * console.log("Trending games in the last week:", games);
+// * });
+// //getting games that were trending in the past week
+// */
