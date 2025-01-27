@@ -49,7 +49,7 @@ export const loadReviews = async (c: Context) => {
     // 5. Parse response from Roblox (list of data stores)
     const data = await robloxResponse.json();
     // console.log(data);
-    // console.log(data.entries);
+    console.log(data.entries);
 
     data.entries.array.forEach(async (review: any) => {
       review.id;
