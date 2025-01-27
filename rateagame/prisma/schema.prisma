@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,12 +9,13 @@ datasource db {
 
 model user {
   userId         String           @id
-  dateJoined     String
-  reviews        review[]
+  dateJoined     DateTime
+  coins          Int
   awardsGiven    award[]          @relation("GiverRelation")
   awardsReceived award[]          @relation("ReceiverRelation")
   awardInventory awardInventory[]
-  coins          Int
+  reviews        review[]
+  reviewData     reviewData[]
   savedGames     saved[]
 }
 
@@ -33,51 +28,67 @@ model reviewData {
   reviewId   String   @unique
   time       DateTime
   text       String   @db.VarChar(2000)
-  likes      like[]
-  review     review[]
-  awards     award[]
   gameId     String
   recommends Boolean
+  userId     String?
+  id         Int      @id @default(autoincrement())
+  awards     award[]
+  likes      like[]
+  review     review?
+  user       user?    @relation(fields: [userId], references: [userId])
+
+  @@index([userId], map: "reviewData_userId_fkey")
 }
 
 model review {
-  review     reviewData @relation(fields: [reviewId], references: [reviewId])
   time       DateTime
-  reviewId   String     @id //this will be the time + userid + gameid 
+  reviewId   String     @id
   gameId     String
-  user       user?      @relation(fields: [userId], references: [userId])
   userId     String?
   recommends Boolean
-  game       game?      @relation(fields: [gameId], references: [gameId])
   gamePass   Boolean    @default(false)
+  game       game       @relation(fields: [gameId], references: [gameId])
+  review     reviewData @relation(fields: [reviewId], references: [reviewId])
+  user       user?      @relation(fields: [userId], references: [userId])
+
+  @@index([gameId], map: "review_gameId_fkey")
+  @@index([userId], map: "review_userId_fkey")
 }
 
 model like {
-  id           Int         @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   reviewId     String
   reviewGameId String
   gameId       String
   userId       String
-  reviewData   reviewData? @relation(fields: [reviewId], references: [reviewId])
+  reviewData   reviewData @relation(fields: [reviewId], references: [reviewId])
+
+  @@index([reviewId], map: "like_reviewId_fkey")
 }
 
 model award {
-  id             Int         @id @default(autoincrement())
+  id             Int        @id @default(autoincrement())
   time           DateTime
   reviewId       String
   awardId        String
-  reviewData     reviewData? @relation(fields: [reviewId], references: [reviewId])
   givenUserId    String
   receivedUserId String
-  giver          user        @relation("GiverRelation", fields: [givenUserId], references: [userId])
-  receiver       user        @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
+  giver          user       @relation("GiverRelation", fields: [givenUserId], references: [userId])
+  receiver       user       @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
+  reviewData     reviewData @relation(fields: [reviewId], references: [reviewId])
+
+  @@index([givenUserId], map: "award_givenUserId_fkey")
+  @@index([receivedUserId], map: "award_receivedUserId_fkey")
+  @@index([reviewId], map: "award_reviewId_fkey")
 }
 
 model awardInventory {
   id      Int     @id @default(autoincrement())
   awardId String
-  user    user?   @relation(fields: [userId], references: [userId])
   userId  String?
+  user    user?   @relation(fields: [userId], references: [userId])
+
+  @@index([userId], map: "awardInventory_userId_fkey")
 }
 
 model saved {
@@ -85,54 +96,7 @@ model saved {
   gameId String
   userId String
   time   DateTime
-  user   user?    @relation(fields: [userId], references: [userId])
+  user   user     @relation(fields: [userId], references: [userId])
+
+  @@index([userId], map: "saved_userId_fkey")
 }
-
-//finish this later, make models for trending, top and lowest rated stuff
-// //*
-// * const gamesWithRecommendations = await prisma.review.groupBy({
-// * by: ['gameId'], // Group by the game ID
-// * _count: {
-// * recommends: true, // Count all reviews
-// * },
-// * _sum: {
-// * recommends: true, // Sum the "recommends" field (true = 1, false = 0)
-// * },
-// * orderBy: {
-// * _sum: {
-// * recommends: 'desc', // Sort by the most positive recommendations
-// * },
-// * },
-// * });
-// */
-
-// /**
-// * import { subDays } from "date-fns"; // To calculate 7 days ago
-// * async function getTrendingGames() {
-// * // Calculate the date 7 days ago
-// * const oneWeekAgo = subDays(new Date(), 7);
-// * const trendingGames = await prisma.review.groupBy({
-// * by: ["gameId"], // Group by gameId
-// * _count: {
-// * gameId: true, // Count the number of reviews
-// * },
-// * where: {
-// * time: {
-// * gte: oneWeekAgo.toISOString(), // Only consider reviews from the last week
-// * },
-// * },
-// * orderBy: {
-// * _count: {
-// * gameId: "desc", // Sort by the number of reviews in descending order
-// * },
-// * },
-// * take: 10, // Optional: Limit to top 10 trending games
-// * });
-// * return trendingGames;
-// * }
-// * // Example usage
-// * getTrendingGames().then((games) => {
-// * console.log("Trending games in the last week:", games);
-// * });
-// //getting games that were trending in the past week
-// */
