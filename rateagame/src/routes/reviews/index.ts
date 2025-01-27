@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 
 import { loadReviews } from "./loadReviews";
+import { submit } from "./submit";
 
 const app = new Hono();
 
@@ -9,6 +10,8 @@ const API_KEY =
 const UNIVERSE_ID = 6775462923; // e.g. the Universe ID from Creator Dashboard
 
 app.post("/loadReviews", loadReviews);
+
+app.post("/submit", submit);
 
 // app.post("/loadReviews", async (c) => {
 //   // 1. Log request body (if you want to see incoming data)
