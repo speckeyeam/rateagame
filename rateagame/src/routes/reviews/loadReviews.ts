@@ -1,5 +1,11 @@
 import { Context } from "hono";
 
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export default prisma;
+
 export const loadReviews = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
@@ -47,7 +53,7 @@ export const loadReviews = async (c: Context) => {
     // console.log(data);
     // console.log(data.entries);
 
-    data.entries.array.forEach((review: any) => {
+    data.entries.array.forEach(async (review: any) => {
       review.id;
       const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/${dataStore2}/scopes/global/entries/${review.id}`;
 
