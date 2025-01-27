@@ -17,6 +17,7 @@ model user {
   reviews        review[]
   reviewData     reviewData[]
   savedGames     saved[]
+  report         report[]
 }
 
 model game {
@@ -97,6 +98,17 @@ model saved {
   userId String
   time   DateTime
   user   user     @relation(fields: [userId], references: [userId])
+
+  @@index([userId], map: "saved_userId_fkey")
+}
+
+model report {
+  id       Int      @id @default(autoincrement())
+  gameId   String
+  reviewId String
+  time     DateTime
+  user     user     @relation(fields: [userId], references: [userId])
+  userId   String
 
   @@index([userId], map: "saved_userId_fkey")
 }
