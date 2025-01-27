@@ -18,9 +18,6 @@ export const loadReviews = async (c: Context) => {
   const UNIVERSE_ID = 6775462923; // e.g. the Universe ID from Creator Dashboard
   const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/${dataStore1}/scopes/global/entries?max_page_size=100&order_by=desc`;
 
-
-  local reviewStore = DataStoreService:GetDataStore(prefix..gameId.."reviews")
-
   try {
     // 3. Make the request to Roblox Open Cloud
     const robloxResponse = await fetch(url, {
@@ -50,42 +47,40 @@ export const loadReviews = async (c: Context) => {
     // console.log(data);
     // console.log(data.entries);
 
-    (data.entries).array.forEach((review: any)=> {
-        review.id
-        const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/${dataStore2}/scopes/global/entries/${review.id}`;
+    data.entries.array.forEach((review: any) => {
+      review.id;
+      const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/${dataStore2}/scopes/global/entries/${review.id}`;
 
-        try {
-            // 3. Make the request to Roblox Open Cloud
-            const robloxResponse = await fetch(url, {
-              method: "GET",
-              headers: {
-                "x-api-key": API_KEY,
-              },
-            });
-        
-            // 4. Handle any errors from Roblox
-            if (!robloxResponse.ok) {
-              const errorText = await robloxResponse.text();
-              console.log(robloxResponse + " test");
-              console.error("Roblox API Error:", robloxResponse.status, errorText);
-              return c.json(
-                {
-                  success: false,
-                  status: robloxResponse.status,
-                  error: errorText,
-                },
-                500
-              );
-            }
-            const data = await robloxResponse.json();
-            console.log(data)
-            
-        }catch (err) {
-            // Catch any network or runtime errors
-            console.error("Error fetching data from Roblox:", err);
-            return c.json({ success: false, error: String(err) }, 500);
-          }
+      try {
+        // 3. Make the request to Roblox Open Cloud
+        const robloxResponse = await fetch(url, {
+          method: "GET",
+          headers: {
+            "x-api-key": API_KEY,
+          },
+        });
 
+        // 4. Handle any errors from Roblox
+        if (!robloxResponse.ok) {
+          const errorText = await robloxResponse.text();
+          console.log(robloxResponse + " test");
+          console.error("Roblox API Error:", robloxResponse.status, errorText);
+          return c.json(
+            {
+              success: false,
+              status: robloxResponse.status,
+              error: errorText,
+            },
+            500
+          );
+        }
+        const data = await robloxResponse.json();
+        console.log(data);
+      } catch (err) {
+        // Catch any network or runtime errors
+        console.error("Error fetching data from Roblox:", err);
+        return c.json({ success: false, error: String(err) }, 500);
+      }
     });
     // console.log(Object.keys(data.entries).length + " test");
     // console.log("Ordered DataStores:", data);
