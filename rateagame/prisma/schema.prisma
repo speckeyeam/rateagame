@@ -49,6 +49,7 @@ model review {
   userId     String?
   recommends Boolean
   game       game?      @relation(fields: [gameId], references: [gameId])
+  gamePass   Boolean    @default(false)
 }
 
 model like {

@@ -8,11 +8,11 @@
     "start": "bun dist/index.js"
   },
   "dependencies": {
-    "@prisma/client": "^6.2.1",
+    "@prisma/client": "^6.3.0-dev.31",
     "hono": "^4.6.18"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "prisma": "^6.2.1"
+    "prisma": "^6.3.0-dev.31"
   }
 }
