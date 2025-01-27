@@ -21,8 +21,9 @@ model user {
 }
 
 model game {
-  gameId  String   @unique
-  reviews review[]
+  gameId   String   @unique
+  reviews  review[]
+  gamePass Boolean  @default(false)
 }
 
 model reviewData {

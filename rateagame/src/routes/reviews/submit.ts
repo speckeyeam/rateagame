@@ -3,6 +3,7 @@ import { Context } from "hono";
 import { PrismaClient } from "@prisma/client";
 
 import { playerCheck } from "../helpers/playerCheck";
+import { gameCheck } from "../helpers/gameCheck";
 
 const prisma = new PrismaClient();
 
@@ -17,8 +18,9 @@ export const submit = async (c: Context) => {
   let reviewId = requestData.reviewId;
   let gamePass = requestData.gamePass; //check if this works properly, it might be a string and not a boolean
   //make sure that when looping out all user generated content u are using roblox's filter system
-  if (gameId & date & text & recommends & userId) {
-    await playerCheck;
+  if (gameId & date & text & recommends & userId & gamePass) {
+    await playerCheck(userId);
+    await gameCheck(gameId, gamePass);
     if (text.length < 2001 && date.length < 2001) {
       const newreviewdata = await prisma.reviewData.create({
         data: {
