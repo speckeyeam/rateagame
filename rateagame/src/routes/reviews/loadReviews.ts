@@ -1,10 +1,8 @@
 import { Context } from "hono";
 
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
-
-export default prisma;
+// const prisma = new PrismaClient();
 
 export const loadReviews = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
