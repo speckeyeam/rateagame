@@ -7,12 +7,12 @@ export async function gameCheck(gameId: string, gamePass: boolean) {
     return null;
   }
   const game = await prisma.game.findUnique({
-    where: { gameId: gameId, gamePass },
+    where: { gameId: String(gameId), gamePass },
   });
   if (!game) {
     const newgame = await prisma.game.create({
       data: {
-        gameId,
+        gameId: String(gameId),
         gamePass,
       },
     });
