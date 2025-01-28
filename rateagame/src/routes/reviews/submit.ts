@@ -14,7 +14,7 @@ export const submit = async (c: Context) => {
   let date = new Date(requestData.date * 1000);
   let text = requestData.text;
   let recommends = requestData.recommends;
-  let userId: string = requestData.userId;
+  let userId: string = requestData.userId.toString();
   let reviewId = requestData.reviewId;
   let gamePass = requestData.gamePass || false; //check if this works properly, it might be a string and not a boolean
   //make sure that when looping out all user generated content u are using roblox's filter system
