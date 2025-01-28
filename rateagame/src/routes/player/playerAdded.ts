@@ -49,7 +49,7 @@ export const playerAdded = async (c: Context) => {
           try {
             // 3. Make the request to Roblox Open Cloud
             const robloxResponse = await fetch(fullUrl, {
-              method: "GET",
+              method: "POST",
               headers: {
                 "x-api-key": process.env.API_KEY,
                 "content-md5": "IGPBYI1uC6+AJJxC4r5YBA==",
