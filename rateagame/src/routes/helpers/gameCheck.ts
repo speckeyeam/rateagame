@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function gameCheck(gameId: string, gamePass: boolean) {
-  if (userId.length > 100) {
+  if (gameId.length > 100) {
     return null;
   }
   const game = await prisma.game.findUnique({
