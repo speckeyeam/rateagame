@@ -9,7 +9,7 @@ datasource db {
 }
 
 model user {
-  userId         String           @id
+  userId         String           @id @unique
   dateJoined     DateTime
   coins          Int
   awardsGiven    award[]          @relation("GiverRelation")
@@ -19,6 +19,7 @@ model user {
   reviewData     reviewData[]
   savedGames     saved[]
   report         report[]
+  token          String           @unique @default(uuid())
 }
 
 model game {

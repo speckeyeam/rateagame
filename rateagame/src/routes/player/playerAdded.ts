@@ -30,23 +30,23 @@ export const playerAdded = async (c: Context) => {
 
       // 4. Handle any errors from Roblox
       if (!robloxResponse.ok) {
-        const errorText = await robloxResponse.text();
-        //   console.log(robloxResponse + " test");
-        console.error("Roblox API Error:", robloxResponse.status, errorText);
-        return c.json(
-          {
-            success: false,
-            status: robloxResponse.status,
-            error: errorText,
+        const newuser = await prisma.user.create({
+          data: {
+            userId,
+            dateJoined: new Date(),
+            coins: 150,
           },
-          500
-        );
+        });
+        if (newuser) {
+          return c.json({ success: true }, 200);
+        } else {
+          return c.json({ success: false }, 200);
+        }
       }
 
       // 5. Parse response from Roblox (list of data stores)
-      const data = await robloxResponse.json();
 
-      return c.json({ success: true, dataStores: data }, 200);
+      return c.json({ success: true }, 200);
     } catch (err) {
       // Catch any network or runtime errors
       console.error("Error fetching data from Roblox:", err);

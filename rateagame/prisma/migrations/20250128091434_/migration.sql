@@ -1,15 +1,19 @@
 -- CreateTable
 CREATE TABLE `user` (
     `userId` VARCHAR(191) NOT NULL,
-    `dateJoined` VARCHAR(191) NOT NULL,
+    `dateJoined` DATETIME(3) NOT NULL,
     `coins` INTEGER NOT NULL,
+    `token` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `user_userId_key`(`userId`),
+    UNIQUE INDEX `user_token_key`(`token`),
     PRIMARY KEY (`userId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `game` (
     `gameId` VARCHAR(191) NOT NULL,
+    `gamePass` BOOLEAN NOT NULL DEFAULT false,
 
     UNIQUE INDEX `game_gameId_key`(`gameId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -91,6 +95,18 @@ CREATE TABLE `saved` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `report` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `gameId` VARCHAR(191) NOT NULL,
+    `reviewId` VARCHAR(191) NOT NULL,
+    `time` DATETIME(3) NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+
+    INDEX `saved_userId_fkey`(`userId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `reviewData` ADD CONSTRAINT `reviewData_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`userId`) ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -120,3 +136,6 @@ ALTER TABLE `awardInventory` ADD CONSTRAINT `awardInventory_userId_fkey` FOREIGN
 
 -- AddForeignKey
 ALTER TABLE `saved` ADD CONSTRAINT `saved_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`userId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `report` ADD CONSTRAINT `report_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`userId`) ON DELETE RESTRICT ON UPDATE CASCADE;
