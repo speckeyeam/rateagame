@@ -6,6 +6,16 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+function generateContentMD5(content: String) {
+  // Compute the MD5 hash of the content
+  const hash = createHash("md5").update(content).digest();
+
+  // Encode the hash in Base64
+  const contentMD5 = hash.toString("base64");
+
+  return contentMD5;
+}
+
 export const playerAdded = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null);
 
@@ -40,10 +50,6 @@ export const playerAdded = async (c: Context) => {
           },
         });
         if (newUser) {
-          const md5Hash = createHash("md5")
-            .update(newUser.token)
-            .digest("base64");
-
           const url = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/standard-datastores/datastore/entries/entry`;
           const queryParams = new URLSearchParams({
             datastoreName: "tokens",
@@ -58,7 +64,7 @@ export const playerAdded = async (c: Context) => {
               method: "POST",
               headers: {
                 "x-api-key": process.env.API_KEY,
-                "content-md5": md5Hash,
+                "content-md5": generateContentMD5(newUser.token),
                 "content-type": "application/json",
                 "roblox-entry-userids": "[269323]",
                 "roblox-entry-attributes": "{}",
