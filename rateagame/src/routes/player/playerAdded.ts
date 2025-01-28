@@ -1,5 +1,7 @@
 import { Context } from "hono";
 
+import createHash from "crypto";
+
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -38,6 +40,10 @@ export const playerAdded = async (c: Context) => {
           },
         });
         if (newUser) {
+          const md5Hash = createHash("md5")
+            .update(newUser.token)
+            .digest("base64");
+
           const url = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/standard-datastores/datastore/entries/entry`;
           const queryParams = new URLSearchParams({
             datastoreName: "tokens",
@@ -52,7 +58,7 @@ export const playerAdded = async (c: Context) => {
               method: "POST",
               headers: {
                 "x-api-key": process.env.API_KEY,
-                "content-md5": "IGPBYI1uC6+AJJxC4r5YBA==",
+                "content-md5": md5Hash,
                 "content-type": "application/json",
                 "roblox-entry-userids": "[269323]",
                 "roblox-entry-attributes": "{}",
