@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@prisma/client": "^6.3.0-dev.31",
-    "hono": "^4.6.18"
+    "hono": "^4.6.18",
+    "openssl": "^2.0.0"
   },
   "devDependencies": {
     "@types/bun": "latest",

@@ -6,6 +6,7 @@
       "dependencies": {
         "@prisma/client": "^6.3.0-dev.31",
         "hono": "^4.6.18",
+        "openssl": "^2.0.0",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -37,6 +38,8 @@
     "fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="],
 
     "hono": ["hono@4.6.18", "", {}, "sha512-Fu7hEPvdwtPG8LqSAiPn8p8HjD+PDxrP/HVnwRBnwtVKOn5zDDKsw0ma2Xt58oq97Rlp3t/mRNADEV/Ym6cDng=="],
+
+    "openssl": ["openssl@2.0.0", "", {}, "sha512-0FgKhQ/e+XCtTTgn3qZO2g3y+Y3FC/LGvt77oObmMR4ZkZvsV1CuG/mMZClZgZqVKr0+tkemP+I3Uub4WXkHYw=="],
 
     "prisma": ["prisma@6.3.0-integration-studio-ux-refinements.3", "", { "dependencies": { "@prisma/engines": "6.3.0-integration-studio-ux-refinements.3" }, "optionalDependencies": { "fsevents": "2.3.3" }, "peerDependencies": { "typescript": ">=5.1.0" }, "optionalPeers": ["typescript"], "bin": { "prisma": "build/index.js" } }, "sha512-WuBnrwoUpkS2AVgQKeYr8GEgHA9euVctIseCsWwjHRjJ7iBT24N9pY3pWRpKnACNt/9XTvxGTNDkZSE6gl55GA=="],
 
