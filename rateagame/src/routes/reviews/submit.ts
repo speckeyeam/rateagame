@@ -18,6 +18,7 @@ export const submit = async (c: Context) => {
   let reviewId = requestData.reviewId;
   let gamePass = requestData.gamePass; //check if this works properly, it might be a string and not a boolean
   //make sure that when looping out all user generated content u are using roblox's filter system
+  console.log("test");
   if (gameId & date & text & recommends & userId & gamePass) {
     await playerCheck(userId);
     await gameCheck(gameId, gamePass);
@@ -49,5 +50,7 @@ export const submit = async (c: Context) => {
         return c.json({ success: false }, 500);
       }
     }
+  } else {
+    return c.json({ success: false }, 500);
   }
 };
