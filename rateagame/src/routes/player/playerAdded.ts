@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export const playerAdded = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null);
 
-  let userId = requestData.userId;
+  let userId = String(requestData.userId);
 
   if (userId) {
     const UNIVERSE_ID = 6775462923;
