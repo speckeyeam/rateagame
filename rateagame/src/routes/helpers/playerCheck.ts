@@ -20,3 +20,5 @@ export async function playerCheck(userId: string) {
     return user;
   }
 }
+
+//prob need a way to deal with session tokens and maybe use datastores for that
