@@ -19,7 +19,7 @@ export const submit = async (c: Context) => {
   let gamePass = requestData.gamePass; //check if this works properly, it might be a string and not a boolean
   //make sure that when looping out all user generated content u are using roblox's filter system
 
-  if (gameId & date & text & recommends & userId & gamePass) {
+  if (gameId && date && text && recommends && userId && gamePass) {
     await playerCheck(userId);
     await gameCheck(gameId, gamePass);
     if (text.length < 2001 && date.length < 2001) {
