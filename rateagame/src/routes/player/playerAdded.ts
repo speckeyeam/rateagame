@@ -27,9 +27,11 @@ export const playerAdded = async (c: Context) => {
           "x-api-key": process.env.API_KEY,
         },
       });
+      console.log("test3");
 
       // 4. Handle any errors from Roblox
       if (!robloxResponse.ok) {
+        console.log("test2");
         const newUser = await prisma.user.create({
           data: {
             userId,
