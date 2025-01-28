@@ -22,11 +22,13 @@ export const playerAdded = async (c: Context) => {
   let userId = String(requestData.userId);
 
   if (userId) {
-    const UNIVERSE_ID = 6775462923;
+    // const UNIVERSE_ID = 6775462923; --real game
+    const UNIVERSE_ID = 7146581911; //testing game
+
     const url = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/standard-datastores/datastore/entries/entry`;
     const queryParams = new URLSearchParams({
       datastoreName: "tokens",
-      entryKey: userId,
+      entryKey: String(userId),
     }).toString();
 
     // Full URL with query parameters
@@ -41,7 +43,9 @@ export const playerAdded = async (c: Context) => {
       });
 
       // 4. Handle any errors from Roblox
-      if (!robloxResponse.ok) {
+      if (robloxResponse.ok) {
+        const data = await robloxResponse.json();
+        console.log(data);
         const newUser = await prisma.user.create({
           data: {
             userId,
@@ -50,47 +54,50 @@ export const playerAdded = async (c: Context) => {
           },
         });
         if (newUser) {
-          const url = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/standard-datastores/datastore/entries/entry`;
-          const queryParams = new URLSearchParams({
-            datastoreName: "tokens",
-            entryKey: userId,
-          }).toString();
-
-          // Full URL with query parameters
-          const fullUrl = `${url}?${queryParams}`;
-          try {
-            // 3. Make the request to Roblox Open Cloud
-            const robloxResponse = await fetch(fullUrl, {
-              method: "POST",
-              headers: {
-                "x-api-key": process.env.API_KEY,
-                "content-md5": generateContentMD5(newUser.token),
-                "content-type": "application/json",
-              },
-              body: JSON.stringify({
-                data: newUser.token, // Replace with actual data
-              }),
-            });
-
-            if (robloxResponse.ok) {
-              return c.json({ success: true }, 200);
-            }
-
-            console.log(robloxResponse);
-          } catch (err) {
-            // Catch any network or runtime errors
-            console.error("Error fetching data from Roblox:", err);
-            return c.json({ success: false, error: String(err) }, 500);
-          }
-
-          return c.json({ success: false }, 200);
+          return c.json({ success: true, token: newUser.token }, 200);
+          //   const url = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/standard-datastores/datastore/entries/entry`;
+          //   const queryParams = new URLSearchParams({
+          //     datastoreName: "tokens",
+          //     entryKey: userId,
+          //     scope: "global",
+          //   }).toString();
+          //   // Full URL with query parameters
+          //   const fullUrl = `${url}?${queryParams}`;
+          //   try {
+          //     // 3. Make the request to Roblox Open Cloud
+          //     console.log(userId);
+          //     const robloxResponse = await fetch(fullUrl, {
+          //       method: "POST",
+          //       headers: {
+          //         "x-api-key": process.env.API_KEY,
+          //         "content-md5": generateContentMD5(newUser.token),
+          //         "content-type": "application/json",
+          //       },
+          //       body: JSON.stringify(newUser.token),
+          //     });
+          //     if (robloxResponse.ok) {
+          //       console.log(robloxResponse);
+          //       return c.json({ success: true }, 200);
+          //     }
+          //     console.log(robloxResponse);
+          //   } catch (err) {
+          //     // Catch any network or runtime errors
+          //     console.error("Error fetching data from Roblox:", err);
+          //     return c.json({ success: false, error: String(err) }, 500);
+          //   }
+          //   return c.json({ success: false }, 200);
         } else {
           return c.json({ success: false }, 200);
         }
       }
 
       // 5. Parse response from Roblox (list of data stores)
+      const data = await robloxResponse.json();
+      // console.log(data);
+      // console.log(data);
 
+      let table = data.entries;
+      console.log(data);
       return c.json({ success: true }, 200);
     } catch (err) {
       // Catch any network or runtime errors
