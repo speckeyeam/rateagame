@@ -27,11 +27,9 @@ export const playerAdded = async (c: Context) => {
           "x-api-key": process.env.API_KEY,
         },
       });
-      console.log("test3");
 
       // 4. Handle any errors from Roblox
       if (!robloxResponse.ok) {
-        console.log("test2");
         const newUser = await prisma.user.create({
           data: {
             userId,
@@ -40,7 +38,6 @@ export const playerAdded = async (c: Context) => {
           },
         });
         if (newUser) {
-          console.log(newUser);
           const url = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/standard-datastores/datastore/entries/entry`;
           const queryParams = new URLSearchParams({
             datastoreName: "tokens",
@@ -62,6 +59,7 @@ export const playerAdded = async (c: Context) => {
               },
               body: JSON.stringify(newUser.token),
             });
+            console.log(robloxResponse);
           } catch (err) {
             // Catch any network or runtime errors
             console.error("Error fetching data from Roblox:", err);
