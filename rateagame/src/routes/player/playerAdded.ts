@@ -3,20 +3,17 @@ import { Context } from "hono";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+
+import md5 from "md5";
+import { Buffer } from "buffer"; // Bun provides this natively.
 //test
 async function generateContentMD5(content: string) {
-  // Compute the MD5 hash of the content
-  const encoder = new TextEncoder();
-  const data = encoder.encode(content);
-
-  // Compute the MD5 hash using Bun's Web Crypto API
-  const hashBuffer = await crypto.subtle.digest("MD5", data);
+  const hash = md5(content);
 
   // Convert the hash to a Base64 string
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashBase64 = btoa(String.fromCharCode(...hashArray));
+  const contentMD5 = Buffer.from(hash, "hex").toString("base64");
 
-  return hashBase64;
+  return contentMD5;
 }
 
 export const playerAdded = async (c: Context) => {
