@@ -12,20 +12,20 @@ model user {
   userId         String           @id @unique
   dateJoined     DateTime
   coins          Int
+  token          String           @unique @default(uuid())
   awardsGiven    award[]          @relation("GiverRelation")
   awardsReceived award[]          @relation("ReceiverRelation")
   awardInventory awardInventory[]
+  report         report[]
   reviews        review[]
   reviewData     reviewData[]
   savedGames     saved[]
-  report         report[]
-  token          String           @unique @default(uuid())
 }
 
 model game {
   gameId   String   @unique
-  reviews  review[]
   gamePass Boolean  @default(false)
+  reviews  review[]
 }
 
 model reviewData {
@@ -110,8 +110,8 @@ model report {
   gameId   String
   reviewId String
   time     DateTime
-  user     user     @relation(fields: [userId], references: [userId])
   userId   String
+  user     user     @relation(fields: [userId], references: [userId])
 
   @@index([userId], map: "saved_userId_fkey")
 }
