@@ -7,6 +7,6 @@ const router = new Hono();
 // Mount the reviews route on /reviews
 router.route("/reviews", reviewsRoute);
 
-router.route("/players", playersRoute);
+router.route("/player", playersRoute);
 
 export default router;
