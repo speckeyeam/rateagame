@@ -43,7 +43,7 @@ export const playerAdded = async (c: Context) => {
       });
 
       // 4. Handle any errors from Roblox
-      if (robloxResponse.ok) {
+      if (!robloxResponse.ok) {
         const data = await robloxResponse.json();
         console.log(data);
         const newUser = await prisma.user.create({
