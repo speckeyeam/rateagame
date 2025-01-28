@@ -16,24 +16,14 @@ export const submit = async (c: Context) => {
   let recommends = requestData.recommends;
   let userId = requestData.userId;
   let reviewId = requestData.reviewId;
-  let gamePass = requestData.gamePass; //check if this works properly, it might be a string and not a boolean
+  let gamePass = requestData.gamePass || false; //check if this works properly, it might be a string and not a boolean
   //make sure that when looping out all user generated content u are using roblox's filter system
 
-  if (gameId && date && text && recommends && userId && gamePass && reviewId) {
-    console.log("test");
-
-    await playerCheck(userId);
-    await gameCheck(gameId, gamePass);
-    console.log("test2");
+  if (gameId && date && text && recommends && userId && reviewId) {
+    let player: any = await playerCheck(userId);
+    let game: any = await gameCheck(gameId, gamePass);
 
     if (text.length < 2001 && date.length < 2001) {
-      console.log(gameId);
-      console.log(date);
-      console.log(text);
-      console.log(recommends);
-      console.log(userId);
-      console.log(reviewId);
-      console.log(gamePass);
       const newreviewdata = await prisma.reviewData.create({
         data: {
           reviewId,
