@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 export const submit = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  let gameId: string = requestData.gameId;
+  let gameId: string = requestData.gameId.toString();
   let date = new Date(requestData.date * 1000);
   let text = requestData.text;
   let recommends = requestData.recommends;
