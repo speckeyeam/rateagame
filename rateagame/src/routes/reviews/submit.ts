@@ -42,7 +42,7 @@ export const submit = async (c: Context) => {
           gamePass: false,
         },
       });
-
+      console.log(newreview);
       if (newreview && newreviewdata) {
         return c.json({ success: true }, 500);
       } else {
