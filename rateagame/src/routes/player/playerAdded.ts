@@ -1,19 +1,22 @@
 import { Context } from "hono";
 
-import createHash from "crypto";
-
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-function generateContentMD5(content: String) {
+async function generateContentMD5(content: string) {
   // Compute the MD5 hash of the content
-  const hash = createHash("md5").update(content).digest();
+  const encoder = new TextEncoder();
+  const data = encoder.encode(content);
 
-  // Encode the hash in Base64
-  const contentMD5 = hash.toString("base64");
+  // Compute the MD5 hash using Bun's Web Crypto API
+  const hashBuffer = await crypto.subtle.digest("MD5", data);
 
-  return contentMD5;
+  // Convert the hash to a Base64 string
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashBase64 = btoa(String.fromCharCode(...hashArray));
+
+  return hashBase64;
 }
 
 export const playerAdded = async (c: Context) => {
@@ -71,6 +74,11 @@ export const playerAdded = async (c: Context) => {
               },
               body: JSON.stringify(newUser.token),
             });
+
+            if (robloxResponse.ok) {
+              return c.json({ success: true }, 200);
+            }
+
             console.log(robloxResponse);
           } catch (err) {
             // Catch any network or runtime errors
@@ -78,7 +86,7 @@ export const playerAdded = async (c: Context) => {
             return c.json({ success: false, error: String(err) }, 500);
           }
 
-          return c.json({ success: true }, 200);
+          return c.json({ success: false }, 200);
         } else {
           return c.json({ success: false }, 200);
         }
