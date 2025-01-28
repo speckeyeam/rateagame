@@ -38,6 +38,7 @@ export const playerAdded = async (c: Context) => {
           },
         });
         if (newUser) {
+          console.log(newUser);
           const url = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/standard-datastores/datastore/entries/entry`;
           const queryParams = new URLSearchParams({
             datastoreName: "tokens",
