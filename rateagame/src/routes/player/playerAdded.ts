@@ -66,11 +66,9 @@ export const playerAdded = async (c: Context) => {
                 "x-api-key": process.env.API_KEY,
                 "content-md5": generateContentMD5(newUser.token),
                 "content-type": "application/json",
-                "roblox-entry-attributes": "{}",
               },
               body: JSON.stringify({
-                data: { key: newUser.token }, // Replace with actual data
-                matchVersion: "latest", // Optional, if required
+                data: newUser.token, // Replace with actual data
               }),
             });
 
