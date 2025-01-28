@@ -6,7 +6,9 @@ export async function playerCheck(userId: string, token: string) {
   if (userId.length > 100) {
     return null;
   }
-  const user = await prisma.user.findUnique({ where: { userId, token } });
+  const user = await prisma.user.findUnique({
+    where: { userId: String(userId), token },
+  });
   if (!user) {
     return false;
   } else {
