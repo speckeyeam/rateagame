@@ -69,7 +69,10 @@ export const playerAdded = async (c: Context) => {
                 "roblox-entry-userids": "[269323]",
                 "roblox-entry-attributes": "{}",
               },
-              body: JSON.stringify(newUser.token),
+              body: JSON.stringify({
+                data: { key: newUser.token }, // Replace with actual data
+                matchVersion: "latest", // Optional, if required
+              }),
             });
 
             if (robloxResponse.ok) {
