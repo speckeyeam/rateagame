@@ -18,6 +18,7 @@ export const submit = async (c: Context) => {
     userId,
     reviewId,
     gamePass = false, // Default to false if not provided
+    token,
   } = requestData;
 
   //   let gameId: string = requestData.gameId.toString();
@@ -29,39 +30,41 @@ export const submit = async (c: Context) => {
   //   let gamePass = requestData.gamePass || false; //check if this works properly, it might be a string and not a boolean
   //make sure that when looping out all user generated content u are using roblox's filter system
 
-  if (gameId && time && text && recommends && userId && reviewId) {
-    let player: any = await playerCheck(userId);
-    let game: any = await gameCheck(gameId, gamePass);
+  if (gameId && time && text && recommends && userId && reviewId && token) {
+    let player: any = await playerCheck(userId, token);
+    if (player) {
+      let game: any = await gameCheck(gameId, gamePass);
 
-    if (text.length < 2001) {
-      const newreviewdata = await prisma.reviewData.create({
-        data: {
-          reviewId: String(reviewId),
-          time: new Date(time * 1000),
-          userId: String(userId),
-          gameId: String(gameId),
-          text,
-          recommends,
-        },
-      });
-      const newreview = await prisma.review.create({
-        data: {
-          reviewId: String(reviewId),
-          time: new Date(time * 1000),
-          userId: String(userId),
-          gameId: String(gameId),
-          recommends,
-          gamePass,
-        },
-      });
-      console.log(newreview);
-      if (newreview && newreviewdata) {
-        return c.json({ success: true }, 500);
-      } else {
-        return c.json({ success: false }, 500);
+      if (text.length < 2001) {
+        const newreviewdata = await prisma.reviewData.create({
+          data: {
+            reviewId: String(reviewId),
+            time: new Date(time * 1000),
+            userId: String(userId),
+            gameId: String(gameId),
+            text,
+            recommends,
+          },
+        });
+        const newreview = await prisma.review.create({
+          data: {
+            reviewId: String(reviewId),
+            time: new Date(time * 1000),
+            userId: String(userId),
+            gameId: String(gameId),
+            recommends,
+            gamePass,
+          },
+        });
+        console.log(newreview);
+        if (newreview && newreviewdata) {
+          return c.json({ success: true }, 500);
+        } else {
+          return c.json({ success: false }, 500);
+        }
       }
+    } else {
+      return c.json({ success: false }, 500);
     }
-  } else {
-    return c.json({ success: false }, 500);
   }
 };
