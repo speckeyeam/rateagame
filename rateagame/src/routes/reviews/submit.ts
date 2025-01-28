@@ -32,6 +32,7 @@ export const submit = async (c: Context) => {
 
   if (gameId && time && text && recommends && userId && reviewId && token) {
     let player: any = await playerCheck(userId, token);
+    console.log(player);
     if (player) {
       let game: any = await gameCheck(gameId, gamePass);
 
