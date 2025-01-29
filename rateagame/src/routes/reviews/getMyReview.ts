@@ -28,12 +28,17 @@ export const getMyReview = async (c: Context) => {
 
         let game: any = await gameCheck(gameId, gamePass);
 
+        const data: any = {
+          userId: String(userId),
+        };
+        if (gamePass) {
+          data.gamePassId = String(gameId);
+        } else {
+          data.gameId = String(gameId);
+        }
+
         const myReview = await prisma.review.findFirst({
-          where: {
-            userId: String(userId),
-            gameId: String(gameId),
-            gamePass,
-          },
+          where: data,
           include: {
             review: true,
           },
