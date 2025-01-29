@@ -14,7 +14,7 @@ export const deleteReview = async (c: Context) => {
     gameId,
     reviewId,
     userId, // Default to false if not provided
-    gamePass = false,
+    gamePass,
     token,
   } = requestData;
   console.log(token);
