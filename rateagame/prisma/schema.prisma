@@ -23,8 +23,7 @@ model user {
 }
 
 model game {
-  id       Int      @id @unique @default(autoincrement())
-  gameId   String
+  gameId   String   @unique
   gamePass Boolean  @default(false)
   reviews  review[]
 }
