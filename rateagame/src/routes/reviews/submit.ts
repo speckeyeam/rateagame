@@ -45,6 +45,7 @@ export const submit = async (c: Context) => {
             gameId: String(gameId),
             text,
             recommends,
+            gamePass,
           },
         });
         const newreview = await prisma.review.create({

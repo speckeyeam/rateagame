@@ -29,7 +29,6 @@ export const getMyReview = async (c: Context) => {
         where: {
           userId: String(userId),
           gameId: String(userId),
-          reviewId,
           gamePass,
         },
       });
