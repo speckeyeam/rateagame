@@ -3,6 +3,7 @@ import { Context } from "hono";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+import { gameCheck } from "../helpers/gameCheck";
 
 export const loadReviews = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
@@ -10,10 +11,13 @@ export const loadReviews = async (c: Context) => {
   let dataStore1;
   let dataStore2: String;
   let gameId;
+
   if (requestData.gameId) {
     dataStore1 = requestData.gameId + "likes";
     dataStore2 = requestData.gameId + "reviews";
     gameId = requestData.gameId;
+
+    await gameCheck(gameId, false);
   }
 
   const game = await prisma.game.findUnique({
@@ -171,7 +175,6 @@ export const loadReviews = async (c: Context) => {
               userId,
               gameId,
               recommends,
-              gamePass: false,
             },
           });
         }
