@@ -34,10 +34,17 @@ export const getMyReview = async (c: Context) => {
             gameId: String(gameId),
             gamePass,
           },
+          include: {
+            review: true,
+          },
         });
         console.log(myReview);
         if (myReview) {
-          return c.json({ success: true, review: myReview }, 500);
+          const updatedReview = {
+            ...myReview,
+            date: Math.floor((myReview.time as Date).getTime() / 1000),
+          };
+          return c.json({ success: true, review: updatedReview }, 500);
         }
       }
     }
