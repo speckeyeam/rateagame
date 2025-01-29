@@ -13,7 +13,7 @@ export const getMyReview = async (c: Context) => {
   const {
     gameId,
     userId,
-    gamePass = false, // Default to false if not provided
+    gamePass, // Default to false if not provided
     token,
     otherPlayerId = null,
   } = requestData;

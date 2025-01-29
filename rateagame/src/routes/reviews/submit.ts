@@ -17,7 +17,7 @@ export const submit = async (c: Context) => {
     recommends,
     userId,
     reviewId,
-    gamePass = false, // Default to false if not provided
+    gamePass, // Default to false if not provided
     token,
   } = requestData;
 
