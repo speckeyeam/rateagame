@@ -15,30 +15,32 @@ export const getMyReview = async (c: Context) => {
     userId,
     gamePass = false, // Default to false if not provided
     token,
+    otherPlayerId = null,
   } = requestData;
 
   console.log(token);
   if (gameId && userId && token) {
     let player: any = await playerCheck(userId, token);
-    console.log(player);
     if (player) {
-      let game: any = await gameCheck(gameId, gamePass);
-
-      const myReview = await prisma.review.findFirst({
-        where: {
-          userId: String(userId),
-          gameId: String(userId),
-          gamePass,
-        },
-      });
-
-      if (myReview) {
-        return c.json({ success: true, review: myReview }, 500);
+      if (otherPlayerId) {
       } else {
-        return c.json({ success: false }, 500);
+        console.log(player);
+
+        let game: any = await gameCheck(gameId, gamePass);
+
+        const myReview = await prisma.review.findFirst({
+          where: {
+            userId: String(userId),
+            gameId: String(userId),
+            gamePass,
+          },
+        });
+        console.log(myReview);
+        if (myReview) {
+          return c.json({ success: true, review: myReview }, 500);
+        }
       }
-    } else {
-      return c.json({ success: false }, 500);
     }
   }
+  return c.json({ success: false }, 500);
 };
