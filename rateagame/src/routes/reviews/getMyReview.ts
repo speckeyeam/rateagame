@@ -13,13 +13,12 @@ export const getMyReview = async (c: Context) => {
   const {
     gameId,
     userId,
-    reviewId,
     gamePass = false, // Default to false if not provided
     token,
   } = requestData;
 
   console.log(token);
-  if (gameId && userId && reviewId && token) {
+  if (gameId && userId && token) {
     let player: any = await playerCheck(userId, token);
     console.log(player);
     if (player) {
