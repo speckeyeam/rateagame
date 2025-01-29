@@ -2,12 +2,18 @@ import { Hono } from "hono";
 
 import { loadReviews } from "./loadReviews";
 import { submit } from "./submit";
+import { deleteReview } from "./delete";
+import { getMyReview } from "./getMyReview";
 
 const app = new Hono();
 
 app.post("/loadReviews", loadReviews);
 
 app.post("/submit", submit);
+
+app.post("/delete", deleteReview);
+
+app.post("/getMyReview", getMyReview);
 
 // app.post("/loadReviews", async (c) => {
 //   // 1. Log request body (if you want to see incoming data)
