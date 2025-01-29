@@ -31,7 +31,7 @@ export const getMyReview = async (c: Context) => {
         const myReview = await prisma.review.findFirst({
           where: {
             userId: String(userId),
-            gameId: String(userId),
+            gameId: String(gameId),
             gamePass,
           },
         });
