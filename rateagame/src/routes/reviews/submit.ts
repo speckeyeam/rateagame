@@ -1,6 +1,6 @@
 import { Context } from "hono";
 
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, reviewData } from "@prisma/client";
 
 import { playerCheck } from "../helpers/playerCheck";
 import { gameCheck } from "../helpers/gameCheck";
@@ -37,26 +37,38 @@ export const submit = async (c: Context) => {
       let game: any = await gameCheck(gameId, gamePass);
 
       if (text.length < 2001) {
+        const data: any = {
+          reviewId: String(reviewId),
+          time: new Date(time * 1000),
+          userId: String(userId),
+          text,
+          recommends,
+        };
+        if (gamePass) {
+          data.gamePassId = String(gameId);
+        } else {
+          data.gameId = String(gameId);
+        }
+
         const newreviewdata = await prisma.reviewData.create({
-          data: {
-            reviewId: String(reviewId),
-            time: new Date(time * 1000),
-            userId: String(userId),
-            gameId: String(gameId),
-            text,
-            recommends,
-            gamePass,
-          },
+          data,
         });
+
+        const data2: any = {
+          reviewId: String(reviewId),
+          time: new Date(time * 1000),
+          userId: String(userId),
+          text,
+          recommends,
+        };
+        if (gamePass) {
+          data2.gamePassId = String(gameId);
+        } else {
+          data2.gameId = String(gameId);
+        }
+
         const newreview = await prisma.review.create({
-          data: {
-            reviewId: String(reviewId),
-            time: new Date(time * 1000),
-            userId: String(userId),
-            gameId: String(gameId),
-            recommends,
-            gamePass,
-          },
+          data: data2,
         });
         console.log(newreview);
         if (newreview && newreviewdata) {

@@ -23,24 +23,32 @@ model user {
 }
 
 model game {
-  gameId   String   @unique
-  gamePass Boolean  @default(false)
-  reviews  review[]
+  gameId     String       @unique
+  reviews    review[]
+  reviewData reviewData[]
+}
+
+model gamePass {
+  gamePassId String       @unique
+  reviews    review[]
+  reviewData reviewData[]
 }
 
 model reviewData {
-  reviewId   String   @unique
+  reviewId   String    @unique
   time       DateTime
-  text       String   @db.VarChar(2000)
-  gameId     String
+  text       String    @db.VarChar(2000)
+  gameId     String?
   recommends Boolean
   userId     String?
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   awards     award[]
   likes      like[]
   review     review?
-  user       user?    @relation(fields: [userId], references: [userId])
-  gamePass   Boolean  @default(false)
+  user       user?     @relation(fields: [userId], references: [userId])
+  game       game?     @relation(fields: [gameId], references: [gameId])
+  gamePass   gamePass? @relation(fields: [gamePassId], references: [gamePassId])
+  gamePassId String?
 
   @@index([userId], map: "reviewData_userId_fkey")
 }
@@ -48,13 +56,14 @@ model reviewData {
 model review {
   time       DateTime
   reviewId   String     @id
-  gameId     String
+  gameId     String?
   userId     String?
   recommends Boolean
-  gamePass   Boolean    @default(false)
-  game       game       @relation(fields: [gameId], references: [gameId])
+  game       game?      @relation(fields: [gameId], references: [gameId])
   review     reviewData @relation(fields: [reviewId], references: [reviewId])
   user       user?      @relation(fields: [userId], references: [userId])
+  gamePass   gamePass?  @relation(fields: [gamePassId], references: [gamePassId])
+  gamePassId String?
 
   @@index([gameId], map: "review_gameId_fkey")
   @@index([userId], map: "review_userId_fkey")
