@@ -34,7 +34,7 @@ model gamePass {
 model review {
   time       DateTime
   date       String
-  reviewId   String    @id
+  reviewId   String    @id @unique
   gameId     String?
   userId     String?
   recommends Boolean
