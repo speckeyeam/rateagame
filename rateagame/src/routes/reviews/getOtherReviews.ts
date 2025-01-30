@@ -50,6 +50,10 @@ export const getOtherReviews = async (c: Context) => {
           _count: {
             select: { likes: true }, // Include the number of likes for each review
           },
+          likes: {
+            where: { userId }, // Check if the user has liked the review
+            select: { userId: true }, // Select userId to determine if a like exists
+          },
         },
       });
       console.log(reviews);
