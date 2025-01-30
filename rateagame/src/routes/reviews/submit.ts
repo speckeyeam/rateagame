@@ -56,7 +56,7 @@ export const submit = async (c: Context) => {
         });
         console.log(newreview);
         if (newreview) {
-          return c.json({ success: true }, 500);
+          return c.json({ success: true, review: newreview }, 500);
         } else {
           return c.json({ success: false }, 500);
         }
