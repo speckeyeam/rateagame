@@ -21,9 +21,7 @@ export const deleteReview = async (c: Context) => {
           userId: String(userId),
           reviewId,
         },
-        data: {
-          deleted: true,
-        },
+        data: { deleted: true },
       });
 
       if (deletedReview) {
