@@ -37,6 +37,7 @@ model gamePass {
 model reviewData {
   reviewId   String    @unique
   date       String
+  time       DateTime
   text       String    @db.VarChar(2000)
   gameId     String?
   recommends Boolean
