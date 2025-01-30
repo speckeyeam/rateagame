@@ -46,6 +46,11 @@ export const getOtherReviews = async (c: Context) => {
             _count: "desc", // Order by number of likes in descending order
           },
         },
+        include: {
+          _count: {
+            select: { likes: true }, // Include the number of likes for each review
+          },
+        },
       });
       console.log(reviews);
       if (reviews) {
