@@ -26,10 +26,10 @@ export const getOtherReviews = async (c: Context) => {
       console.log(player);
 
       let game: any = await gameCheck(gameId, gamePass);
-
+      console.log(date);
       const data: any = {
         time: {
-          gte: date,
+          lt: date,
         },
       };
       if (gamePass) {
