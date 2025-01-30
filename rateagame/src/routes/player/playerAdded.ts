@@ -93,15 +93,6 @@ export const playerAdded = async (c: Context) => {
           return c.json({ success: false }, 200);
         }
       }
-
-      // 5. Parse response from Roblox (list of data stores)
-      const data = await robloxResponse.json();
-      // console.log(data);
-      // console.log(data);
-
-      let table = data.entries;
-      console.log(data);
-      return c.json({ success: true }, 200);
     } catch (err) {
       // Catch any network or runtime errors
       console.error("Error fetching data from Roblox:", err);
