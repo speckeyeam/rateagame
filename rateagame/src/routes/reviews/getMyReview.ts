@@ -30,6 +30,7 @@ export const getMyReview = async (c: Context) => {
 
         const data: any = {
           userId: String(userId),
+          deleted: false,
         };
         if (gamePass) {
           data.gamePassId = String(gameId);

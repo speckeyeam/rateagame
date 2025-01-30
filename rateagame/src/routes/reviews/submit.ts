@@ -51,14 +51,20 @@ export const submit = async (c: Context) => {
           data.gameId = String(gameId);
         }
 
-        const newreview = await prisma.review.create({
-          data,
+        const checkReviews = await prisma.review.findMany({
+          where: {
+            userId: userId.toString(),
+            deleted: false,
+          },
         });
-        console.log(newreview);
-        if (newreview) {
-          return c.json({ success: true, review: newreview }, 200);
-        } else {
-          return c.json({ success: false }, 500);
+        if (checkReviews.length == 0) {
+          const newreview = await prisma.review.create({
+            data,
+          });
+          console.log(newreview);
+          if (newreview) {
+            return c.json({ success: true, review: newreview }, 200);
+          }
         }
       }
     } else {
