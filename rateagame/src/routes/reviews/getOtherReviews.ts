@@ -31,6 +31,7 @@ export const getOtherReviews = async (c: Context) => {
         time: {
           lt: new Date(date * 1000),
         },
+        deleted: false,
       };
       if (gamePass) {
         data.gamePassId = String(gameId);
