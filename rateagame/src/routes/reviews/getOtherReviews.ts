@@ -52,7 +52,7 @@ export const getOtherReviews = async (c: Context) => {
             select: { likes: true }, // Include the number of likes for each review
           },
           likes: {
-            where: { userId: String(userId) }, // Check if the user has liked the review
+            where: { userId: userId.toString() }, // Check if the user has liked the review
             select: { userId: true }, // Select userId to determine if a like exists
           },
         },
