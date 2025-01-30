@@ -16,41 +16,40 @@ export const getMyReview = async (c: Context) => {
     userId,
     gamePass, // Default to false if not provided
     token,
-    otherPlayerId = null,
-    d,
+    date = new Date(),
   } = requestData;
 
   console.log(token);
   if (gameId && userId && token) {
     let player: any = await playerCheck(userId, token);
     if (player) {
-      if (otherPlayerId) {
+      console.log(player);
+
+      let game: any = await gameCheck(gameId, gamePass);
+
+      const data: any = {
+        time: {
+          gte: date,
+        },
+      };
+      if (gamePass) {
+        data.gamePassId = String(gameId);
       } else {
-        console.log(player);
+        data.gameId = String(gameId);
+      }
 
-        let game: any = await gameCheck(gameId, gamePass);
-
-        const data: any = {};
-        if (gamePass) {
-          data.gamePassId = String(gameId);
-        } else {
-          data.gameId = String(gameId);
-        }
-
-        const myReview = await prisma.review.findMany({
-          where: data,
-          include: {
-            review: true,
+      const reviews = await prisma.review.findMany({
+        take: 100,
+        where: data,
+        orderBy: {
+          likes: {
+            _count: "desc", // Order by number of likes in descending order
           },
-        });
-        console.log(myReview);
-        if (myReview) {
-          const updatedReview = {
-            ...myReview,
-            date: Math.floor((myReview.time as Date).getTime() / 1000),
-          };
-          return c.json({ success: true, review: updatedReview }, 500);
-        }
+        },
+      });
+      console.log(reviews);
+      if (reviews) {
+        return c.json({ success: true, reviews }, 500);
       }
     }
   }

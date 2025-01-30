@@ -39,9 +39,6 @@ export const getMyReview = async (c: Context) => {
 
         const myReview = await prisma.review.findFirst({
           where: data,
-          include: {
-            review: true,
-          },
         });
         console.log(myReview);
         if (myReview) {

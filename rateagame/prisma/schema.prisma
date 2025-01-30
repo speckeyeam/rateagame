@@ -18,79 +18,62 @@ model user {
   awardInventory awardInventory[]
   report         report[]
   reviews        review[]
-  reviewData     reviewData[]
   savedGames     saved[]
 }
 
 model game {
-  gameId     String       @unique
-  reviews    review[]
-  reviewData reviewData[]
+  gameId  String   @unique
+  reviews review[]
 }
 
 model gamePass {
-  gamePassId String       @unique
+  gamePassId String   @unique
   reviews    review[]
-  reviewData reviewData[]
-}
-
-model reviewData {
-  reviewId   String    @unique
-  date       String
-  time       DateTime
-  text       String    @db.VarChar(2000)
-  gameId     String?
-  recommends Boolean
-  userId     String?
-  id         Int       @id @default(autoincrement())
-  awards     award[]
-  likes      like[]
-  review     review?
-  user       user?     @relation(fields: [userId], references: [userId])
-  game       game?     @relation(fields: [gameId], references: [gameId])
-  gamePass   gamePass? @relation(fields: [gamePassId], references: [gamePassId])
-  gamePassId String?
-
-  @@index([userId], map: "reviewData_userId_fkey")
 }
 
 model review {
   time       DateTime
-  reviewId   String     @id
+  date       String
+  reviewId   String    @id
   gameId     String?
   userId     String?
   recommends Boolean
-  game       game?      @relation(fields: [gameId], references: [gameId])
-  review     reviewData @relation(fields: [reviewId], references: [reviewId])
-  user       user?      @relation(fields: [userId], references: [userId])
-  gamePass   gamePass?  @relation(fields: [gamePassId], references: [gamePassId])
+  game       game?     @relation(fields: [gameId], references: [gameId])
+  user       user?     @relation(fields: [userId], references: [userId])
+  gamePass   gamePass? @relation(fields: [gamePassId], references: [gamePassId])
   gamePassId String?
+  deleted    Boolean   @default(false)
+  text       String    @db.VarChar(2000)
+  awards     award[]
+  likes      like[]
 
   @@index([gameId], map: "review_gameId_fkey")
   @@index([userId], map: "review_userId_fkey")
 }
 
 model like {
-  id           Int        @id @default(autoincrement())
-  reviewId     String
-  reviewGameId String
-  gameId       String
-  userId       String
-  reviewData   reviewData @relation(fields: [reviewId], references: [reviewId])
+  id             Int     @id @default(autoincrement())
+  reviewId       String
+  reviewGameId   String
+  gameId         String
+  userId         String
+  review         review? @relation(fields: [reviewReviewId], references: [reviewId])
+  reviewReviewId String?
 
   @@index([reviewId], map: "like_reviewId_fkey")
 }
 
 model award {
-  id             Int        @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   time           DateTime
   reviewId       String
   awardId        String
   givenUserId    String
   receivedUserId String
-  giver          user       @relation("GiverRelation", fields: [givenUserId], references: [userId])
-  receiver       user       @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
-  reviewData     reviewData @relation(fields: [reviewId], references: [reviewId])
+  giver          user     @relation("GiverRelation", fields: [givenUserId], references: [userId])
+  receiver       user     @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
+  review         review?  @relation(fields: [reviewReviewId], references: [reviewId])
+  reviewReviewId String?
 
   @@index([givenUserId], map: "award_givenUserId_fkey")
   @@index([receivedUserId], map: "award_receivedUserId_fkey")

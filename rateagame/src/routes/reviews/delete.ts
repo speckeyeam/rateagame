@@ -16,10 +16,13 @@ export const deleteReview = async (c: Context) => {
     let player: any = await playerCheck(userId, token);
     console.log(player);
     if (player) {
-      const deletedReview = await prisma.review.delete({
+      const deletedReview = await prisma.review.update({
         where: {
           userId: String(userId),
           reviewId,
+        },
+        data: {
+          deleted: true,
         },
       });
 

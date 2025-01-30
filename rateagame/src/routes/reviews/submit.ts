@@ -40,10 +40,10 @@ export const submit = async (c: Context) => {
         const data: any = {
           reviewId: String(reviewId),
           time: new Date(time * 1000),
-          userId: String(userId),
           text,
-          recommends,
           date: String(time),
+          userId: String(userId),
+          recommends,
         };
         if (gamePass) {
           data.gamePassId = String(gameId);
@@ -51,27 +51,11 @@ export const submit = async (c: Context) => {
           data.gameId = String(gameId);
         }
 
-        const newreviewdata = await prisma.reviewData.create({
+        const newreview = await prisma.review.create({
           data,
         });
-
-        const data2: any = {
-          reviewId: String(reviewId),
-          time: new Date(time * 1000),
-          userId: String(userId),
-          recommends,
-        };
-        if (gamePass) {
-          data2.gamePassId = String(gameId);
-        } else {
-          data2.gameId = String(gameId);
-        }
-
-        const newreview = await prisma.review.create({
-          data: data2,
-        });
         console.log(newreview);
-        if (newreview && newreviewdata) {
+        if (newreview) {
           return c.json({ success: true }, 500);
         } else {
           return c.json({ success: false }, 500);
