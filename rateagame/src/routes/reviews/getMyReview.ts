@@ -45,11 +45,7 @@ export const getMyReview = async (c: Context) => {
         });
         console.log(myReview);
         if (myReview) {
-          const updatedReview = {
-            ...myReview,
-            date: Math.floor((myReview.time as Date).getTime() / 1000),
-          };
-          return c.json({ success: true, review: updatedReview }, 500);
+          return c.json({ success: true, review: myReview }, 500);
         }
       }
     }
