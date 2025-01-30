@@ -43,7 +43,7 @@ export const submit = async (c: Context) => {
           userId: String(userId),
           text,
           recommends,
-          date: time,
+          date: String(time),
         };
         if (gamePass) {
           data.gamePassId = String(gameId);
