@@ -46,6 +46,9 @@ export const playerAdded = async (c: Context) => {
       if (!robloxResponse.ok) {
         const data = await robloxResponse.json();
         console.log(data);
+
+        //just check if the user already exists and if it does return the token otherwise create a new user
+
         const newUser = await prisma.user.create({
           data: {
             userId,
