@@ -16,11 +16,11 @@ export const getOtherReviews = async (c: Context) => {
     userId,
     gamePass, // Default to false if not provided
     token,
-    date = new Date(),
+    date,
   } = requestData;
 
   console.log(token);
-  if (gameId && userId && token) {
+  if (gameId && userId && token && date) {
     let player: any = await playerCheck(userId, token);
     if (player) {
       console.log(player);
@@ -29,7 +29,7 @@ export const getOtherReviews = async (c: Context) => {
       console.log(date);
       const data: any = {
         time: {
-          lt: date,
+          lt: new Date(date * 1000),
         },
       };
       if (gamePass) {
