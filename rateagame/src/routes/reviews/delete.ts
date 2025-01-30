@@ -25,9 +25,9 @@ export const deleteReview = async (c: Context) => {
           deleted: true,
         },
       });
-
+      console.log(deleteReview);
       if (deletedReview) {
-        return c.json({ success: true }, 500);
+        return c.json({ success: true }, 200);
       }
     }
   }

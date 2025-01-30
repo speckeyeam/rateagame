@@ -42,7 +42,7 @@ export const getMyReview = async (c: Context) => {
         });
         console.log(myReview);
         if (myReview) {
-          return c.json({ success: true, review: myReview }, 500);
+          return c.json({ success: true, review: myReview }, 200);
         }
       }
     }
