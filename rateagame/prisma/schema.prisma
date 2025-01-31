@@ -92,7 +92,7 @@ model awardInventory {
 }
 
 model saved {
-  id         Int      @id @default(autoincrement())
+  id         Int      @unique
   gameId     String?
   gamePassId String?
   userId     String
