@@ -15,6 +15,7 @@ export const saveGame = async (c: Context) => {
     gamePass, // Default to false if not provided
     token,
     save,
+    time,
   } = requestData;
 
   console.log(token);
@@ -26,6 +27,7 @@ export const saveGame = async (c: Context) => {
       const data: any = {
         userId: String(userId),
         gameId: String(gameId),
+        time: new Date(time * 1000),
       };
       if (gamePass) {
         data.gamePassId = String(gameId);
