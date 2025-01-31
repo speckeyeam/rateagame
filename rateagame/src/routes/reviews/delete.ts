@@ -20,6 +20,7 @@ export const deleteReview = async (c: Context) => {
         where: {
           userId: String(userId),
           reviewId,
+          gameId: String(gameId),
         },
         data: { deleted: true },
       });

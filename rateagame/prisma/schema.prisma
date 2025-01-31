@@ -92,11 +92,12 @@ model awardInventory {
 }
 
 model saved {
-  id     Int      @id @default(autoincrement())
-  gameId String
-  userId String
-  time   DateTime
-  user   user     @relation(fields: [userId], references: [userId])
+  id         Int      @id @default(autoincrement())
+  gameId     String?
+  gamePassId String?
+  userId     String
+  time       DateTime
+  user       user     @relation(fields: [userId], references: [userId])
 
   @@index([userId], map: "saved_userId_fkey")
 }
