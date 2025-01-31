@@ -23,7 +23,7 @@ export const likeReview = async (c: Context) => {
   if (gameId && userId && token && reviewId) {
     let player: any = await playerCheck(userId, token);
     if (player) {
-      console.log(player);
+      console.log(requestData);
 
       const data: any = {
         userId: String(userId),
