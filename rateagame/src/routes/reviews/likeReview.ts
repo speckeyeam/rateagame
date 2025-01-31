@@ -7,44 +7,51 @@ import { gameCheck } from "../helpers/gameCheck";
 
 const prisma = new PrismaClient();
 
-export const getMyReview = async (c: Context) => {
+export const likeReview = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
+    reviewId,
     gameId,
     userId,
     gamePass, // Default to false if not provided
     token,
-    otherPlayerId = null,
+    like,
   } = requestData;
 
   console.log(token);
-  if (gameId && userId && token) {
+  if (gameId && userId && token && reviewId) {
     let player: any = await playerCheck(userId, token);
     if (player) {
-      if (otherPlayerId) {
+      console.log(player);
+
+      const data: any = {
+        userId: String(userId),
+        gameId: String(gameId),
+        reviewId: String(reviewId),
+        id: String(reviewId) + "." + String(userId),
+      };
+      if (gamePass) {
+        data.gamePassId = String(gameId);
       } else {
-        console.log(player);
+        data.gameId = String(gameId);
+      }
 
-        let game: any = await gameCheck(gameId, gamePass);
-
-        const data: any = {
-          userId: String(userId),
-          deleted: false,
-        };
-        if (gamePass) {
-          data.gamePassId = String(gameId);
+      const review = await prisma.review.findFirst({
+        where: data,
+      });
+      if (review) {
+        //review exists
+        if (like) {
+          const newlike = await prisma.like.create({
+            data,
+          });
         } else {
-          data.gameId = String(gameId);
+          const deletedLike = await prisma.like.delete({
+            where: data,
+          });
         }
-
-        const myReview = await prisma.review.findFirst({
-          where: data,
-        });
-        console.log(myReview);
-        if (myReview) {
-          return c.json({ success: true, review: myReview }, 200);
-        }
+        return c.json({ success: true }, 200);
       }
     }
   }

@@ -10,9 +10,9 @@ const prisma = new PrismaClient();
 export const deleteReview = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { reviewId, userId, token } = requestData;
+  const { reviewId, userId, token, gameId } = requestData;
   console.log(token);
-  if (userId && reviewId && token) {
+  if (userId && reviewId && token && gameId) {
     let player: any = await playerCheck(userId, token);
     console.log(player);
     if (player) {

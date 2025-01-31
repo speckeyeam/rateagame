@@ -52,13 +52,12 @@ model review {
 }
 
 model like {
-  id             Int     @id @default(autoincrement())
-  reviewId       String
-  reviewGameId   String
-  gameId         String
-  userId         String
-  review         review? @relation(fields: [reviewReviewId], references: [reviewId])
-  reviewReviewId String?
+  id         Int     @id @unique
+  reviewId   String
+  gamePassId String?
+  gameId     String?
+  userId     String
+  review     review? @relation(fields: [reviewId], references: [reviewId])
 
   @@index([reviewId], map: "like_reviewId_fkey")
 }
