@@ -28,7 +28,6 @@ export const saveGame = async (c: Context) => {
         userId: String(userId),
         gameId: String(gameId),
         time: new Date(time * 1000),
-        id: gameId + "game." + userId,
       };
       if (gamePass) {
         data.gamePassId = String(gameId);
@@ -37,6 +36,8 @@ export const saveGame = async (c: Context) => {
       }
 
       if (save) {
+        data.id = gameId + "game." + userId;
+
         const newSave = await prisma.saved.upsert({
           where: data,
           update: {},
