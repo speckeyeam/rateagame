@@ -29,7 +29,6 @@ export const likeReview = async (c: Context) => {
         userId: String(userId),
         gameId: String(gameId),
         reviewId: String(reviewId),
-        id: String(reviewId) + "." + String(userId),
       };
       if (gamePass) {
         data.gamePassId = String(gameId);
@@ -41,6 +40,7 @@ export const likeReview = async (c: Context) => {
         where: data,
       });
       if (review) {
+        data.id = String(reviewId) + "." + String(userId);
         //review exists
         if (like) {
           const newlike = await prisma.like.upsert({
