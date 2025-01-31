@@ -19,6 +19,7 @@ model user {
   report         report[]
   reviews        review[]
   savedGames     saved[]
+  likes          like[]
 }
 
 model game {
@@ -58,6 +59,8 @@ model like {
   gameId     String?
   userId     String
   review     review? @relation(fields: [reviewId], references: [reviewId])
+  user       user?   @relation(fields: [userUserId], references: [userId])
+  userUserId String?
 
   @@index([reviewId], map: "like_reviewId_fkey")
 }
