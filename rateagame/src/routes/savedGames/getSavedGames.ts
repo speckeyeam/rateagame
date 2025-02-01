@@ -19,6 +19,7 @@ export const getSavedGames = async (c: Context) => {
 
   console.log(token);
   if (userId && token && date) {
+    console.log("went through");
     let player: any = await playerCheck(userId, token);
     if (player) {
       console.log(player);
