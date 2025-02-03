@@ -27,7 +27,9 @@ export const getPercentage = async (c: Context) => {
 
       //   let game: any = await gameCheck(gameId, gamePass);
 
-      const data: any = {};
+      const data: any = {
+        deleted: false,
+      };
       if (gamePass) {
         data.gamePassId = String(gameId);
       } else {
