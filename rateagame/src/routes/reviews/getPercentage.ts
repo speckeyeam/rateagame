@@ -16,11 +16,10 @@ export const getPercentage = async (c: Context) => {
     userId,
     gamePass, // Default to false if not provided
     token,
-    date,
   } = requestData;
 
   console.log(token);
-  if (gameId && userId && token && date) {
+  if (gameId && userId && token) {
     let player: any = await playerCheck(userId, token);
     if (player) {
       console.log(player);
@@ -42,7 +41,6 @@ export const getPercentage = async (c: Context) => {
           recommends: true, // Counts the number of true values in the recommends column
         },
       });
-      console.log(reviewStats + " test");
 
       if (reviewStats) {
         return c.json({ success: true, stats: reviewStats }, 200);
