@@ -7,6 +7,7 @@ import { getMyReview } from "./getMyReview";
 import { likeReview } from "./likeReview";
 
 import { getOtherReviews } from "./getOtherReviews";
+import { getPercentage } from "./getPercentage";
 
 const app = new Hono();
 
@@ -21,6 +22,9 @@ app.post("/getMyReview", getMyReview);
 app.post("/getOtherReviews", getOtherReviews);
 
 app.post("/likeReview", likeReview);
+
+app.post("/getPercentage", getPercentage);
+
 // app.post("/loadReviews", async (c) => {
 //   // 1. Log request body (if you want to see incoming data)
 //   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
