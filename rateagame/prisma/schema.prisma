@@ -23,8 +23,10 @@ model user {
 }
 
 model game {
-  gameId  String   @unique
-  reviews review[]
+  gameId      String   @unique
+  reviews     review[]
+  forSale     Boolean  @default(false)
+  lastUpdated DateTime @default(now())
 }
 
 model gamePass {

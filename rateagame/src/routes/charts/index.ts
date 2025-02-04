@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 
-import { getRecentlyReviewed } from "./getRecentlyReviewed";
+import { getRecentlyReviewed } from "./chartTypes/getRecentlyReviewed";
 
 const app = new Hono();
 
