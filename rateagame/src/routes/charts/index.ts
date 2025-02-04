@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 
-import { getRecentlyReviewed } from "./chartTypes/getRecentlyReviewed";
+import { getCharts } from "./getCharts";
 
 const app = new Hono();
 
-app.post("/getRecentlyReviewed", getRecentlyReviewed);
+app.post("/getCharts", getCharts);
 
 export default app;
