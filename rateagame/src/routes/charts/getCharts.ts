@@ -15,7 +15,6 @@ export const getCharts = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
-    gameId,
     userId,
     gamePass, // Default to false if not provided
     token,
@@ -23,7 +22,7 @@ export const getCharts = async (c: Context) => {
   } = requestData;
 
   console.log(token);
-  if (gameId && userId && token && call) {
+  if (userId && token && call) {
     let player: any = await playerCheck(userId, token);
     if (player) {
       if (call == "images") {

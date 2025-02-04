@@ -12,13 +12,12 @@ export const getTrending = async (c: Context, days: number) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
-    gameId,
     userId,
     gamePass, // Default to false if not provided
     take,
   } = requestData;
 
-  if (gameId && userId && take && days) {
+  if (userId && take && days) {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - days);
     const data: any = {

@@ -9,14 +9,13 @@ export const getLowestRated = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
-    gameId,
     userId,
     gamePass, // Default to false if not provided
     take,
     date,
   } = requestData;
 
-  if (gameId && userId && take && date) {
+  if (userId && take && date) {
     let formattedDate = new Date(date * 1000);
     const field = gamePass ? "gamePassId" : "gameId";
 

@@ -12,13 +12,12 @@ export const getRecentlyReviewed = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
-    gameId,
     userId,
     gamePass, // Default to false if not provided
     take,
   } = requestData;
 
-  if (gameId && userId && take) {
+  if (userId && take) {
     const data: any = {
       orderBy: {
         time: "desc", // Orders in descending order (newest first)
