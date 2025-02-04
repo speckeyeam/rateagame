@@ -8,7 +8,7 @@ import { gameCheck } from "../../helpers/gameCheck";
 
 const prisma = new PrismaClient();
 //gets the most trending games in the past week, games with the most reviews, could get the most trending games and games passes in the last x amount of days
-export const getTrending = async (c: Context) => {
+export const getTrending = async (c: Context, days: number) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
@@ -16,7 +16,6 @@ export const getTrending = async (c: Context) => {
     userId,
     gamePass, // Default to false if not provided
     take,
-    days = 7,
   } = requestData;
 
   if (gameId && userId && take && days) {
