@@ -18,6 +18,10 @@ export const getTopRated = async (c: Context) => {
   if (userId && take && date) {
     let formattedDate = new Date(date * 1000);
     const field = gamePass ? "gamePassId" : "gameId";
+    const mySqlDateString = formattedDate
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
 
     // Build the raw SQL query. The query filters:
     // - Reviews that aren't deleted.
@@ -33,7 +37,7 @@ export const getTopRated = async (c: Context) => {
     FROM \`review\`
     WHERE \`deleted\` = false
       AND \`${field}\` IS NOT NULL
-      AND \`time\` >= '${formattedDate.toISOString()}'
+      AND \`time\` >= '${mySqlDateString}'
     GROUP BY \`${field}\`
     ORDER BY positive_ratio DESC
     LIMIT ${take};
