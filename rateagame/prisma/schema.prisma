@@ -41,6 +41,7 @@ model review {
   gameId     String?
   userId     String?
   recommends Boolean
+  rating     Int
   game       game?     @relation(fields: [gameId], references: [gameId])
   user       user?     @relation(fields: [userId], references: [userId])
   gamePass   gamePass? @relation(fields: [gamePassId], references: [gamePassId])
