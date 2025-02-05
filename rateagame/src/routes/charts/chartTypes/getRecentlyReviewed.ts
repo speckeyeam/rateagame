@@ -15,7 +15,7 @@ export const getRecentlyReviewed = async (c: Context) => {
     userId,
     gamePass, // Default to false if not provided
     take,
-    cursor,
+    date,
   } = requestData;
 
   if (userId && take) {
@@ -25,7 +25,7 @@ export const getRecentlyReviewed = async (c: Context) => {
       },
       where: {
         time: {
-          lt: new Date(cursor * 1000),
+          lt: new Date(date * 1000),
         },
         deleted: false,
       },
