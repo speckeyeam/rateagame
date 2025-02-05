@@ -17,7 +17,9 @@ export const getRecentlyReviewed = async (c: Context) => {
     take,
     date,
   } = requestData;
-  if (userId && take) {
+  console.log(date);
+
+  if (userId && take && date) {
     const data: any = {
       orderBy: {
         time: "desc", // Orders in descending order (newest first)

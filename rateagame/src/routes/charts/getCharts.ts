@@ -44,7 +44,7 @@ export const getCharts = async (c: Context) => {
         return c.json(
           {
             success: true,
-            recentlyReviewed,
+            games: recentlyReviewed?.games,
           },
           200
         );
