@@ -14,9 +14,9 @@ const prisma = new PrismaClient();
 export const getCharts = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, token, call } = requestData;
+  const { userId, token, call } = await requestData;
 
-  console.log(token + " " + call + " " + userId);
+  console.log(call);
   if (userId && token && call) {
     let player: any = await playerCheck(userId, token);
     if (player) {
