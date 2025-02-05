@@ -23,10 +23,13 @@ export const getRecentlyReviewed = async (c: Context) => {
       orderBy: {
         time: "desc", // Orders in descending order (newest first)
       },
-      time: {
-        lt: date, // Fetch reviews before Jan 1, 2024
+      where: {
+        time: {
+          lt: date, // Fetch reviews before Jan 1, 2024
+        },
+        deleted: false,
       },
-      deleted: false,
+      take,
     };
     if (gamePass) {
       data.gameId = null;
@@ -34,10 +37,7 @@ export const getRecentlyReviewed = async (c: Context) => {
       data.gamePassId = null;
     }
 
-    const recentlyReviewed = await prisma.review.findMany({
-      take,
-      where: data,
-    });
+    const recentlyReviewed = await prisma.review.findMany(data);
 
     if (recentlyReviewed) {
       return recentlyReviewed;
