@@ -41,7 +41,7 @@ export const getPercentage = async (c: Context) => {
           recommends: true, // Counts the number of true values in the recommends column
         },
       });
-
+      console.log(reviewStats);
       if (reviewStats) {
         return c.json({ success: true, stats: reviewStats }, 200);
       }
