@@ -20,6 +20,8 @@ export const getTrending = async (c: Context, days: number) => {
   if (userId && take && days) {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - days);
+    console.log(7);
+    console.log(oneWeekAgo);
     const data: any = {
       by: gamePass ? ["gamePassId"] : ["gameId"],
       take,
