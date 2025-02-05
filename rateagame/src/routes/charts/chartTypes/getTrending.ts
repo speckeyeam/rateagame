@@ -41,7 +41,7 @@ export const getTrending = async (c: Context, days: number) => {
     };
 
     const recentlyReviewed = await prisma.review.groupBy(data);
-
+    console.log(recentlyReviewed);
     if (recentlyReviewed) {
       return recentlyReviewed;
     }
