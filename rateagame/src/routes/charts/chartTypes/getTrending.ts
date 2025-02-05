@@ -15,6 +15,7 @@ export const getTrending = async (c: Context, days: number) => {
     userId,
     gamePass, // Default to false if not provided
     take,
+    cursor = null,
   } = requestData;
 
   if (userId && take && days) {
@@ -24,9 +25,14 @@ export const getTrending = async (c: Context, days: number) => {
     const data: any = {
       by: gamePass ? ["gamePassId"] : ["gameId"],
       take,
+      skip: cursor ? 1 : 0, // Skip the cursor item itself
+      cursor: cursor
+        ? { [gamePass ? "gamePassId" : "gameId"]: cursor }
+        : undefined,
       where: {
         time: {
-          [days == 0 ? "lte" : "gte"]: oneWeekAgo,
+          gte: days > 0 ? oneWeekAgo : undefined, // Set lower bound only if days > 0
+          lte: new Date(), // Ensure it includes data up to now
         },
         deleted: false,
       },
@@ -43,7 +49,13 @@ export const getTrending = async (c: Context, days: number) => {
     const recentlyReviewed = await prisma.review.groupBy(data);
     // console.log(recentlyReviewed);
     if (recentlyReviewed) {
-      return recentlyReviewed;
+      return {
+        games: recentlyReviewed,
+        nextCursor:
+          recentlyReviewed[recentlyReviewed.length - 1][
+            gamePass ? "gamePassId" : "gameId"
+          ],
+      };
     }
   }
 
