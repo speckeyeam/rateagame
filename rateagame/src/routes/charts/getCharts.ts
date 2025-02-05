@@ -39,7 +39,15 @@ export const getCharts = async (c: Context) => {
           },
           200
         );
-      } else {
+      } else if (call == "Recently Reviewed") {
+        const recentlyReviewed = await getRecentlyReviewed(c);
+        return c.json(
+          {
+            success: true,
+            recentlyReviewed,
+          },
+          200
+        );
       }
     }
   }
