@@ -14,12 +14,7 @@ const prisma = new PrismaClient();
 export const getCharts = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const {
-    userId,
-    gamePass, // Default to false if not provided
-    token,
-    call,
-  } = requestData;
+  const { userId, token, call } = requestData;
 
   console.log(token);
   if (userId && token && call) {
