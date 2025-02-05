@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 //gets the most trending games in the past week, games with the most reviews, could get the most trending games and games passes in the last x amount of days
-export const getLowest = async (c: Context) => {
+export const getLowestRated = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
