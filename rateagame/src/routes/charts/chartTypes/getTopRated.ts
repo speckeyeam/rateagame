@@ -30,7 +30,7 @@ export const getTopRated = async (c: Context) => {
       time: {
         lte: new Date(date * 1000),
       },
-      //   deleted: false,
+      deleted: false,
     },
     take,
   });
