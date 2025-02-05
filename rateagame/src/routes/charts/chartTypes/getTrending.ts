@@ -20,14 +20,13 @@ export const getTrending = async (c: Context, days: number) => {
   if (userId && take && days) {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - days);
-    console.log(days);
-    console.log(oneWeekAgo);
+
     const data: any = {
       by: gamePass ? ["gamePassId"] : ["gameId"],
       take,
       where: {
         time: {
-          gte: oneWeekAgo, // Filters reviews from the last 7 days
+          [days == 0 ? "lte" : "gte"]: oneWeekAgo,
         },
         deleted: false,
       },

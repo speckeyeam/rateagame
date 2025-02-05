@@ -25,7 +25,7 @@ export const getCharts = async (c: Context) => {
         const topRated = getTopRated(c);
         const lowestRated = getLowestRated(c);
         const trending = getTrending(c, 7);
-        const mostReviewed = getTrending(c, 219000000000); //guess im pretty short sighted by assuming that my game wont be used in 600 million fucking years
+        const mostReviewed = getTrending(c, 0);
 
         //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
         console.log(recentlyReviewed);
