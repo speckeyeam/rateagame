@@ -38,8 +38,9 @@ export const getTopRated = async (c: Context) => {
     ORDER BY positive_ratio DESC
     LIMIT ${take};
   `;
-
     const topRated = await prisma.$queryRawUnsafe(query);
+    console.log(topRated);
+
     return topRated;
   }
 
