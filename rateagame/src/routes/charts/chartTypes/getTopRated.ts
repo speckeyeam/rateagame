@@ -35,5 +35,5 @@ export const getTopRated = async (c: Context) => {
     take,
   });
 
-  return topRated;
+  return { games: topRated };
 };
