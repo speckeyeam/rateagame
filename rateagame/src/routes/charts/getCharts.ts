@@ -22,7 +22,7 @@ export const getCharts = async (c: Context) => {
     if (player) {
       if (call == "images") {
         const recentlyReviewed = await getRecentlyReviewed(c);
-        // const topRated = await getTopRated(c);
+        const topRated = await getTopRated(c);
         // const lowestRated = await getLowestRated(c);
         // const trending = await getTrending(c, 7);
         // const mostReviewed = await getTrending(c, 0);
@@ -32,7 +32,7 @@ export const getCharts = async (c: Context) => {
           {
             success: true,
             recentlyReviewed,
-            topRated: null,
+            topRated,
             lowestRated: null,
             trending: null,
             mostReviewed: null,
