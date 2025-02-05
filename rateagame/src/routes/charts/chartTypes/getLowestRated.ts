@@ -11,7 +11,6 @@ export const getLowestRated = async (c: Context) => {
   const {
     gamePass, // Default to false if not provided
     take,
-    date,
   } = requestData;
 
   const topRated = await prisma.review.groupBy({
@@ -29,7 +28,7 @@ export const getLowestRated = async (c: Context) => {
       deleted: false,
       [gamePass ? "gameId" : "gamePassId"]: null,
       time: {
-        lte: new Date(date * 1000),
+        lte: new Date(),
       },
     },
     take,
