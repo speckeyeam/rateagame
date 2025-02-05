@@ -24,19 +24,20 @@ export const getTopRated = async (c: Context) => {
     // - Reviews that have a non-null value in the chosen field.
     // - Reviews with a "time" greater than or equal to the provided startDate.
     const query = `
-      SELECT
-        "${field}" AS identifier,
-        COUNT(*) AS total_reviews,
-        SUM(CASE WHEN "recommends" THEN 1 ELSE 0 END) AS positive_reviews,
-        (SUM(CASE WHEN "recommends" THEN 1 ELSE 0 END)::float / COUNT(*)) AS positive_ratio
-      FROM "review"
-      WHERE "deleted" = false
-        AND "${field}" IS NOT NULL
-        AND "time" >= '${formattedDate.toISOString()}'
-      GROUP BY "${field}"
-      ORDER BY positive_ratio DESC
-      LIMIT ${take};
-    `;
+    SELECT
+      \`${field}\` AS identifier,
+      COUNT(*) AS total_reviews,
+      SUM(CASE WHEN \`recommends\` = 1 THEN 1 ELSE 0 END) AS positive_reviews,
+      -- multiply by 1.0 or CAST(...) to ensure a float division
+      (SUM(CASE WHEN \`recommends\` = 1 THEN 1 ELSE 0 END) * 1.0 / COUNT(*)) AS positive_ratio
+    FROM \`review\`
+    WHERE \`deleted\` = false
+      AND \`${field}\` IS NOT NULL
+      AND \`time\` >= '${formattedDate.toISOString()}'
+    GROUP BY \`${field}\`
+    ORDER BY positive_ratio DESC
+    LIMIT ${take};
+  `;
 
     const topRated = await prisma.$queryRawUnsafe(query);
     return topRated;

@@ -25,15 +25,18 @@ export const getLowestRated = async (c: Context) => {
     // - Reviews with a "time" greater than or equal to the provided startDate.
     const query = `
     SELECT
-      "${field}" AS identifier,
+      \`${field}\` AS identifier,
       COUNT(*) AS total_reviews,
-      SUM(CASE WHEN "recommends" THEN 1 ELSE 0 END) AS positive_reviews,
-      (SUM(CASE WHEN "recommends" THEN 1 ELSE 0 END)::float / COUNT(*)) AS positive_ratio
-    FROM "review"
-    WHERE "deleted" = false
-      AND "${field}" IS NOT NULL
-      AND "time" >= '${formattedDate.toISOString()}'
-    GROUP BY "${field}"
+      SUM(CASE WHEN \`recommends\` = 1 THEN 1 ELSE 0 END) AS positive_reviews,
+      (
+        SUM(CASE WHEN \`recommends\` = 1 THEN 1 ELSE 0 END) * 1.0
+        / COUNT(*)
+      ) AS positive_ratio
+    FROM \`review\`
+    WHERE \`deleted\` = false
+      AND \`${field}\` IS NOT NULL
+      AND \`time\` >= '${formattedDate.toISOString()}'
+    GROUP BY \`${field}\`
     ORDER BY positive_ratio ASC
     LIMIT ${take};
   `;
