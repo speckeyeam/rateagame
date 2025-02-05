@@ -25,7 +25,7 @@ export const getRecentlyReviewed = async (c: Context) => {
       },
       where: {
         time: {
-          lt: date, // Fetch reviews before Jan 1, 2024
+          lt: new Date(date * 1000),
         },
         deleted: false,
       },
