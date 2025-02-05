@@ -15,12 +15,16 @@ export const getRecentlyReviewed = async (c: Context) => {
     userId,
     gamePass, // Default to false if not provided
     take,
+    date,
   } = requestData;
 
   if (userId && take) {
     const data: any = {
       orderBy: {
         time: "desc", // Orders in descending order (newest first)
+      },
+      time: {
+        lt: date, // Fetch reviews before Jan 1, 2024
       },
       deleted: false,
     };

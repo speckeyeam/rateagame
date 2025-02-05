@@ -31,14 +31,14 @@ export const getCharts = async (c: Context) => {
         console.log(recentlyReviewed);
         return c.json(
           {
-            success: false,
+            success: true,
             recentlyReviewed,
             topRated,
             lowestRated,
             trending,
             mostReviewed,
           },
-          500
+          200
         );
       } else {
       }
