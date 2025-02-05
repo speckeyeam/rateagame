@@ -21,14 +21,13 @@ export const getCharts = async (c: Context) => {
     let player: any = await playerCheck(userId, token);
     if (player) {
       if (call == "images") {
-        const recentlyReviewed = getRecentlyReviewed(c);
-        const topRated = getTopRated(c);
-        const lowestRated = getLowestRated(c);
-        const trending = getTrending(c, 7);
-        const mostReviewed = getTrending(c, 0);
+        const recentlyReviewed = await getRecentlyReviewed(c);
+        const topRated = await getTopRated(c);
+        const lowestRated = await getLowestRated(c);
+        const trending = await getTrending(c, 7);
+        const mostReviewed = await getTrending(c, 0);
 
         //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
-        console.log(recentlyReviewed);
         return c.json(
           {
             success: true,
