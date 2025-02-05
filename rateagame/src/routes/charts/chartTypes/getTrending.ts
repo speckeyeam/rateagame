@@ -30,10 +30,12 @@ export const getTrending = async (c: Context, days: number) => {
         ? { [gamePass ? "gamePassId" : "gameId"]: cursor }
         : undefined,
       where: {
-        time: {
-          gte: days > 0 ? oneWeekAgo : undefined, // Set lower bound only if days > 0
-          lte: new Date(), // Ensure it includes data up to now
-        },
+        ...(days > 0 && {
+          time: {
+            gte: oneWeekAgo,
+            lte: new Date(),
+          },
+        }),
         deleted: false,
       },
       _count: {
