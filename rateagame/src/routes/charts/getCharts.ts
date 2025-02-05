@@ -16,7 +16,7 @@ export const getCharts = async (c: Context) => {
 
   const { userId, token, call } = await requestData;
 
-  console.log(call);
+  console.log(requestData);
   if (userId && token && call) {
     let player: any = await playerCheck(userId, token);
     if (player) {
