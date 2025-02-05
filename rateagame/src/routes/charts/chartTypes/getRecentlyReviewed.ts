@@ -38,7 +38,7 @@ export const getRecentlyReviewed = async (c: Context) => {
     }
 
     const recentlyReviewed = await prisma.review.findMany(data);
-
+    console.log(recentlyReviewed);
     if (recentlyReviewed) {
       return recentlyReviewed;
     }
