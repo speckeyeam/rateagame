@@ -26,7 +26,7 @@ export const getTopRated = async (c: Context) => {
       },
     },
     where: {
-      deleted: false,
+      //   deleted: false,
       [gamePass ? "gameId" : "gamePassId"]: null,
       time: {
         lte: new Date(date * 1000),
