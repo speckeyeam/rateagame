@@ -21,6 +21,7 @@ export const getGameThumbnails = async (c: Context) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     let data = await response.json();
+    console.log(data);
     if (data) {
       return c.json({ success: true, data }, 200);
     }
