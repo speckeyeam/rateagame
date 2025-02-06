@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 // Gets the most trending games in the past week (or a configurable number of days)
 // based on the most reviews. (For Roblox: you could paginate reviews by time.)
-export const getTrending = async (c: Context, days: number) => {
+export const getTrending = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
@@ -19,9 +19,9 @@ export const getTrending = async (c: Context, days: number) => {
   } = requestData;
 
   // Allow days === 0 as a valid input.
-  if (userId && take && typeof days === "number") {
+  if (userId && take) {
     const startDate = new Date();
-    startDate.setDate(startDate.getDate() - days);
+    startDate.setDate(startDate.getDate() - 7); //add a filter parameeter maybe
 
     const data: any = {
       by: gamePass ? ["gamePassId"] : ["gameId"],

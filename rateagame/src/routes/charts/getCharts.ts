@@ -16,6 +16,13 @@ export const getCharts = async (c: Context) => {
 
   const { userId, token, call } = await requestData;
 
+  const functions: any = {
+    "Recently Reviewed": getRecentlyReviewed,
+    topRated: getTopRated,
+    lowestRated: getLowestRated,
+    mostReviewed: getTrending,
+    trending: getTrending,
+  };
   console.log(requestData);
   if (userId && token && call) {
     let player: any = await playerCheck(userId, token);
@@ -39,12 +46,13 @@ export const getCharts = async (c: Context) => {
           },
           200
         );
-      } else if (call == "Recently Reviewed") {
-        const recentlyReviewed = await getRecentlyReviewed(c);
+      } else {
+        const data = await functions.call(c);
         return c.json(
           {
             success: true,
-            games: recentlyReviewed?.games,
+            games: data?.games,
+            nextCursor: data?.nextCursor,
           },
           200
         );
