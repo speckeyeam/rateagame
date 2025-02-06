@@ -4,6 +4,6 @@ import { getGameThumbnails } from "./getGameThumbnails";
 
 const app = new Hono();
 
-app.post("/getCharts", getGameThumbnails);
+app.post("/getGameThumbnails", getGameThumbnails);
 
 export default app;
