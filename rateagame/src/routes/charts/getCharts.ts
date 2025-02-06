@@ -47,7 +47,7 @@ export const getCharts = async (c: Context) => {
           200
         );
       } else {
-        const data = await functions.call(c);
+        const data = await functions[call](c);
         return c.json(
           {
             success: true,
