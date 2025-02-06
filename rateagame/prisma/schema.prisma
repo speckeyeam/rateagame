@@ -46,6 +46,7 @@ model review {
   user       user?     @relation(fields: [userId], references: [userId])
   gamePass   gamePass? @relation(fields: [gamePassId], references: [gamePassId])
   gamePassId String?
+  assetId    String
   deleted    Boolean   @default(false)
   text       String    @db.VarChar(2000)
   awards     award[]

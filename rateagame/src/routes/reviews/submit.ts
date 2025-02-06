@@ -53,12 +53,9 @@ export const submit = async (c: Context) => {
           userId: String(userId),
           recommends,
           rating: recommends ? 1 : -1,
+          assetId: String(gameId),
+          [gamePass ? "gamePassId" : "gameId"]: String(gameId),
         };
-        if (gamePass) {
-          data.gamePassId = String(gameId);
-        } else {
-          data.gameId = String(gameId);
-        }
 
         const data2: any = {
           userId: userId.toString(),
