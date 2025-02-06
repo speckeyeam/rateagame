@@ -32,12 +32,10 @@ export const getTrending = async (c: Context) => {
         : undefined,
       // If days > 0, filter reviews within that time range.
       where: {
-        ...(days > 0 && {
-          time: {
-            gte: startDate,
-            lte: new Date(),
-          },
-        }),
+        time: {
+          gte: startDate,
+          lte: new Date(),
+        },
         deleted: false,
       },
       _count: {
