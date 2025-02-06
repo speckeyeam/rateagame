@@ -1,4 +1,4 @@
-//honestly just like get all the reviews, or something like a 100 reviews max. when the maximum is reached, on roblox, get the time of the oldest or newest one (depending on the sort method) and use that as a filter to load reviews that came after or before that.
+//load gamepasses as well
 import { Context } from "hono";
 
 import { PrismaClient } from "@prisma/client";
@@ -32,11 +32,11 @@ export const getRecentlyReviewed = async (c: Context) => {
       },
       take,
     };
-    if (gamePass) {
-      data.where.gameId = null;
-    } else {
-      data.where.gamePassId = null;
-    }
+    // if (gamePass) {
+    //   data.where.gameId = null;
+    // } else {
+    //   data.where.gamePassId = null;
+    // }
 
     const recentlyReviewed = await prisma.review.findMany(data);
     if (recentlyReviewed) {
