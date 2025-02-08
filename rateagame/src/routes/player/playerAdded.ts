@@ -59,7 +59,7 @@ export const playerAdded = async (c: Context) => {
               awardId,
             }))
         );
-
+        console.log(awardsToInsert);
         //wonder if this award stuff will work :) will have to reset everything tho
         const newUser = await prisma.user.upsert({
           where: { userId },
