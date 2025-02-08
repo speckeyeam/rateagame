@@ -32,7 +32,7 @@ export async function awardCheck(awardId: number) {
   }
 }
 
-export async function getInvetory() {
+export async function getInventory() {
   return startingInventory;
   //here we will check if the award is for sale, and if the user actually owns it
 }
