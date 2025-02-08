@@ -51,7 +51,7 @@ export const playerAdded = async (c: Context) => {
 
         //just check if the user already exists and if it does return the token otherwise create a new user
 
-        const startingInventory = await getInventory;
+        const startingInventory = await getInventory();
 
         console.log(startingInventory);
         const awardsToInsert = Object.entries(startingInventory).flatMap(
