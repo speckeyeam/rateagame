@@ -4,6 +4,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+import { getInvetory } from "../helpers/awardCheck";
+
 import md5 from "md5";
 import { Buffer } from "buffer"; // Bun provides this natively.
 //test
@@ -49,11 +51,26 @@ export const playerAdded = async (c: Context) => {
 
         //just check if the user already exists and if it does return the token otherwise create a new user
 
-        const newUser = await prisma.user.create({
-          data: {
+        let startingInventory = getInvetory;
+
+        const awardsToInsert = Object.entries(startingInventory).flatMap(
+          ([awardId, { quantity }]) =>
+            Array.from({ length: quantity }, () => ({
+              awardId,
+            }))
+        );
+
+        //wonder if this award stuff will work :) will have to reset everything tho
+        const newUser = await prisma.user.upsert({
+          where: { userId },
+          update: {}, // No update fields (or you can add fields to update)
+          create: {
             userId,
             dateJoined: new Date(),
             coins: 150,
+            awardInventory: {
+              create: awardsToInsert,
+            },
           },
         });
         if (newUser) {
