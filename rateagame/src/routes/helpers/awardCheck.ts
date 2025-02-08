@@ -20,7 +20,7 @@ const startingInventory: any = {
     quantity: 1,
   },
   2: {
-    quantity: 1,
+    quantity: 5,
   },
 };
 
