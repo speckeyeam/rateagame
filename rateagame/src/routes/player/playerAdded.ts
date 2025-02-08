@@ -51,7 +51,7 @@ export const playerAdded = async (c: Context) => {
 
         //just check if the user already exists and if it does return the token otherwise create a new user
 
-        let startingInventory = await getInvetory;
+        const startingInventory = await getInvetory;
 
         const awardsToInsert = Object.entries(startingInventory).flatMap(
           ([awardId, { quantity }]) =>
@@ -59,8 +59,7 @@ export const playerAdded = async (c: Context) => {
               awardId,
             }))
         );
-        console.log(getInvetory);
-        console.log(awardsToInsert);
+
         //wonder if this award stuff will work :) will have to reset everything tho
         const newUser = await prisma.user.upsert({
           where: { userId },
