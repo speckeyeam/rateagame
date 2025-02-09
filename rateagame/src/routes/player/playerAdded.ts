@@ -57,7 +57,8 @@ export const playerAdded = async (c: Context) => {
         const awardsToInsert = await Promise.all(
           Object.entries(startingInventory).flatMap(
             async ([awardId, { quantity }]) => {
-              const rarity = await awardCheck(Number(awardId)); // Await the result of awardCheck
+              const award = await awardCheck(Number(awardId)); // Await the result of awardCheck
+              const rarity = award.rarity;
               return Array.from({ length: quantity }, () => ({
                 awardId,
                 rarity,
