@@ -5,6 +5,7 @@ const awards: any = {
     effect: null,
     price: 0,
     id: 1,
+    rarity: 1,
   },
   2: {
     Name: "Skull",
@@ -12,9 +13,13 @@ const awards: any = {
     effect: null,
     price: 50,
     id: 2,
+    rarity: 2,
   },
 };
-
+//rarities
+//1 is common (any free one)
+//2 is rare (any other one for now)
+//3...
 const startingInventory: any = {
   1: {
     quantity: 1,
