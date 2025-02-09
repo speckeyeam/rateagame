@@ -54,18 +54,25 @@ export const playerAdded = async (c: Context) => {
         //just check if the user already exists and if it does return the token otherwise create a new user
 
         const startingInventory = await getInventory();
-        const awardsToInsert = await Promise.all(
-          Object.entries(startingInventory).flatMap(
-            async ([awardId, { quantity }]) => {
-              const award = await awardCheck(Number(awardId)); // Await the result of awardCheck
-              const rarity = award.rarity;
-              return Array.from({ length: quantity }, () => ({
-                awardId,
-                rarity,
-              }));
-            }
+        const awardsToInsert = (
+          await Promise.all(
+            Object.entries(startingInventory).map(
+              async ([awardId, { quantity }]) => {
+                const award = await awardCheck(Number(awardId));
+
+                if (!award) {
+                  console.warn(`Award with ID ${awardId} not found.`);
+                  return []; // Return an empty array instead of undefined
+                }
+
+                return Array.from({ length: quantity }, () => ({
+                  awardId,
+                  rarity: award.rarity,
+                }));
+              }
+            )
           )
-        );
+        ).flat(); // Flatten the array after promises resolve
 
         //wonder if this award stuff will work :) will have to reset everything tho
         const newUser = await prisma.user.upsert({

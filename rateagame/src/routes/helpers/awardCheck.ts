@@ -33,7 +33,7 @@ const awardsForsSale = [2];
 
 export async function awardCheck(awardId: number) {
   if (awardsForsSale.includes(awardId)) {
-    return awards[awardId];
+    return awards[awardId] || null;
   }
 }
 
