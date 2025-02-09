@@ -92,6 +92,7 @@ model awardInventory {
   awardId String
   userId  String?
   user    user?   @relation(fields: [userId], references: [userId])
+  rarity  Int
 
   @@index([userId], map: "awardInventory_userId_fkey")
 }
