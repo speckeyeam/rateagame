@@ -51,7 +51,7 @@ export const likeReview = async (c: Context) => {
         } else {
           const newlike = await prisma.like.upsert({
             where: data,
-            update: {},
+            update: { value: false },
             create: data,
           });
         }
