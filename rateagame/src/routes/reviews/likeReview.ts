@@ -45,12 +45,14 @@ export const likeReview = async (c: Context) => {
         if (like) {
           const newlike = await prisma.like.upsert({
             where: data,
-            update: {},
+            update: { value: true },
             create: data,
           });
         } else {
-          const deletedLike = await prisma.like.delete({
+          const newlike = await prisma.like.upsert({
             where: data,
+            update: {},
+            create: data,
           });
         }
         return c.json({ success: true }, 200);
