@@ -15,8 +15,7 @@ export const getPoints = async (c: Context) => {
   if (userId && token) {
     let player: any = await playerCheck(userId, token);
     if (player) {
-      console.log(player + " .   TEST");
-      return c.json({ success: true, points: player.points }, 200);
+      return c.json({ success: true, points: player.coins }, 200);
     }
   }
   return c.json({ success: false }, 500);
