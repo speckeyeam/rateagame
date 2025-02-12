@@ -20,9 +20,9 @@ export const loadAwards = async (c: Context) => {
 
       const awards = await prisma.awardInventory.groupBy({
         by: ["awardId"],
-        where:{
-          userId
-        }
+        where: {
+          userId,
+        },
         _count: {
           awardId: true, // Count occurrences of each awardId
         },
