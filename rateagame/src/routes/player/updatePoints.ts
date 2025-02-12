@@ -16,7 +16,7 @@ export const updatePoints = async (c: Context) => {
     let player: any = await playerCheck(userId, token);
     if (player) {
       const updatedUser = await prisma.user.update({
-        where: { userId },
+        where: { userId: userId.toString() },
         data: {
           coins: {
             increment: 500, // Increase coins by 500
