@@ -28,8 +28,12 @@ export const loadAwards = async (c: Context) => {
         },
       });
 
-      console.log(awards);
-      if (awards) {
+      const formattedAwards = awards.map((award) => ({
+        awardId: award.awardId,
+        count: award._count.awardId,
+      }));
+      console.log(formattedAwards);
+      if (formattedAwards) {
         return c.json(
           {
             success: true,
