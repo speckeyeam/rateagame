@@ -49,7 +49,6 @@ export const playerAdded = async (c: Context) => {
       // 4. Handle any errors from Roblox
       if (!robloxResponse.ok) {
         const data = await robloxResponse.json();
-        console.log(data);
 
         //just check if the user already exists and if it does return the token otherwise create a new user
 
@@ -66,6 +65,7 @@ export const playerAdded = async (c: Context) => {
           )
         ).flat(); // Flatten the array after promises resolve
 
+        console.log(awardsToInsert);
         //wonder if this award stuff will work :) will have to reset everything tho
         const newUser = await prisma.user.upsert({
           where: { userId },
