@@ -26,14 +26,6 @@ export const loadAwards = async (c: Context) => {
         _count: {
           awardId: true, // Count occurrences of each awardId
         },
-        _avg: {
-          rarity: true, // Get the average rarity for sorting
-        },
-        orderBy: {
-          _avg: {
-            rarity: "asc", // Sort by rarity (least to greatest)
-          },
-        },
       });
 
       console.log(awards);

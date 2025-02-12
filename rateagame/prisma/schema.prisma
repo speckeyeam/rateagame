@@ -77,7 +77,6 @@ model award {
   awardId        String
   givenUserId    String
   receivedUserId String
-  rarity         Int
   giver          user     @relation("GiverRelation", fields: [givenUserId], references: [userId])
   receiver       user     @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
   review         review?  @relation(fields: [reviewReviewId], references: [reviewId])
@@ -93,7 +92,6 @@ model awardInventory {
   awardId String
   userId  String?
   user    user?   @relation(fields: [userId], references: [userId])
-  rarity  Int
 
   @@index([userId], map: "awardInventory_userId_fkey")
 }

@@ -58,16 +58,8 @@ export const playerAdded = async (c: Context) => {
           await Promise.all(
             Object.entries(startingInventory).map(
               async ([awardId, { quantity }]) => {
-                const award = await awardCheck(Number(awardId));
-
-                if (!award) {
-                  console.warn(`Award with ID ${awardId} not found.`);
-                  return []; // Return an empty array instead of undefined
-                }
-
                 return Array.from({ length: quantity }, () => ({
                   awardId,
-                  rarity: award.rarity,
                 }));
               }
             )
