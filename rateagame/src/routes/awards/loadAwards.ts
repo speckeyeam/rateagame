@@ -18,8 +18,11 @@ export const loadAwards = async (c: Context) => {
     if (player) {
       //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
 
-      const awards = await prisma.award.groupBy({
+      const awards = await prisma.awardInventory.groupBy({
         by: ["awardId"],
+        where:{
+          userId
+        }
         _count: {
           awardId: true, // Count occurrences of each awardId
         },
