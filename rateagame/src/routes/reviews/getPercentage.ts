@@ -28,23 +28,30 @@ export const getPercentage = async (c: Context) => {
 
       const data: any = {
         deleted: false,
-        recommends: true,
       };
       if (gamePass) {
         data.gamePassId = String(gameId);
       } else {
         data.gameId = String(gameId);
       }
-      const reviewStats = await prisma.review.aggregate({
-        where: data,
+      const positive = await prisma.review.aggregate({
+        where: { recommends: true, ...data },
         _count: {
           _all: true, // Total number of reviews
           recommends: true, // Counts the number of true values in the recommends column
         },
       });
-      console.log(reviewStats);
-      if (reviewStats) {
-        return c.json({ success: true, stats: reviewStats }, 200);
+
+      const negative = await prisma.review.aggregate({
+        where: { recommends: false, ...data },
+        _count: {
+          _all: true, // Total number of reviews
+          recommends: true, // Counts the number of true values in the recommends column
+        },
+      });
+
+      if (positive && negative) {
+        return c.json({ success: true, positive, negative }, 200);
       }
     }
   }
