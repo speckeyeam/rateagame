@@ -67,7 +67,7 @@ export const giveAward = async (c: Context) => {
           const hasAward = await prisma.awardInventory.findFirst({
             where: {
               userId: userId.toString(),
-              awardId: award.id,
+              awardId: award.id.toString(),
             },
           });
           if (hasAward) {
