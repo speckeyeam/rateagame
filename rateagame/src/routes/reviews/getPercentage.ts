@@ -28,6 +28,7 @@ export const getPercentage = async (c: Context) => {
 
       const data: any = {
         deleted: false,
+        recommends: true,
       };
       if (gamePass) {
         data.gamePassId = String(gameId);
