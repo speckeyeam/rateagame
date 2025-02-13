@@ -27,11 +27,13 @@ model game {
   reviews     review[]
   forSale     Boolean  @default(false)
   lastUpdated DateTime @default(now())
+  assetId     String
 }
 
 model gamePass {
   gamePassId String   @unique
   reviews    review[]
+  assetId    String
 }
 
 model review {
