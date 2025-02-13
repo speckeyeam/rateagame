@@ -32,9 +32,11 @@ const startingInventory: any = {
 const awardsForsSale = [2];
 
 export async function awardCheck(awardId: number) {
-  if (awardsForsSale.includes(awardId)) {
-    return awards[awardId] || null;
-  }
+  return awards[awardId] || null;
+}
+
+export async function awardIsForSale(awardId: number) {
+  return awardsForsSale.includes(awardId) || null;
 }
 
 export async function getInventory() {

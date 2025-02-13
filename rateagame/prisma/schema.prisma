@@ -79,8 +79,7 @@ model award {
   receivedUserId String
   giver          user     @relation("GiverRelation", fields: [givenUserId], references: [userId])
   receiver       user     @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
-  review         review?  @relation(fields: [reviewReviewId], references: [reviewId])
-  reviewReviewId String?
+  review         review?  @relation(fields: [reviewId], references: [reviewId])
 
   @@index([givenUserId], map: "award_givenUserId_fkey")
   @@index([receivedUserId], map: "award_receivedUserId_fkey")
