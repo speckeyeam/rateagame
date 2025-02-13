@@ -10,17 +10,17 @@ const prisma = new PrismaClient();
 export const loadAwards = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, token } = await requestData;
+  const { userId, token, reviewId } = await requestData;
 
-  if (userId && token) {
+  if (userId && token && reviewId) {
     let player: any = await playerCheck(userId, token);
     if (player) {
       //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
 
-      const awards = await prisma.awardInventory.groupBy({
+      const awards = await prisma.award.groupBy({
         by: ["awardId"], // Group by awardId, ensuring it appears in results
         where: {
-          userId: userId.toString(),
+          reviewId: reviewId.toString(),
         },
         _count: {
           awardId: true, // Count occurrences of each awardId
