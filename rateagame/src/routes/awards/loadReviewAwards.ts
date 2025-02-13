@@ -7,7 +7,7 @@ import { playerCheck } from "../helpers/playerCheck";
 
 const prisma = new PrismaClient();
 
-export const loadAwards = async (c: Context) => {
+export const loadReviewAwards = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const { userId, token, reviewId } = await requestData;
