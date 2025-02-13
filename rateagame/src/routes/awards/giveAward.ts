@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 export const giveAward = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, token, awardId, buying, reviewId, gamePass, gameId } =
+  const { userId, token, awardId, buying, reviewId, gameId } =
     await requestData;
 
   console.log(requestData);
@@ -23,7 +23,6 @@ export const giveAward = async (c: Context) => {
       const review = await prisma.review.findFirst({
         where: {
           reviewId: reviewId.toString(),
-          [gamePass ? "gamePassId" : "gameId"]: gameId.toString(),
         },
       });
 
