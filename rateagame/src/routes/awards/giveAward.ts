@@ -30,7 +30,7 @@ export const giveAward = async (c: Context) => {
         const recieverId = review.userId;
         if (buying && recieverId) {
           console.log("test1");
-          const saleCheck = await awardIsForSale(award);
+          const saleCheck = await awardIsForSale(award.id);
           if (saleCheck) {
             console.log("test2");
             if (player.coins >= award.price) {
