@@ -24,7 +24,7 @@ export const getTrending = async (c: Context) => {
     startDate.setDate(startDate.getDate() - 7); //add a filter parameeter maybe
 
     const data: any = {
-      by: gamePass ? ["gamePassId"] : ["gameId"],
+      by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
       take,
       skip: cursor ? 1 : 0, // Skip the cursor item itself
       cursor: cursor

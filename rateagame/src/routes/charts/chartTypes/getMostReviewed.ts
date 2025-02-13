@@ -21,7 +21,7 @@ export const getTrending = async (c: Context) => {
   // Allow days === 0 as a valid input.
   if (userId && take) {
     const data: any = {
-      by: gamePass ? ["gamePassId"] : ["gameId"],
+      by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
       take,
       skip: cursor ? 1 : 0, // Skip the cursor item itself
       cursor: cursor

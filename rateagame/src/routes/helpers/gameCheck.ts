@@ -14,7 +14,6 @@ export async function gameCheck(gameId: string, gamePass: boolean) {
       const newgame = await prisma.gamePass.create({
         data: {
           gamePassId: String(gameId),
-          assetId: String(gameId),
         },
       });
       return newgame;
@@ -27,7 +26,6 @@ export async function gameCheck(gameId: string, gamePass: boolean) {
       const newgame = await prisma.game.create({
         data: {
           gameId: String(gameId),
-          assetId: String(gameId),
         },
       });
     }
