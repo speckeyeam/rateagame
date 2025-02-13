@@ -11,7 +11,7 @@ export const loadReviewAwards = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const { userId, token, reviewId } = await requestData;
-
+  console.log("went through");
   if (userId && token && reviewId) {
     let player: any = await playerCheck(userId, token);
     if (player) {
