@@ -32,6 +32,7 @@ export const giveAward = async (c: Context) => {
           const saleCheck = await awardIsForSale(award);
           if (saleCheck) {
             if (player.coins >= award.price) {
+              console.log("test1");
               const updatedUser = await prisma.user.update({
                 where: { userId: userId.toString() },
                 data: {
@@ -41,6 +42,7 @@ export const giveAward = async (c: Context) => {
                 },
               });
               if (updatedUser) {
+                console.log("test2");
                 const givenAward = await prisma.award.create({
                   data: {
                     givenUserId: userId.toString(),
