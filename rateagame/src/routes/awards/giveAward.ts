@@ -22,7 +22,7 @@ export const giveAward = async (c: Context) => {
     if (player && award) {
       const review = await prisma.review.findFirst({
         where: {
-          reviewId: reviewId.toString,
+          reviewId: reviewId.toString(),
           [gamePass ? "gamePassId" : "gameId"]: gameId,
         },
       });
