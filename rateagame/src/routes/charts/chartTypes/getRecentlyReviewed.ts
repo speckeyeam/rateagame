@@ -32,11 +32,6 @@ export const getRecentlyReviewed = async (c: Context) => {
       },
       take,
     };
-    // if (gamePass) {
-    //   data.where.gameId = null;
-    // } else {
-    //   data.where.gamePassId = null;
-    // }
 
     const recentlyReviewed = await prisma.review.findMany(data);
     if (recentlyReviewed) {
