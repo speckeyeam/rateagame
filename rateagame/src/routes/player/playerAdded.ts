@@ -25,7 +25,16 @@ export const playerAdded = async (c: Context) => {
 
   let userId = String(requestData.userId);
 
-  if (userId) {
+  const authHeader = c.req.header("Authorization") ?? "";
+
+  // Quickly check if it starts with "Bearer "
+  if (!authHeader.startsWith("Bearer ")) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const key = authHeader.slice("Bearer ".length);
+  console.log(key);
+  if (userId && key == process.env.MY_API_KEY) {
     // const UNIVERSE_ID = 6775462923; --real game
     const UNIVERSE_ID = 7146581911; //testing game
 
@@ -34,6 +43,7 @@ export const playerAdded = async (c: Context) => {
       datastoreName: "tokens",
       entryKey: String(userId),
     }).toString();
+    //this isnt scalable cuz theres a rate limit to this. hmmmmmmmm
 
     // Full URL with query parameters
     const fullUrl = `${url}?${queryParams}`;

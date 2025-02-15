@@ -10,7 +10,7 @@ export const loadReviews = async (c: Context) => {
 
   let dataStore1;
   let dataStore2: String;
-  let gameId;
+  let gameId: String;
 
   if (requestData.gameId) {
     dataStore1 = requestData.gameId + "likes";
@@ -149,16 +149,6 @@ export const loadReviews = async (c: Context) => {
         //   recommends Boolean
         // }
         if (!checkreview) {
-          const newreviewdata = await prisma.reviewData.create({
-            data: {
-              reviewId,
-              time: date,
-              text: reviewtext,
-              gameId,
-              userId,
-              recommends,
-            },
-          });
           //   review     reviewData @relation(fields: [reviewId], references: [reviewId])
           //   time       DateTime
           //   reviewId   String     @id //this will be the time + userid + gameid
@@ -173,10 +163,24 @@ export const loadReviews = async (c: Context) => {
               reviewId,
               time: date,
               userId,
-              gameId,
+              gameId: String(gameId),
+              text: reviewtext,
+              date: data.date,
               recommends,
+              rating: recommends ? 1 : -1,
+              assetId: String(gameId),
             },
           });
+
+          //get the likes from this
+          const fullUrl2 = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/standard-datastores/datastore/entries/entry?${new URLSearchParams(
+            { datastoreName: dataStore2, entryKey: review.id }
+          )}`;
+
+          const robloxResponse = await fetch(fullUrl2, {
+            headers: { "x-api-key": process.env.API_KEY },
+          });
+          const data = await robloxResponse.json();
         }
       } catch (err) {
         // Catch any network or runtime errors
