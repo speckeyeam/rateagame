@@ -13,7 +13,7 @@ export const getPoints = async (c: Context) => {
   const { userId, token } = requestData;
 
   if (userId && token) {
-    let player: any = await playerCheck(userId, token);
+    let player: any = await playerCheck(c);
     if (player) {
       return c.json({ success: true, points: player.coins }, 200);
     }

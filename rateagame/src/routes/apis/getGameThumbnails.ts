@@ -6,6 +6,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 //gets the most trending games in the past week, games with the most reviews, could get the most trending games and games passes in the last x amount of days
 export const getGameThumbnails = async (c: Context) => {
+  //maybe set this to check if the right auth key was sent so that not anyone could use this?
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const { universeId, token, userId } = requestData;

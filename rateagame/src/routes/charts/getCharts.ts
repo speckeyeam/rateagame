@@ -25,7 +25,7 @@ export const getCharts = async (c: Context) => {
   };
   console.log(requestData);
   if (userId && token && call) {
-    let player: any = await playerCheck(userId, token);
+    let player: any = await playerCheck(c);
     if (player) {
       if (call == "images") {
         const recentlyReviewed = await getRecentlyReviewed(c);

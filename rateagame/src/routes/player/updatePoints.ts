@@ -13,7 +13,7 @@ export const updatePoints = async (c: Context) => {
   const { userId, token } = requestData;
 
   if (userId && token) {
-    let player: any = await playerCheck(userId, token);
+    let player: any = await playerCheck(c);
     if (player) {
       const updatedUser = await prisma.user.update({
         where: { userId: userId.toString() },

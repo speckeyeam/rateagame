@@ -21,7 +21,7 @@ export const getOtherReviews = async (c: Context) => {
 
   console.log(token);
   if (gameId && userId && token && date) {
-    let player: any = await playerCheck(userId, token);
+    let player: any = await playerCheck(c);
     if (player) {
       console.log(player);
 

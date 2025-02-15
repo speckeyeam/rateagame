@@ -13,7 +13,7 @@ export const loadReviewAwards = async (c: Context) => {
   const { userId, token, reviewId } = await requestData;
   console.log("went through");
   if (userId && token && reviewId) {
-    let player: any = await playerCheck(userId, token);
+    let player: any = await playerCheck(c);
     if (player) {
       //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
 

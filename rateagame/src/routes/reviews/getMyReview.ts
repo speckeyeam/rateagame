@@ -20,7 +20,7 @@ export const getMyReview = async (c: Context) => {
 
   console.log(token);
   if (gameId && userId && token) {
-    let player: any = await playerCheck(userId, token);
+    let player: any = await playerCheck(c);
     if (player) {
       if (otherPlayerId) {
       } else {

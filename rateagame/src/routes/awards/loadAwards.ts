@@ -13,7 +13,7 @@ export const loadAwards = async (c: Context) => {
   const { userId, token } = await requestData;
 
   if (userId && token) {
-    let player: any = await playerCheck(userId, token);
+    let player: any = await playerCheck(c);
     if (player) {
       //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
 

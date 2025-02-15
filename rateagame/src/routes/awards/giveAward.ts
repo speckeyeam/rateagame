@@ -17,7 +17,7 @@ export const giveAward = async (c: Context) => {
 
   console.log(requestData);
   if (userId && token && awardId && reviewId && gameId) {
-    let player: any = await playerCheck(userId, token);
+    let player: any = await playerCheck(c);
     let award = await awardCheck(awardId);
     if (player && award) {
       const review = await prisma.review.findFirst({

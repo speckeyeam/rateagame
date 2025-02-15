@@ -33,7 +33,6 @@ export const playerAdded = async (c: Context) => {
   }
 
   const key = authHeader.slice("Bearer ".length);
-  console.log(key);
   if (userId && key == process.env.MY_API_KEY) {
     // const UNIVERSE_ID = 6775462923; --real game
     const UNIVERSE_ID = 7146581911; //testing game

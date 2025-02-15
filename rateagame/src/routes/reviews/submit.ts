@@ -39,7 +39,7 @@ export const submit = async (c: Context) => {
     reviewId &&
     token
   ) {
-    let player: any = await playerCheck(userId, token);
+    let player: any = await playerCheck(c);
     console.log(player);
     if (player) {
       let game: any = await gameCheck(gameId, gamePass);
