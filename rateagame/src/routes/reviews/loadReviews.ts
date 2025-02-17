@@ -25,7 +25,6 @@ export const loadReviews = async (c: Context) => {
       gameId: gameId.toString(),
     },
   });
-  console.log(game);
   if (!game) {
     const newgame = await prisma.game.create({
       data: {
@@ -45,6 +44,8 @@ export const loadReviews = async (c: Context) => {
         "x-api-key": process.env.API_KEY,
       },
     });
+
+    console.log(process.env.API_KEY);
 
     // 4. Handle any errors from Roblox
     if (!robloxResponse.ok) {
