@@ -22,7 +22,7 @@ export const loadReviews = async (c: Context) => {
 
   const game = await prisma.game.findUnique({
     where: {
-      gameId,
+      gameId: gameId.toString(),
     },
   });
   console.log(game);
