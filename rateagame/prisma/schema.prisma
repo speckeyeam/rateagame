@@ -57,7 +57,7 @@ model review {
 }
 
 model like {
-  id         String   @id @unique
+  id         String   @id @unique @default(uuid())
   value      Boolean  @default(true)
   reviewId   String
   gamePassId String?

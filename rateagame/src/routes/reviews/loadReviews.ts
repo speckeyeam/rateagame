@@ -52,6 +52,7 @@ export const loadReviews = async (c: Context) => {
     let text = review.review.review;
     let date = review.review.date.toString();
     let dateTime = new Date((date || 0) * 1000);
+    let likes = review.value;
 
     const checkreview = await prisma.review.findUnique({
       where: {
@@ -91,6 +92,18 @@ export const loadReviews = async (c: Context) => {
           assetId: String(gameId),
         },
       });
+
+      for (let k = 0; k < reviews.length; k++) {
+        const like = await prisma.like.create({
+          data: {
+            reviewId,
+            gameId: gameId.toString(),
+            value: true,
+            userId: i + "." + reviewId + "temp",
+          },
+        });
+        //create artifical likes
+      }
     } else {
       console.log("review already exist?");
     }
