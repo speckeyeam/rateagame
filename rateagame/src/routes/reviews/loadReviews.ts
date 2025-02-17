@@ -36,6 +36,7 @@ export const loadReviews = async (c: Context) => {
   }
 
   for (let i = 1; i < reviews.length; i++) {
+    console.log(i);
     let review: any = reviews[i];
 
     let reviewId = review.key;
