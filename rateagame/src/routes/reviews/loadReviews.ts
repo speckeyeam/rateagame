@@ -173,14 +173,31 @@ export const loadReviews = async (c: Context) => {
           });
 
           //get the likes from this
+
+          //local likedStore = DataStoreService:GetDataStore(prefix..gameId.."likes"..reviewId) liked datastore
+
           const fullUrl2 = `https://apis.roblox.com/datastores/v1/universes/${UNIVERSE_ID}/standard-datastores/datastore/entries/entry?${new URLSearchParams(
-            { datastoreName: dataStore2, entryKey: review.id }
+            { datastoreName: gameId + "likes", entryKey: review.id }
           )}`;
 
           const robloxResponse = await fetch(fullUrl2, {
             headers: { "x-api-key": process.env.API_KEY },
           });
           const data = await robloxResponse.json();
+
+          if (data.data) {
+            let totalLikes = data.data;
+            for (let i = 0; i < totalLikes; i++) {
+              const like = await prisma.like.create({
+                data: {
+                  reviewId,
+                  gameId: gameId.toString(),
+                  value: true,
+                  userId: i + "." + reviewId + "temp",
+                },
+              });
+            }
+          }
         }
       } catch (err) {
         // Catch any network or runtime errors

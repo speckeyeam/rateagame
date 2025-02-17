@@ -9,25 +9,14 @@ export const playerCheck = async (c: Context) => {
 
   const { userId, token } = requestData;
 
-  const authHeader = await c.req.header("Authorization");
-  if (!authHeader) {
-    // Handle missing header
-    return new Response(JSON.stringify({ error: "No Authorization header" }), {
-      status: 401,
-    });
+  const authHeader = c.req.header("Authorization") ?? "";
+
+  // Quickly check if it starts with "Bearer "
+  if (!authHeader.startsWith("Bearer ")) {
+    return c.json({ error: "Unauthorized" }, 401);
   }
 
-  // authHeader should be something like "Bearer <token>"
-  // If you specifically want to parse out just the token after "Bearer "
-  const expectedPrefix = "Bearer ";
-  if (!authHeader.startsWith(expectedPrefix)) {
-    return new Response(
-      JSON.stringify({ error: "Invalid Authorization scheme" }),
-      { status: 401 }
-    );
-  }
-
-  const key = authHeader.slice(expectedPrefix.length);
+  const key = authHeader.slice("Bearer ".length);
 
   if (key == process.env.MY_API_KEY) {
     if (userId.length > 100) {
