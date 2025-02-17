@@ -48,6 +48,7 @@ export const loadReviews = async (c: Context) => {
 
     // 4. Handle any errors from Roblox
     if (!robloxResponse.ok) {
+      console.log("failed here for some reason");
       const errorText = await robloxResponse.text();
       //   console.log(robloxResponse + " test");
       console.error("Roblox API Error:", robloxResponse.status, errorText);
