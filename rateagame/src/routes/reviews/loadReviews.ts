@@ -69,6 +69,7 @@ export const loadReviews = async (c: Context) => {
     }
 
     if (!checkreview) {
+      console.log("not being created for some rason");
       const newreview = await prisma.review.create({
         data: {
           reviewId,
@@ -82,6 +83,8 @@ export const loadReviews = async (c: Context) => {
           assetId: String(gameId),
         },
       });
+    } else {
+      console.log("review already exist?");
     }
   }
 
