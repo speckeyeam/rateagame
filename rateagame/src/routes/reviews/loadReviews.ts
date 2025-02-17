@@ -38,7 +38,9 @@ export const loadReviews = async (c: Context) => {
   for (let i = 0; i < reviews.length; i++) {
     let review: any = reviews[i];
     let reviewId = review.key;
+    print(review);
     let recommends = review.review.recommends;
+
     let text = review.review.text;
     let date = review.review.date;
     let dateTime = new Date((date || 0) * 1000);
