@@ -35,15 +35,21 @@ export const loadReviews = async (c: Context) => {
     });
   }
 
-  for (let i = 1; i < reviews.length; i++) {
+  for (let i = 0; i < reviews.length; i++) {
     console.log(i);
     let review: any = reviews[i];
 
+    if (!review.review) {
+      console.warn(
+        `Review at index ${i} is missing the 'review' property. Skipping...`
+      );
+      continue;
+    }
     let reviewId = review.key;
     console.log(review);
     let recommends = review.review?.recommends;
 
-    let text = review.review.text;
+    let text = review.review.review;
     let date = review.review.date;
     let dateTime = new Date((date || 0) * 1000);
 
