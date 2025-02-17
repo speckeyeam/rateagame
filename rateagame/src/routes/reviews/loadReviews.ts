@@ -47,7 +47,7 @@ export const loadReviews = async (c: Context) => {
     }
     let reviewId = review.key;
     console.log(review);
-    let recommends = review.review?.recommends;
+    let recommends = review.review?.recommends || false;
 
     let text = review.review.review;
     let date = review.review.date.toString();
