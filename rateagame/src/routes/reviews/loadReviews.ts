@@ -50,7 +50,7 @@ export const loadReviews = async (c: Context) => {
     let recommends = review.review?.recommends;
 
     let text = review.review.review;
-    let date = review.review.date;
+    let date = review.review.date.toString();
     let dateTime = new Date((date || 0) * 1000);
 
     const checkreview = await prisma.review.findUnique({
