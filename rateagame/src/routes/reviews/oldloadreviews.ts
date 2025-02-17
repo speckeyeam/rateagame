@@ -172,7 +172,6 @@ export const loadReviews = async (c: Context) => {
               assetId: String(gameId),
             },
           });
-          //   UNCOMMENT;
 
           //get the likes from this
 
