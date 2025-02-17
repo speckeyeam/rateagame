@@ -20,7 +20,7 @@ export const loadReviews = async (c: Context) => {
     await gameCheck(gameId, false);
   }
 
-  let reviews = requestData.reviews;
+  let reviews = await requestData.reviews;
 
   const game = await prisma.game.findUnique({
     where: {
