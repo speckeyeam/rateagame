@@ -93,7 +93,7 @@ export const loadReviews = async (c: Context) => {
         },
       });
 
-      for (let k = 0; k < reviews.length; k++) {
+      for (let k = 0; k < likes; k++) {
         const like = await prisma.like.create({
           data: {
             id: String(reviewId) + "." + k + "." + reviewId + "temp",
