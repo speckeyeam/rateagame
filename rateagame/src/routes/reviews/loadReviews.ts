@@ -35,7 +35,8 @@ export const loadReviews = async (c: Context) => {
   }
 
   const UNIVERSE_ID = 6775462923; // e.g. the Universe ID from Creator Dashboard
-  const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/${dataStore1}/scopes/global/entries?max_page_size=100&order_by=desc`;
+  // const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/${dataStore1}/scopes/global/entries?max_page_size=100&order_by=desc`;
+  const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/${dataStore1}/scopes/global/entries?maxPageSize=100&orderBy=Desc`;
 
   try {
     // 3. Make the request to Roblox Open Cloud
