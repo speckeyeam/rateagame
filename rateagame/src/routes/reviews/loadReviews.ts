@@ -27,11 +27,11 @@ export const loadReviews = async (c: Context) => {
   });
   console.log(game);
   if (!game) {
-    const newgame = await prisma.game.create({
-      data: {
-        gameId,
-      },
-    });
+    // const newgame = await prisma.game.create({
+    //   data: {
+    //     gameId,
+    //   },
+    // }); UNCOMMENT
   }
 
   const UNIVERSE_ID = 6775462923; // e.g. the Universe ID from Creator Dashboard
@@ -117,27 +117,27 @@ export const loadReviews = async (c: Context) => {
         console.log(reviewtext);
         console.log(gameId);
 
-        const checkreview = await prisma.review.findUnique({
-          where: {
-            reviewId,
-          },
-        });
+        // const checkreview = await prisma.review.findUnique({
+        //   where: {
+        //     reviewId,
+        //   },
+        // }); UNCOMMENT
 
-        const checkuser = await prisma.user.findUnique({
-          where: {
-            userId,
-          },
-        });
+        // const checkuser = await prisma.user.findUnique({
+        //   where: {
+        //     userId,
+        //   },
+        // }); UNCOMMENT
 
-        if (!checkuser) {
-          const newuser = await prisma.user.create({
-            data: {
-              userId,
-              dateJoined: new Date(),
-              coins: 150,
-            },
-          });
-        }
+        // if (!checkuser) {
+        //   const newuser = await prisma.user.create({
+        //     data: {
+        //       userId,
+        //       dateJoined: new Date(),
+        //       coins: 150,
+        //     },
+        //   });
+        // } UNCOMMENT
         //         // model reviewData {
         //   reviewId   String   @unique
         //   time       DateTime
@@ -158,19 +158,19 @@ export const loadReviews = async (c: Context) => {
           //   recommends Boolean
           //   game       game?      @relation(fields: [gameId], references: [gameId])
           //   gamePass   Boolean    @default(false)
-          const newreview = await prisma.review.create({
-            data: {
-              reviewId,
-              time: date,
-              userId,
-              gameId: String(gameId),
-              text: reviewtext,
-              date: data.date,
-              recommends,
-              rating: recommends ? 1 : -1,
-              assetId: String(gameId),
-            },
-          });
+          // const newreview = await prisma.review.create({
+          //   data: {
+          //     reviewId,
+          //     time: date,
+          //     userId,
+          //     gameId: String(gameId),
+          //     text: reviewtext,
+          //     date: data.date,
+          //     recommends,
+          //     rating: recommends ? 1 : -1,
+          //     assetId: String(gameId),
+          //   },
+          // }); UNCOMMENT
 
           //get the likes from this
 
@@ -184,18 +184,18 @@ export const loadReviews = async (c: Context) => {
             headers: { "x-api-key": process.env.API_KEY },
           });
           const data = await robloxResponse.json();
-
+          console.log(data);
           if (data.data) {
             let totalLikes = data.data;
             for (let i = 0; i < totalLikes; i++) {
-              const like = await prisma.like.create({
-                data: {
-                  reviewId,
-                  gameId: gameId.toString(),
-                  value: true,
-                  userId: i + "." + reviewId + "temp",
-                },
-              });
+              // const like = await prisma.like.create({
+              //   data: {
+              //     reviewId,
+              //     gameId: gameId.toString(),
+              //     value: true,
+              //     userId: i + "." + reviewId + "temp",
+              //   },
+              // });
             }
           }
         }
