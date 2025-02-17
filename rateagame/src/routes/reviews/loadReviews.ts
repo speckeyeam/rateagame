@@ -22,7 +22,7 @@ export const loadReviews = async (c: Context) => {
 
   const game = await prisma.game.findUnique({
     where: {
-      gameId,
+      gameId: gameId.toString(),
     },
   });
   console.log(game);
@@ -65,7 +65,7 @@ export const loadReviews = async (c: Context) => {
     const data = await robloxResponse.json();
     // console.log(data);
     // console.log(data);
-
+    console.log(data);
     let table = data.entries;
     table.forEach(async (review: any) => {
       //   console.log(review.id);
