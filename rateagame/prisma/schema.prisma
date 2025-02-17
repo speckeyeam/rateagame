@@ -62,7 +62,7 @@ model like {
   reviewId   String
   gamePassId String?
   gameId     String?
-  userId     String
+  userId     String?
   time       DateTime @default(now())
   review     review?  @relation(fields: [reviewId], references: [reviewId])
   user       user?    @relation(fields: [userId], references: [userId])
