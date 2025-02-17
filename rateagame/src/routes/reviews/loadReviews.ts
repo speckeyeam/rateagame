@@ -35,7 +35,7 @@ export const loadReviews = async (c: Context) => {
 
   const UNIVERSE_ID = 6775462923; // e.g. the Universe ID from Creator Dashboard
   const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/${dataStore1}/scopes/global/entries?max_page_size=100&order_by=desc`;
-
+  console.log(url);
   try {
     // 3. Make the request to Roblox Open Cloud
     const robloxResponse = await fetch(url, {
@@ -44,8 +44,6 @@ export const loadReviews = async (c: Context) => {
         "x-api-key": process.env.API_KEY,
       },
     });
-
-    console.log(process.env.API_KEY);
 
     // 4. Handle any errors from Roblox
     if (!robloxResponse.ok) {
