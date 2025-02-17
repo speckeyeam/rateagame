@@ -40,7 +40,7 @@ export const likeReview = async (c: Context) => {
         where: data,
       });
       if (review) {
-        // data.id = String(reviewId) + "." + String(userId);
+        data.id = String(reviewId) + "." + String(userId);
         //review exists
         if (like) {
           const newlike = await prisma.like.upsert({
