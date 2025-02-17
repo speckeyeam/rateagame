@@ -36,7 +36,7 @@ export const loadReviews = async (c: Context) => {
   const UNIVERSE_ID = 6775462923; // e.g. the Universe ID from Creator Dashboard
   const url = `https://apis.roblox.com/ordered-data-stores/v1/universes/${UNIVERSE_ID}/orderedDataStores/${dataStore1}/scopes/global/entries?max_page_size=100&order_by=desc`;
   console.log(url);
-  //forget about doing this stuff, just load everything in on the roblox server, and then return everything here lol
+  //forget about doing this stuff, just load everything in on the roblox server, and then return everything here lol.
   try {
     // 3. Make the request to Roblox Open Cloud
     const robloxResponse = await fetch(url, {
