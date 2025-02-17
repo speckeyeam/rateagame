@@ -118,17 +118,17 @@ export const loadReviews = async (c: Context) => {
         console.log(reviewtext);
         console.log(gameId);
 
-        // const checkreview = await prisma.review.findUnique({
-        //   where: {
-        //     reviewId,
-        //   },
-        // }); UNCOMMENT
+        const checkreview = await prisma.review.findUnique({
+          where: {
+            reviewId,
+          },
+        });
 
-        // const checkuser = await prisma.user.findUnique({
-        //   where: {
-        //     userId,
-        //   },
-        // }); UNCOMMENT
+        const checkuser = await prisma.user.findUnique({
+          where: {
+            userId,
+          },
+        });
 
         // if (!checkuser) {
         //   const newuser = await prisma.user.create({
@@ -159,19 +159,20 @@ export const loadReviews = async (c: Context) => {
           //   recommends Boolean
           //   game       game?      @relation(fields: [gameId], references: [gameId])
           //   gamePass   Boolean    @default(false)
-          // const newreview = await prisma.review.create({
-          //   data: {
-          //     reviewId,
-          //     time: date,
-          //     userId,
-          //     gameId: String(gameId),
-          //     text: reviewtext,
-          //     date: data.date,
-          //     recommends,
-          //     rating: recommends ? 1 : -1,
-          //     assetId: String(gameId),
-          //   },
-          // }); UNCOMMENT
+          const newreview = await prisma.review.create({
+            data: {
+              reviewId,
+              time: date,
+              userId,
+              gameId: String(gameId),
+              text: reviewtext,
+              date: data.date,
+              recommends,
+              rating: recommends ? 1 : -1,
+              assetId: String(gameId),
+            },
+          });
+          //   UNCOMMENT;
 
           //get the likes from this
 
