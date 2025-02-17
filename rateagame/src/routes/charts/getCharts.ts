@@ -29,6 +29,7 @@ export const getCharts = async (c: Context) => {
     if (player) {
       if (call == "images") {
         const recentlyReviewed = await getRecentlyReviewed(c);
+        console.log(recentlyReviewed);
         const topRated = await getTopRated(c);
         const lowestRated = await getLowestRated(c);
         const trending = await getTrending(c);
