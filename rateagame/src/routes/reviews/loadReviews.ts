@@ -37,9 +37,17 @@ export const loadReviews = async (c: Context) => {
 
   for (let i = 0; i < reviews.length; i++) {
     let review: any = reviews[i];
+
+    if (!review.review) {
+      console.warn(
+        `Review at index ${i} is missing the 'review' property. Skipping...`
+      );
+      continue;
+    }
+
     let reviewId = review.key;
     console.log(review);
-    let recommends = review.review.recommends;
+    let recommends = review.review?.recommends;
 
     let text = review.review.text;
     let date = review.review.date;
@@ -89,5 +97,5 @@ export const loadReviews = async (c: Context) => {
   }
 
   console.log(requestData);
-  return c.json({ success: true }, 500);
+  return c.json({ success: true }, 200);
 };
