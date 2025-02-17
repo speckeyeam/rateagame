@@ -65,8 +65,7 @@ model like {
   userId     String
   time       DateTime @default(now())
   review     review?  @relation(fields: [reviewId], references: [reviewId])
-  user       user?    @relation(fields: [userUserId], references: [userId])
-  userUserId String?
+  user       user?    @relation(fields: [userId], references: [userId])
 
   @@index([reviewId], map: "like_reviewId_fkey")
 }
