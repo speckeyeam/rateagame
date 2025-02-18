@@ -33,6 +33,7 @@ export const getLowestRated = async (c: Context) => {
     },
     take,
   });
+  console.log(topRated + " lowest rated");
 
   return { games: topRated };
 };
