@@ -17,7 +17,6 @@ export const getRecentlyReviewed = async (c: Context) => {
     take,
     date,
   } = requestData;
-  console.log(date);
 
   if (userId && take && date) {
     const data: any = {
@@ -34,7 +33,6 @@ export const getRecentlyReviewed = async (c: Context) => {
     };
 
     const recentlyReviewed = await prisma.review.findMany(data);
-    console.log(recentlyReviewed);
     if (recentlyReviewed) {
       return { games: recentlyReviewed };
     }
