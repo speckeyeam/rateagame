@@ -50,8 +50,6 @@ export const getTrending = async (c: Context) => {
 
     const recentlyReviewed = await prisma.review.groupBy(data);
 
-    console.log(recentlyReviewed + " trending");
-
     if (recentlyReviewed && recentlyReviewed[recentlyReviewed.length - 1]) {
       return {
         games: recentlyReviewed,
