@@ -52,7 +52,7 @@ export const getTrending = async (c: Context) => {
 
     console.log(recentlyReviewed + " trending");
 
-    if (recentlyReviewed) {
+    if (recentlyReviewed && recentlyReviewed[recentlyReviewed.length - 1]) {
       return {
         games: recentlyReviewed,
         nextCursor:
