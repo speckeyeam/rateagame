@@ -9,7 +9,7 @@ export const getLowestRated = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
-    gamePass, // Default to false if not provided
+    gamePass = false, // Default to false if not provided
     take,
   } = requestData;
 

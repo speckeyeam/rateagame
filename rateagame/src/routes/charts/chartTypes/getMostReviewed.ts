@@ -13,7 +13,7 @@ export const getTrending = async (c: Context) => {
 
   const {
     userId,
-    gamePass, // Default to false if not provided
+    gamePass = false, // Default to false if not provided
     take,
     cursor = null,
   } = requestData;
