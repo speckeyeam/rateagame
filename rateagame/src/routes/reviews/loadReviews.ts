@@ -50,7 +50,7 @@ export const loadReviews = async (c: Context) => {
     let recommends = review.review?.recommends || false;
 
     let text = review.review.review;
-    let date = review.review.date.toString();
+    let date = review.review.date || 0;
     let dateTime = new Date((date || 0) * 1000);
     let likes = review.value;
 
@@ -86,7 +86,7 @@ export const loadReviews = async (c: Context) => {
           userId,
           gameId: String(gameId),
           text,
-          date,
+          date: date.toString(),
           recommends,
           rating: recommends ? 1 : -1,
           assetId: String(gameId),
