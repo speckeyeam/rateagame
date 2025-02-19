@@ -19,7 +19,7 @@ export const updatePoints = async (c: Context) => {
         where: { userId: userId.toString() },
         data: {
           coins: {
-            increment: 500, // Increase coins by 500
+            increment: 50, // Increase coins by 500
           },
         },
       });
