@@ -4,7 +4,7 @@ import { apikeycheck } from "../helpers/apikeycheck";
 
 async function getUniverseId(placeId: any) {
   console.log(placeId);
-  const universeUrl = `https://games.roblox.com/v1/games?placeIds=${placeId}`;
+  const universeUrl = `https://apis.roblox.com/universes/v1/places/${placeId}/universe`;
   try {
     const response = await fetch(universeUrl);
     if (!response.ok) {
