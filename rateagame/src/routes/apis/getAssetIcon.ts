@@ -64,14 +64,14 @@ export const getAssetIcon = async (c: Context) => {
 
   const { assetId, gamePass = false } = requestData;
   //finish this later lol
-
-  if (apikeycheck(c)) {
+  let apicheck = await apikeycheck(c);
+  if (apicheck) {
     let universeId: any;
     if (assetId) {
       if (!gamePass) {
         universeId = getUniverseId(assetId);
         let icon = geGameIcon(universeId);
-        print(icon);
+        console.log(icon);
         return c.json({ success: true, icon }, 200);
       } else {
         let icon = getGamePassIcon(assetId);
