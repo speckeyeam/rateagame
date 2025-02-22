@@ -23,7 +23,7 @@ async function getUniverseId(placeId: any) {
 }
 
 async function geGameIcon(universeId: any) {
-  const gameIconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png&isCircular=false`;
+  const gameIconUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
 
   try {
     const response = await fetch(gameIconUrl);
@@ -33,8 +33,8 @@ async function geGameIcon(universeId: any) {
     const data = await response.json();
 
     if (data.data && data.data.length > 0) {
-      console.log("Game Icon URL:", data.data[0].imageUrl);
-      return data.data[0].imageUrl;
+      console.log("Game Icon URL:", data.data[0].iconImageAssetId);
+      return data.data[0].iconImageAssetId;
     }
   } catch (error) {
     console.error("Error fetching game icon:", error);
