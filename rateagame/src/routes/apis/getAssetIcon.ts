@@ -1,6 +1,6 @@
 import { Context } from "hono";
 
-import { apikeycheck } from "../../helpers/apikeycheck";
+import { apikeycheck } from "../helpers/apikeycheck";
 
 async function getUniverseId(placeId: any) {
   const universeUrl = `https://games.roblox.com/v1/games?placeIds=${placeId}`;
