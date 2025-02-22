@@ -70,12 +70,12 @@ export const getAssetIcon = async (c: Context) => {
     let universeId: any;
     if (assetId) {
       if (!gamePass) {
-        universeId = getUniverseId(assetId);
-        let icon = geGameIcon(universeId);
+        universeId = await getUniverseId(assetId);
+        let icon = await geGameIcon(universeId);
         console.log(icon);
         return c.json({ success: true, icon }, 200);
       } else {
-        let icon = getGamePassIcon(assetId);
+        let icon = await getGamePassIcon(assetId);
         return c.json({ success: true, icon }, 200);
       }
     }
