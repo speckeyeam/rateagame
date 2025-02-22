@@ -11,9 +11,8 @@ async function getUniverseId(placeId: any) {
       throw new Error(`Failed to fetch universe ID: ${response.status}`);
     }
     const data = await response.json();
-    print(data);
-    if (data.data && data.data.length > 0) {
-      const universeId = data.data[0].universeId;
+    if (data.universeId) {
+      const universeId = data.universeId;
       console.log("Universe ID:", universeId);
       return universeId;
     }
