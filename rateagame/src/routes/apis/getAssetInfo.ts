@@ -23,7 +23,7 @@ async function getUniverseId(placeId: any) {
 }
 ///test
 async function getGameInfo(universeId: any) {
-  const gameUrl = `https://games.roblox.com/v1/games?universeIds={${universeId}}`;
+  const gameUrl = `https://games.roblox.com/v1/games?universeIds=${universeId}`;
   try {
     const response = await fetch(gameUrl);
     if (!response.ok) {
