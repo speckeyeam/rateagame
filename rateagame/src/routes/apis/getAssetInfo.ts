@@ -22,16 +22,15 @@ async function getUniverseId(placeId: any) {
   }
 }
 ///test
-async function geGameIcon(universeId: any) {
-  const gameIconUrl = `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=Png&isCircular=false`;
-
+async function getGameInfo(universeId: any) {
+  const gameUrl = `https://games.roblox.com/v1/games?universeIds={${universeId}}`;
   try {
-    const response = await fetch(gameIconUrl);
+    const response = await fetch(gameUrl);
     if (!response.ok) {
-      throw new Error(`Failed to fetch game icon: ${response.status}`);
+      throw new Error(`Failed to fetch game info: ${response.status}`);
     }
     const data = await response.json();
-
+    console.log(data);
     if (data.data && data.data.length > 0) {
       console.log("Game Icon URL:", data.data[0].imageUrl);
       return data.data[0].imageUrl;
@@ -41,13 +40,13 @@ async function geGameIcon(universeId: any) {
   }
 }
 
-async function getGamePassIcon(gamePassId: any) {
+async function getGamePassInfo(gamePassId: any) {
   try {
-    const gamePassUrl = `https://thumbnails.roblox.com/v1/game-passes?gamePassIds=${gamePassId}&size=150x150&format=Png&isCircular=false`;
+    const gamePassUrl = `https://apis.roblox.com/game-passes/v1/game-passes/${gamePassId}`;
 
     const response = await fetch(gamePassUrl);
     if (!response.ok) {
-      throw new Error(`Failed to fetch GamePass thumbnail: ${response.status}`);
+      throw new Error(`Failed to fetch GamePass: ${response.status}`);
     }
     const data = await response.json();
 
@@ -56,11 +55,11 @@ async function getGamePassIcon(gamePassId: any) {
       return data.data[0].imageUrl;
     }
   } catch (error) {
-    console.error("Error fetching GamePass thumbnail:", error);
+    console.error("Error fetching GamePass:", error);
   }
 }
 
-export const getAssetIcon = async (c: Context) => {
+export const getAssetInfo = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const { assetId, gamePass = false } = requestData;
@@ -71,11 +70,11 @@ export const getAssetIcon = async (c: Context) => {
     if (assetId) {
       if (!gamePass) {
         universeId = await getUniverseId(assetId);
-        let icon = await geGameIcon(universeId);
+        let icon = await getGameInfo(universeId);
         console.log(icon);
         return c.json({ success: true, icon }, 200);
       } else {
-        let icon = await getGamePassIcon(assetId);
+        let icon = await getGamePassInfo(assetId);
         return c.json({ success: true, icon }, 200);
       }
     }
