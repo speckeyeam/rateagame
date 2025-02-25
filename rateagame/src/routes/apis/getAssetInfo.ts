@@ -32,8 +32,7 @@ async function getGameInfo(universeId: any) {
     const data = await response.json();
     console.log(data);
     if (data.data && data.data.length > 0) {
-      console.log("Game Icon URL:", data.data[0].imageUrl);
-      return data.data[0].imageUrl;
+      return data.data;
     }
   } catch (error) {
     console.error("Error fetching game icon:", error);
@@ -51,8 +50,7 @@ async function getGamePassInfo(gamePassId: any) {
     const data = await response.json();
 
     if (data.data && data.data.length > 0) {
-      console.log("GamePass Icon URL:", data.data[0].imageUrl);
-      return data.data[0].imageUrl;
+      return data.data;
     }
   } catch (error) {
     console.error("Error fetching GamePass:", error);
