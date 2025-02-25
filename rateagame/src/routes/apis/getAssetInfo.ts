@@ -68,12 +68,11 @@ export const getAssetInfo = async (c: Context) => {
     if (assetId) {
       if (!gamePass) {
         universeId = await getUniverseId(assetId);
-        let icon = await getGameInfo(universeId);
-        console.log(icon);
-        return c.json({ success: true, icon }, 200);
+        let data = await getGameInfo(universeId);
+        return c.json({ success: true, data }, 200);
       } else {
-        let icon = await getGamePassInfo(assetId);
-        return c.json({ success: true, icon }, 200);
+        let data = await getGamePassInfo(assetId);
+        return c.json({ success: true, data }, 200);
       }
     }
   }
