@@ -28,17 +28,17 @@ export const getProfile = async (c: Context) => {
         prisma.like.count({
           where: {
             review: {
-              userId,
+              userId: userId.toString(),
             },
           },
         }),
 
         prisma.award.count({
-          where: { receivedUserId: userId },
+          where: { receivedUserId: userId.toString() },
         }),
 
         prisma.award.count({
-          where: { givenUserId: userId },
+          where: { givenUserId: userId.toString() },
         }),
       ]);
 
