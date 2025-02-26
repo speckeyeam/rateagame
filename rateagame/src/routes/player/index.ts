@@ -13,6 +13,6 @@ app.post("/getPoints", getPoints);
 
 app.post("/updatePoints", updatePoints);
 
-app.post("/updatePoints", getProfile);
+app.post("/getProfile", getProfile);
 
 export default app;
