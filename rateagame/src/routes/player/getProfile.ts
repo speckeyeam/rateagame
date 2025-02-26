@@ -49,6 +49,7 @@ export const getProfile = async (c: Context) => {
           totalLikes,
           totalAwardsGiven,
           totalAwardsReceived,
+          dateJoined: Math.floor(player.dateJoined.getTime() / 1000),
         },
         200
       );
