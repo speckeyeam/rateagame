@@ -19,6 +19,7 @@ async function getUniverseId(placeId: any) {
     }
   } catch (error) {
     console.error("Error fetching Universe ID:", error);
+    return false;
   }
 }
 ///test
@@ -36,6 +37,7 @@ async function getGameInfo(universeId: any) {
     }
   } catch (error) {
     console.error("Error fetching game icon:", error);
+    return false;
   }
 }
 
@@ -69,10 +71,14 @@ export const getAssetInfo = async (c: Context) => {
       if (!gamePass) {
         universeId = await getUniverseId(assetId);
         let data = await getGameInfo(universeId);
-        return c.json({ success: true, data }, 200);
+        if (data) {
+          return c.json({ success: true, data }, 200);
+        }
       } else {
         let data = await getGamePassInfo(assetId);
-        return c.json({ success: true, data }, 200);
+        if (data) {
+          return c.json({ success: true, data }, 200);
+        }
       }
     }
   }

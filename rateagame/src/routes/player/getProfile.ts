@@ -41,7 +41,6 @@ export const getProfile = async (c: Context) => {
           where: { givenUserId: userId.toString() },
         }),
       ]);
-      console.log(Math.floor(player.dateJoined.getTime() / 1000) + " TEST");
       return c.json(
         {
           success: true,
