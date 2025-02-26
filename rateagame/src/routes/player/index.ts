@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { getPoints } from "./getPoints";
 import { updatePoints } from "./updatePoints";
+import { getProfile } from "./getProfile";
 
 import { playerAdded } from "./playerAdded";
 
@@ -11,5 +12,7 @@ app.post("/playerAdded", playerAdded);
 app.post("/getPoints", getPoints);
 
 app.post("/updatePoints", updatePoints);
+
+app.post("/updatePoints", getProfile);
 
 export default app;
