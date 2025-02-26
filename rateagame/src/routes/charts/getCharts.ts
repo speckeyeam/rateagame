@@ -9,6 +9,8 @@ import { getRecentlyReviewed } from "./chartTypes/getRecentlyReviewed";
 import { getTopRated } from "./chartTypes/getTopRated";
 import { getLowestRated } from "./chartTypes/getLowestRated";
 import { getTrending } from "./chartTypes/getTrending";
+import { getMostReviewed } from "./chartTypes/getMostReviewed";
+
 const prisma = new PrismaClient();
 
 export const getCharts = async (c: Context) => {
@@ -20,7 +22,7 @@ export const getCharts = async (c: Context) => {
     "Recently Reviewed": getRecentlyReviewed,
     topRated: getTopRated,
     lowestRated: getLowestRated,
-    mostReviewed: getTrending,
+    mostReviewed: getMostReviewed,
     trending: getTrending,
   };
   console.log(requestData);
@@ -32,7 +34,7 @@ export const getCharts = async (c: Context) => {
         const topRated = await getTopRated(c);
         const lowestRated = await getLowestRated(c);
         const trending = await getTrending(c);
-        const mostReviewed = await getTrending(c);
+        const mostReviewed = await getMostReviewed(c);
 
         //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
         return c.json(
