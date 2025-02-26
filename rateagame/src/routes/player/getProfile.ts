@@ -22,7 +22,7 @@ export const getProfile = async (c: Context) => {
         totalAwardsGiven = 0,
       ] = await Promise.all([
         prisma.review.count({
-          where: { userId },
+          where: { userId: userId.toString() },
         }),
 
         prisma.like.count({
