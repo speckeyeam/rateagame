@@ -24,7 +24,7 @@ export const getProfile = async (c: Context) => {
         prisma.review.count({
           where: { userId },
         }),
-
+        //test
         prisma.like.count({
           where: {
             review: {
