@@ -16,7 +16,6 @@ export const getAwardsInfo = async (c: Context) => {
 
   console.log(requestData);
   if (userId && token) {
-    print("BRUH");
     let player: any = await playerCheck(c);
     if (player) {
       const given = await awardsGiven(c);
