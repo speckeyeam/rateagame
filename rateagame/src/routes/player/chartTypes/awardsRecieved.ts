@@ -8,9 +8,9 @@ const prisma = new PrismaClient();
 export const awardsRecieved = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, date } = requestData;
+  const { userId } = requestData;
 
-  if (userId && date) {
+  if (userId) {
     const awards = await prisma.award.groupBy({
       by: ["awardId"],
       where: {
