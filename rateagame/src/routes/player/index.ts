@@ -20,6 +20,6 @@ app.post("/getProfile", getProfile);
 
 app.post("/getRecentlyReviewd", recentlyReviewed);
 
-app.post("/getChartsInfo", getAwardsInfo);
+app.post("/getAwardsInfo", getAwardsInfo);
 
 export default app;
