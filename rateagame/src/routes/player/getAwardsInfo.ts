@@ -13,8 +13,8 @@ const prisma = new PrismaClient();
 export const getAwardsInfo = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, token, given } = await requestData;
-  //given is set to true or false
+  const { userId, token } = await requestData;
+
   console.log(requestData);
   if (userId && token) {
     let player: any = await playerCheck(c);
@@ -22,22 +22,28 @@ export const getAwardsInfo = async (c: Context) => {
       const awards = await prisma.award.groupBy({
         by: ["awardId"],
         where: {
-          [given ? "givenUserId" : "receivedUserId"]: userId.toString(),
+          receivedUserId: userId.toString(),
         },
         _count: {
           _all: true,
         },
       });
       if (awards) {
-        //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
-        return c.json(
-          {
-            success: true,
-            awards,
-          },
-          200
-        );
+        return { awards };
       }
+
+      const given = await awardsGiven(c);
+      const recieved = await awardsRecieved(c);
+
+      //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
+      return c.json(
+        {
+          success: true,
+          given,
+          recieved,
+        },
+        200
+      );
     }
   }
   return c.json({ success: false }, 500);
