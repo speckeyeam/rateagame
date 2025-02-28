@@ -3,7 +3,6 @@ import { Context } from "hono";
 import { PrismaClient } from "@prisma/client";
 
 import { playerCheck } from "../helpers/playerCheck";
-import { gameCheck } from "../helpers/gameCheck";
 
 import { awardsGiven } from "./chartTypes/awardsGiven";
 import { awardsRecieved } from "./chartTypes/awardsRecieved";
@@ -19,19 +18,6 @@ export const getAwardsInfo = async (c: Context) => {
   if (userId && token) {
     let player: any = await playerCheck(c);
     if (player) {
-      const awards = await prisma.award.groupBy({
-        by: ["awardId"],
-        where: {
-          receivedUserId: userId.toString(),
-        },
-        _count: {
-          _all: true,
-        },
-      });
-      if (awards) {
-        return { awards };
-      }
-
       const given = await awardsGiven(c);
       const recieved = await awardsRecieved(c);
 
