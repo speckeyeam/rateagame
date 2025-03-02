@@ -18,10 +18,6 @@ export const recentlyReviewed = async (c: Context) => {
   if (userId && date) {
     console.log("test");
     const data: any = {
-      by: ["gameId", "assetId"],
-      orderBy: {
-        time: "desc", // Orders in descending order (newest first)
-      },
       where: {
         time: {
           lt: new Date(date * 1000),
@@ -29,10 +25,13 @@ export const recentlyReviewed = async (c: Context) => {
         userId: userId.toString(),
         deleted: false,
       },
+      orderBy: {
+        time: "desc", // Orders in descending order (newest first)
+      },
       take: 100,
     };
 
-    const recentlyReviewed = await prisma.review.groupBy(data);
+    const recentlyReviewed = await prisma.review.findMany(data);
     if (recentlyReviewed) {
       return c.json({ success: true, games: recentlyReviewed }, 200);
     }
