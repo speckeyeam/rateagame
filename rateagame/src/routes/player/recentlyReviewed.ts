@@ -16,6 +16,7 @@ export const recentlyReviewed = async (c: Context) => {
   } = requestData;
 
   if (userId && date) {
+    console.log("test");
     const data: any = {
       by: ["gameId", "assetId"],
       orderBy: {
