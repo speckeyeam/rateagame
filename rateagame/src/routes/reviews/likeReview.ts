@@ -26,7 +26,6 @@ export const likeReview = async (c: Context) => {
       console.log(requestData);
 
       const data: any = {
-        userId: String(userId),
         gameId: String(gameId),
         reviewId: String(reviewId),
       };
