@@ -56,6 +56,7 @@ export const likeReview = async (c: Context) => {
                 },
               },
             });
+            console.log("gave points");
           }
         }
         if (like) {
