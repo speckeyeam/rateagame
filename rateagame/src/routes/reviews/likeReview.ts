@@ -41,7 +41,23 @@ export const likeReview = async (c: Context) => {
       if (review) {
         data.id = String(reviewId) + "." + String(userId);
         data.userId = userId.toString();
-        //review exists
+
+        const likeExists = await prisma.like.findFirst({
+          where: data,
+        });
+        //like doesnt exist
+        if (!likeExists) {
+          if (review.userId && review.userId != userId.toString()) {
+            const givePoints = await prisma.user.update({
+              where: { userId: review.userId },
+              data: {
+                coins: {
+                  increment: 10, // Increase coins by 500
+                },
+              },
+            });
+          }
+        }
         if (like) {
           const newlike = await prisma.like.upsert({
             where: data,
