@@ -15,6 +15,14 @@ const awards: any = {
     id: 2,
     rarity: 2,
   },
+  3: {
+    Name: "Helpful",
+    Icon: "rbxassetid://90116047940219",
+    effect: null,
+    price: 50,
+    id: 3,
+    rarity: 2,
+  },
 };
 //rarities
 //1 is common (any free one)
@@ -29,7 +37,7 @@ const startingInventory: any = {
   },
 };
 
-const awardsForsSale = [2];
+const awardsForsSale = [2, 3];
 
 export async function awardCheck(awardId: number) {
   return awards[awardId] || null;
