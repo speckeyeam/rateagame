@@ -17,7 +17,7 @@ const awards: any = {
   },
   3: {
     Name: "Helpful",
-    Icon: "rbxassetid://90116047940219",
+    Icon: "rbxassetid://72820104991618",
     effect: null,
     price: 50,
     id: 3,
