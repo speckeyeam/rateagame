@@ -32,6 +32,9 @@ export async function getLeaderboard(c: Context) {
       by: ["recievedUserId"],
       where: {
         recievedUserId: { not: null }, // ensure we only group likes that have a received user
+        review: {
+          deleted: false,
+        },
       },
       _count: {
         id: true, // count the likes per group
@@ -40,12 +43,7 @@ export async function getLeaderboard(c: Context) {
         _count: {
           id: "desc",
         },
-      },
-      where: {
-        review: {
-          deleted: false,
-        },
-      },
+      }
       take: 100,
     });
     if (topReviewers && usersWithMostLikes) {
