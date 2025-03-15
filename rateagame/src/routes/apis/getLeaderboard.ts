@@ -10,6 +10,8 @@ export async function getLeaderboard(c: Context) {
   console.log("went through but it didnt work");
   let apicheck = await apikeycheck(c);
   if (apicheck) {
+    console.log("didnt go through");
+
     const topReviewers = await prisma.review.groupBy({
       by: ["userId"],
       _count: {
