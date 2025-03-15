@@ -28,19 +28,23 @@ export async function getLeaderboard(c: Context) {
       take: 100,
     });
 
-    const usersWithMostLikes = await prisma.review.groupBy({
-      by: ["userId"],
+    const usersWithMostLikes = await prisma.like.groupBy({
+      by: ["recievedUserId"],
+      where: {
+        recievedUserId: { not: null }, // ensure we only group likes that have a received user
+      },
       _count: {
-        likes: true,
+        id: true, // count the likes per group
       },
       orderBy: {
         _count: {
-          likes: "desc",
+          id: "desc",
         },
       },
-      // Optionally, you can filter out deleted reviews:
       where: {
-        deleted: false,
+        review: {
+          deleted: false,
+        },
       },
       take: 100,
     });
