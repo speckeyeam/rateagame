@@ -43,7 +43,7 @@ export async function getLeaderboard(c: Context) {
         _count: {
           id: "desc",
         },
-      }
+      },
       take: 100,
     });
     if (topReviewers && usersWithMostLikes) {
