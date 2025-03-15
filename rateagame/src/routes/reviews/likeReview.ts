@@ -41,7 +41,7 @@ export const likeReview = async (c: Context) => {
       if (review) {
         data.id = String(reviewId) + "." + String(userId);
         data.userId = userId.toString();
-
+        data.receivedUserId = review.userId;
         const likeExists = await prisma.like.findFirst({
           where: data,
         });

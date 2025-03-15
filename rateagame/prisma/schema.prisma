@@ -57,15 +57,16 @@ model review {
 }
 
 model like {
-  id         String   @id @unique
-  value      Boolean  @default(true)
-  reviewId   String
-  gamePassId String?
-  gameId     String?
-  userId     String?
-  time       DateTime @default(now())
-  review     review?  @relation(fields: [reviewId], references: [reviewId])
-  user       user?    @relation(fields: [userId], references: [userId])
+  id             String   @id @unique
+  value          Boolean  @default(true)
+  reviewId       String
+  gamePassId     String?
+  gameId         String?
+  userId         String?
+  time           DateTime @default(now())
+  review         review?  @relation(fields: [reviewId], references: [reviewId])
+  user           user?    @relation(fields: [userId], references: [userId])
+  recievedUserId String?
 
   @@index([reviewId], map: "like_reviewId_fkey")
 }
