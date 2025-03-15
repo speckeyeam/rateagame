@@ -7,7 +7,7 @@ import { apikeycheck } from "../helpers/apikeycheck";
 const prisma = new PrismaClient();
 
 export async function getLeaderboard(c: Context) {
-  print("went through but it didnt work");
+  console.log("went through but it didnt work");
   let apicheck = await apikeycheck(c);
   if (apicheck) {
     const topReviewers = await prisma.review.groupBy({
