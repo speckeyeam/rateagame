@@ -26,7 +26,6 @@ export const likeReview = async (c: Context) => {
       console.log(requestData);
 
       const data: any = {
-        gameId: String(gameId),
         reviewId: String(reviewId),
       };
       if (gamePass) {
