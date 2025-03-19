@@ -74,8 +74,16 @@ export const submit = async (c: Context) => {
             data,
           });
           console.log(newreview);
+
+          const userReviewCount = await prisma.review.count({
+            where: { userId: userId.toString() },
+          });
+
           if (newreview) {
-            return c.json({ success: true, review: newreview }, 200);
+            return c.json(
+              { success: true, review: newreview, userReviewCount },
+              200
+            );
           }
         }
       }
