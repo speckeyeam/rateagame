@@ -34,6 +34,7 @@ export async function getLeaderboard(c: Context) {
         recievedUserId: { not: null }, // ensure we only group likes that have a received user
         review: {
           deleted: false,
+          userId: { not: Prisma.raw("recievedUserId") }, //test lets see if this even works?
         },
       },
       _count: {
