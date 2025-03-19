@@ -27,45 +27,25 @@ export async function getLeaderboard(c: Context) {
       },
       take: 100,
     });
-    const usersWithMostLikes = await prisma.$queryRaw<
-      {
-        recievedUserId: string;
-        likeCount: number;
-      }[]
-    >(`
-    SELECT
-      "Like"."recievedUserId" AS "recievedUserId",
-      COUNT("Like"."id") AS "likeCount"
-    FROM "Like"
-      JOIN "Review"
-        ON "Like"."reviewId" = "Review"."id"
-    WHERE
-      "Like"."recievedUserId" IS NOT NULL
-      AND "Review"."deleted" = false
-      AND "Review"."userId" <> "Like"."recievedUserId"
-    GROUP BY "Like"."recievedUserId"
-    ORDER BY COUNT("Like"."id") DESC
-    LIMIT 100
-  `);
-    // const usersWithMostLikes = await prisma.like.groupBy({
-    //   by: ["recievedUserId"],
-    //   where: {
-    //     recievedUserId: { not: null }, // ensure we only group likes that have a received user
-    //     review: {
-    //       deleted: false,
-    //       userId: { not: prisma.raw("recievedUserId") }, //test lets see if this even works?
-    //     },
-    //   },
-    //   _count: {
-    //     id: true, // count the likes per group
-    //   },
-    //   orderBy: {
-    //     _count: {
-    //       id: "desc",
-    //     },
-    //   },
-    //   take: 100,
-    // });
+
+    const usersWithMostLikes = await prisma.like.groupBy({
+      by: ["recievedUserId"],
+      where: {
+        recievedUserId: { not: null }, // ensure we only group likes that have a received user
+        review: {
+          deleted: false,
+        },
+      },
+      _count: {
+        id: true, // count the likes per group
+      },
+      orderBy: {
+        _count: {
+          id: "desc",
+        },
+      },
+      take: 100,
+    });
     if (topReviewers && usersWithMostLikes) {
       return c.json({ success: true, topReviewers, usersWithMostLikes }, 500);
     }

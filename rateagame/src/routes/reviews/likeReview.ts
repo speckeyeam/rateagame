@@ -38,40 +38,42 @@ export const likeReview = async (c: Context) => {
         where: data,
       });
       if (review) {
-        data.id = String(reviewId) + "." + String(userId);
-        data.userId = userId.toString();
-        data.recievedUserId = review.userId;
-        const likeExists = await prisma.like.findFirst({
-          where: data,
-        });
-        //like doesnt exist
-        if (!likeExists) {
-          if (review.userId && review.userId != userId.toString()) {
-            const givePoints = await prisma.user.update({
-              where: { userId: review.userId },
-              data: {
-                coins: {
-                  increment: 10, // Increase coins by 500
+        if (review.userId != String(userId)) {
+          data.id = String(reviewId) + "." + String(userId);
+          data.userId = userId.toString();
+          data.recievedUserId = review.userId;
+          const likeExists = await prisma.like.findFirst({
+            where: data,
+          });
+          //like doesnt exist
+          if (!likeExists) {
+            if (review.userId && review.userId != userId.toString()) {
+              const givePoints = await prisma.user.update({
+                where: { userId: review.userId },
+                data: {
+                  coins: {
+                    increment: 10, // Increase coins by 500
+                  },
                 },
-              },
-            });
-            console.log("gave points");
+              });
+              console.log("gave points");
+            }
           }
+          if (like) {
+            const newlike = await prisma.like.upsert({
+              where: data,
+              update: { value: true },
+              create: data,
+            });
+          } else {
+            const newlike = await prisma.like.upsert({
+              where: data,
+              update: { value: false },
+              create: data,
+            });
+          }
+          return c.json({ success: true }, 200);
         }
-        if (like) {
-          const newlike = await prisma.like.upsert({
-            where: data,
-            update: { value: true },
-            create: data,
-          });
-        } else {
-          const newlike = await prisma.like.upsert({
-            where: data,
-            update: { value: false },
-            create: data,
-          });
-        }
-        return c.json({ success: true }, 200);
       }
     }
   }
