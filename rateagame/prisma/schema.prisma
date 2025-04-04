@@ -20,6 +20,7 @@ model user {
   reviews        review[]
   savedGames     saved[]
   likes          like[]
+  viewed         viewed[]
 }
 
 model game {
@@ -51,6 +52,7 @@ model review {
   text       String    @db.VarChar(2000)
   awards     award[]
   likes      like[]
+  viewed     viewed[]
 
   @@index([gameId], map: "review_gameId_fkey")
   @@index([userId], map: "review_userId_fkey")
@@ -117,4 +119,17 @@ model report {
   user     user     @relation(fields: [userId], references: [userId])
 
   @@index([userId], map: "saved_userId_fkey")
+}
+
+model viewed {
+  id       Int      @id @default(autoincrement())
+  userId   String
+  reviewId String
+  time     DateTime @default(now())
+
+  user   user   @relation(fields: [userId], references: [userId])
+  review review @relation(fields: [reviewId], references: [reviewId])
+
+  @@index([userId], map: "viewed_userId_fkey")
+  @@index([reviewId], map: "viewed_reviewId_fkey")
 }
