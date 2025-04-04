@@ -19,10 +19,10 @@ export const getFeed = async (c: Context) => {
       const unviewedReviews = await prisma.review.findMany({
         where: {
           deleted: false,
-          userId: { not: userId },
+          userId: { not: userId.toString() },
           viewed: {
             none: {
-              userId: userId,
+              userId: userId.toString(),
             },
           },
         },
