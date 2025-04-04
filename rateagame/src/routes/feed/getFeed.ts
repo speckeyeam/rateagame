@@ -10,10 +10,10 @@ const prisma = new PrismaClient();
 export const getFeed = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, token, call, cursor = null } = await requestData;
+  const { userId, token, cursor = null } = await requestData;
 
   console.log(requestData);
-  if (userId && token && call) {
+  if (userId && token) {
     let player: any = await playerCheck(c);
     if (player) {
       const unviewedReviews = await prisma.review.findMany({
