@@ -16,7 +16,7 @@ export const getFeed = async (c: Context) => {
   if (userId && token) {
     let player: any = await playerCheck(c);
     if (player) {
-      const unviewedReviews = await prisma.review.findMany({
+      let data = {
         where: {
           deleted: false,
           userId: { not: userId.toString() },
@@ -26,10 +26,14 @@ export const getFeed = async (c: Context) => {
             },
           },
         },
-        skip: cursor ? 1 : 0, // Skip the cursor item itself
-        cursor: cursor,
+
         take: 100,
-      });
+      };
+      if (cursor) {
+        data.skip = cursor ? 1 : 0; // Skip the cursor item itself
+        data.cursor = cursor;
+      }
+      const unviewedReviews = await prisma.review.findMany(data);
       return c.json(
         {
           success: true,
