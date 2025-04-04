@@ -7,7 +7,7 @@ import { gameCheck } from "../helpers/gameCheck";
 
 const prisma = new PrismaClient();
 
-export const viewedReview = async (c: Context) => {
+export const viewReview = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
   return c.json({ success: false }, 500);
 };

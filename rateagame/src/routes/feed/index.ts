@@ -2,12 +2,12 @@ import { Hono } from "hono";
 
 import { getFeed } from "./getFeed";
 
-import { viewedReview } from "./viewedReview";
+import { viewReview } from "./viewReview";
 
 const app = new Hono();
 
 app.post("/getFeed", getFeed);
 
-app.post("/viewedReview", viewedReview);
+app.post("/viewReview", viewReview);
 
 export default app;
