@@ -1,22 +1,23 @@
 import { Context } from "hono";
-
 import { PrismaClient } from "@prisma/client";
 
 import { playerCheck } from "../helpers/playerCheck";
-import { gameCheck } from "../helpers/gameCheck";
 
 const prisma = new PrismaClient();
 
 export const getFeed = async (c: Context) => {
-  const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
+  // Safely parse JSON
+  const requestData = await c.req.json().catch(() => null);
 
-  const { userId, token, cursor = null } = await requestData;
+  const { userId, token, cursor = null } = requestData || {};
 
   console.log(requestData);
   if (userId && token) {
-    let player: any = await playerCheck(c);
+    // Check if user is valid
+    const player = await playerCheck(c);
     if (player) {
-      let data = {
+      // Query config for unviewed reviews
+      const queryConfig: any = {
         where: {
           deleted: false,
           userId: { not: userId.toString() },
@@ -26,23 +27,45 @@ export const getFeed = async (c: Context) => {
             },
           },
         },
-
-        take: 100,
+        take: 5,
       };
+
+      // If a cursor is provided, skip that review and continue
       if (cursor) {
-        data.skip = cursor ? 1 : 0; // Skip the cursor item itself
-        data.cursor = cursor;
+        queryConfig.skip = 1;
+        queryConfig.cursor = { reviewId: cursor };
       }
-      const unviewedReviews = await prisma.review.findMany(data);
+
+      // Fetch unviewed reviews
+      const unviewedReviews = await prisma.review.findMany(queryConfig);
+
+      // Mark them as viewed
+      if (unviewedReviews.length > 0) {
+        await prisma.viewed.createMany({
+          data: unviewedReviews.map((review) => ({
+            userId: userId.toString(),
+            reviewId: review.reviewId,
+          })),
+          // If you're on a Prisma version that supports skipDuplicates,
+          // you can prevent duplicate records insertion:
+          skipDuplicates: true,
+        });
+      }
+
+      // Return the reviews and a nextCursor
       return c.json(
         {
           success: true,
           reviews: unviewedReviews,
-          nextCursor: unviewedReviews[unviewedReviews.length - 1],
+          nextCursor:
+            unviewedReviews.length > 0
+              ? unviewedReviews[unviewedReviews.length - 1].reviewId
+              : null,
         },
         200
       );
     }
   }
+
   return c.json({ success: false }, 500);
 };
