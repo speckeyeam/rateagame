@@ -27,6 +27,11 @@ export const getFeed = async (c: Context) => {
             },
           },
         },
+        orderBy: {
+          likes: {
+            _count: "desc",
+          },
+        },
         include: {
           _count: {
             select: { likes: { where: { value: true } } }, // Include the number of likes for each review
