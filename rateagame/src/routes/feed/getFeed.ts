@@ -27,12 +27,14 @@ export const getFeed = async (c: Context) => {
             },
           },
         },
-        _count: {
-          select: { likes: { where: { value: true } } }, // Include the number of likes for each review
-        },
-        likes: {
-          where: { userId: userId.toString(), value: true }, // Check if the user has liked the review
-          select: { userId: true }, // Select userId to determine if a like exists
+        include: {
+          _count: {
+            select: { likes: { where: { value: true } } }, // Include the number of likes for each review
+          },
+          likes: {
+            where: { userId: userId.toString(), value: true }, // Check if the user has liked the review
+            select: { userId: true }, // Select userId to determine if a like exists
+          },
         },
         take: 5,
       };
