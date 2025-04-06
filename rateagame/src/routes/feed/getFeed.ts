@@ -40,17 +40,17 @@ export const getFeed = async (c: Context) => {
       const unviewedReviews = await prisma.review.findMany(queryConfig);
 
       // Mark them as viewed
-      if (unviewedReviews.length > 0) {
-        await prisma.viewed.createMany({
-          data: unviewedReviews.map((review) => ({
-            userId: userId.toString(),
-            reviewId: review.reviewId,
-          })),
-          // If you're on a Prisma version that supports skipDuplicates,
-          // you can prevent duplicate records insertion:
-          skipDuplicates: true,
-        });
-      }
+      // if (unviewedReviews.length > 0) {
+      //   await prisma.viewed.createMany({
+      //     data: unviewedReviews.map((review) => ({
+      //       userId: userId.toString(),
+      //       reviewId: review.reviewId,
+      //     })),
+      //     // If you're on a Prisma version that supports skipDuplicates,
+      //     // you can prevent duplicate records insertion:
+      //     skipDuplicates: true,
+      //   });
+      // }
 
       // Return the reviews and a nextCursor
       return c.json(
