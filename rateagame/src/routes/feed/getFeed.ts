@@ -9,13 +9,22 @@ export const getFeed = async (c: Context) => {
   // Safely parse JSON
   const requestData = await c.req.json().catch(() => null);
 
-  const { userId, token, cursor = null } = requestData || {};
+  const { userId, cursor = null } = requestData || {};
 
   console.log(requestData);
-  if (userId && token) {
+  if (userId) {
     // Check if user is valid
-    const player = await playerCheck(c);
-    if (player) {
+
+    const authHeader = c.req.header("Authorization") ?? "";
+
+    // Quickly check if it starts with "Bearer "
+    if (!authHeader.startsWith("Bearer ")) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+
+    const key = authHeader.slice("Bearer ".length);
+
+    if (key == process.env.MY_API_KEY) {
       // Query config for unviewed reviews
       const queryConfig: any = {
         where: {

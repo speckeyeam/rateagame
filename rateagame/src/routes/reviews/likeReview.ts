@@ -47,6 +47,7 @@ export const likeReview = async (c: Context) => {
           });
           //like doesnt exist
           if (!likeExists) {
+            console.log("like doesnt exist");
             if (review.userId && review.userId != userId.toString()) {
               const givePoints = await prisma.user.update({
                 where: { userId: review.userId },
@@ -59,19 +60,11 @@ export const likeReview = async (c: Context) => {
               console.log("gave points");
             }
           }
-          if (like) {
-            const newlike = await prisma.like.upsert({
-              where: data,
-              update: { value: true },
-              create: data,
-            });
-          } else {
-            const newlike = await prisma.like.upsert({
-              where: data,
-              update: { value: false },
-              create: data,
-            });
-          }
+          const newlike = await prisma.like.upsert({
+            where: data,
+            update: { value: like },
+            create: data,
+          });
           return c.json({ success: true }, 200);
         }
       }
