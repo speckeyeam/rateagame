@@ -54,10 +54,10 @@ export const getFeed = async (c: Context) => {
       };
 
       // If a cursor is provided, skip that review and continue
-      if (cursor) {
-        queryConfig.skip = 1;
-        queryConfig.cursor = { reviewId: cursor };
-      }
+      // if (cursor) {
+      //   queryConfig.skip = 1;
+      //   queryConfig.cursor = { reviewId: cursor };
+      // }
 
       // Fetch unviewed reviews
       const unviewedReviews = await prisma.review.findMany(queryConfig);
@@ -80,10 +80,10 @@ export const getFeed = async (c: Context) => {
         {
           success: true,
           reviews: unviewedReviews,
-          nextCursor:
-            unviewedReviews.length > 0
-              ? unviewedReviews[unviewedReviews.length - 1].reviewId
-              : null,
+          // nextCursor:
+          //   unviewedReviews.length > 0
+          //     ? unviewedReviews[unviewedReviews.length - 1].reviewId
+          //     : null,
         },
         200
       );
