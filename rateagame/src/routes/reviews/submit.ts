@@ -76,7 +76,7 @@ export const submit = async (c: Context) => {
           console.log(newreview);
 
           const userReviewCount = await prisma.review.count({
-            where: { userId: userId.toString() },
+            where: { userId: userId.toString(), deleted: false },
           });
 
           if (newreview) {
