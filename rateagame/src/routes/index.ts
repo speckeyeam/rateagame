@@ -6,6 +6,7 @@ import chartsRoute from "./charts";
 import apisRoute from "./apis";
 import awardsRoute from "./awards";
 import feedRoute from "./feed";
+import billboardsRoute from "./billboards";
 
 const router = new Hono();
 
@@ -23,5 +24,7 @@ router.route("/apis", apisRoute);
 router.route("/awards", awardsRoute);
 
 router.route("/feed", feedRoute);
+
+router.route("/billboards", billboardsRoute);
 
 export default router;
