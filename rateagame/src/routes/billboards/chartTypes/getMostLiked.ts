@@ -6,12 +6,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 //gets the most trending games in the past week, games with the most reviews, could get the most trending games and games passes in the last x amount of days
 export const mostLiked = async (c: Context, days: number) => {
-  //   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
+  const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  //   const {
-  //     gamePass = false, // Default to false if not provided
-  //     take,
-  //   } = requestData;
+  const { userId } = requestData;
 
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - days);
@@ -48,13 +45,21 @@ export const mostLiked = async (c: Context, days: number) => {
     include: {
       user: true,
       game: true,
+      //   likes: {
+      //     where: {
+      //       time: {
+      //         gte: oneDayAgo,
+      //       },
+      //       value: true,
+      //     },
+      //   },
+
+      _count: {
+        select: { likes: { where: { value: true } } }, // Include the number of likes for each review
+      },
       likes: {
-        where: {
-          time: {
-            gte: oneDayAgo,
-          },
-          value: true,
-        },
+        where: { userId: userId.toString(), value: true }, // Check if the user has liked the review
+        select: { userId: true }, // Select userId to determine if a like exists
       },
     },
   });
