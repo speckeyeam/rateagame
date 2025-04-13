@@ -30,7 +30,7 @@ export const mostLiked = async (c: Context, days: number) => {
         reviewId: "desc",
       },
     },
-    take: 20,
+    take: 10,
   });
 
   const reviewIds = likeCounts.map((like) => like.reviewId);
