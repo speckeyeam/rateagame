@@ -66,5 +66,5 @@ export const mostLiked = async (c: Context, days: number) => {
     likeCount: like._count.reviewId,
   }));
 
-  return { result: reviews };
+  return { reviews: result };
 };
