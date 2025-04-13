@@ -1,8 +1,8 @@
-// import { Hono } from "hono";
-// import { getCharts } from "./getCharts";
+import { Hono } from "hono";
+import { getCharts } from "./getCharts";
 
-// const app = new Hono();
+const app = new Hono();
 
-// app.post("/ getCharts", getCharts);
+app.post("/getCharts", getCharts);
 
-// export default app;
+export default app;
