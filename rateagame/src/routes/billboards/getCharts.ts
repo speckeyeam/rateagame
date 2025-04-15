@@ -24,19 +24,19 @@ export const getCharts = async (c: Context) => {
 
   if (key == process.env.MY_API_KEY) {
     const weeklyMostAwarded = await mostAwarded(c, 7);
-    const weeklytMostLiked = await mostLiked(c, 7);
+    const weeklyMostLiked = await mostLiked(c, 7);
 
     const monthlyMostAwarded = await mostAwarded(c, 30);
-    const monthlytMostLiked = await mostLiked(c, 30);
+    const monthlyMostLiked = await mostLiked(c, 30);
 
     //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
     return c.json(
       {
         success: true,
         weeklyMostAwarded,
-        weeklytMostLiked,
+        weeklyMostLiked,
         monthlyMostAwarded,
-        monthlytMostLiked,
+        monthlyMostLiked,
       },
       200
     );
