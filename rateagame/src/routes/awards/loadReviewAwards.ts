@@ -10,9 +10,9 @@ const prisma = new PrismaClient();
 export const loadReviewAwards = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { token, reviewId } = await requestData;
+  const { reviewId } = await requestData;
   console.log("went through");
-  if (token && reviewId) {
+  if (reviewId) {
     const authHeader = c.req.header("Authorization") ?? "";
 
     // Quickly check if it starts with "Bearer "
