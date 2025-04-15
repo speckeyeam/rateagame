@@ -23,26 +23,23 @@ export const getCharts = async (c: Context) => {
   const key = authHeader.slice("Bearer ".length);
 
   if (key == process.env.MY_API_KEY) {
-    let player: any = await playerCheck(c);
-    if (player) {
-      const weeklyMostAwarded = await mostAwarded(c, 7);
-      const weeklytMostLiked = await mostLiked(c, 7);
+    const weeklyMostAwarded = await mostAwarded(c, 7);
+    const weeklytMostLiked = await mostLiked(c, 7);
 
-      const monthlyMostAwarded = await mostAwarded(c, 30);
-      const monthlytMostLiked = await mostLiked(c, 30);
+    const monthlyMostAwarded = await mostAwarded(c, 30);
+    const monthlytMostLiked = await mostLiked(c, 30);
 
-      //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
-      return c.json(
-        {
-          success: true,
-          weeklyMostAwarded,
-          weeklytMostLiked,
-          monthlyMostAwarded,
-          monthlytMostLiked,
-        },
-        200
-      );
-    }
+    //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
+    return c.json(
+      {
+        success: true,
+        weeklyMostAwarded,
+        weeklytMostLiked,
+        monthlyMostAwarded,
+        monthlytMostLiked,
+      },
+      200
+    );
   }
   return c.json({ success: false }, 500);
 };
