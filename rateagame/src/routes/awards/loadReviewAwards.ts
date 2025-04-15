@@ -10,11 +10,19 @@ const prisma = new PrismaClient();
 export const loadReviewAwards = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, token, reviewId } = await requestData;
+  const { token, reviewId } = await requestData;
   console.log("went through");
-  if (userId && token && reviewId) {
-    let player: any = await playerCheck(c);
-    if (player) {
+  if (token && reviewId) {
+    const authHeader = c.req.header("Authorization") ?? "";
+
+    // Quickly check if it starts with "Bearer "
+    if (!authHeader.startsWith("Bearer ")) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+
+    const key = authHeader.slice("Bearer ".length);
+
+    if (key == process.env.MY_API_KEY) {
       //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
 
       const awards = await prisma.award.groupBy({
