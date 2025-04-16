@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 export const mostLiked = async (c: Context, days: number) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  // const { userId } = requestData;
+  const { userId } = requestData;
 
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - days);
