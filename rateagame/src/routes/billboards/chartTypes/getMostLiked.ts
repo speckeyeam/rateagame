@@ -45,14 +45,14 @@ export const mostLiked = async (c: Context, days: number) => {
     include: {
       user: true,
       game: true,
-      likes: {
-        where: {
-          time: {
-            gte: oneDayAgo,
-          },
-          value: true,
-        },
-      },
+      // likes: {
+      //   where: {
+      //     time: {
+      //       gte: oneDayAgo,
+      //     },
+      //     value: true,
+      //   },
+      // },
 
       _count: {
         select: { likes: { where: { value: true } } }, // Include the number of likes for each review
