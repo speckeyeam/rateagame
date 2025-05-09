@@ -37,7 +37,7 @@ export const saveGame = async (c: Context) => {
 
       if (save) {
         data.id = gameId + "game." + userId;
-        data.date = new Date();
+        data.date = new Date().toString();
         const newSave = await prisma.saved.upsert({
           where: data,
           update: {},
