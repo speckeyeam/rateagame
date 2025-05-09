@@ -7,6 +7,7 @@ import { playerCheck } from "../helpers/playerCheck";
 const prisma = new PrismaClient();
 
 export const saveGame = async (c: Context) => {
+  console.log("saving");
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
@@ -15,7 +16,6 @@ export const saveGame = async (c: Context) => {
     gamePass, // Default to false if not provided
     token,
     save,
-    time,
   } = requestData;
 
   console.log(token);
@@ -27,7 +27,7 @@ export const saveGame = async (c: Context) => {
       const data: any = {
         userId: String(userId),
         gameId: String(gameId),
-        time: new Date(time * 1000),
+        time: new Date(),
       };
       if (gamePass) {
         data.gamePassId = String(gameId);
@@ -37,7 +37,7 @@ export const saveGame = async (c: Context) => {
 
       if (save) {
         data.id = gameId + "game." + userId;
-        data.date = String(time);
+        data.date = new Date();
         const newSave = await prisma.saved.upsert({
           where: data,
           update: {},
