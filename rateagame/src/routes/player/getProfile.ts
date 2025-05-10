@@ -2,7 +2,7 @@ import { Context } from "hono";
 
 import { PrismaClient } from "@prisma/client";
 
-import { playerCheck } from "../helpers/playerCheck";
+import { apikeycheck } from "../helpers/apikeycheck";
 import { gameCheck } from "../helpers/gameCheck";
 
 const prisma = new PrismaClient();
@@ -10,11 +10,11 @@ const prisma = new PrismaClient();
 export const getProfile = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, token } = requestData;
+  const { userId } = requestData;
 
-  if (userId && token) {
-    let player: any = await playerCheck(c);
-    if (player) {
+  if (userId) {
+    let apiCheck: any = await apikeycheck(c);
+    if (apiCheck) {
       const [
         totalReviews = 0,
         totalLikes = 0,
