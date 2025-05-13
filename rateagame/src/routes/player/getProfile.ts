@@ -41,6 +41,13 @@ export const getProfile = async (c: Context) => {
           where: { givenUserId: userId.toString() },
         }),
       ]);
+      const user = await prisma.user.findUnique({
+        where: { userId: String(userId) },
+      });
+      const dateJoined =
+        user?.dateJoined instanceof Date
+          ? Math.floor(user.dateJoined.getTime() / 1000)
+          : 0;
       return c.json(
         {
           success: true,
@@ -48,7 +55,7 @@ export const getProfile = async (c: Context) => {
           totalLikes,
           totalAwardsGiven,
           totalAwardsReceived,
-          dateJoined: Math.floor(player.dateJoined.getTime() / 1000),
+          dateJoined,
         },
         200
       );
