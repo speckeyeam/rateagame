@@ -84,6 +84,7 @@ model award {
   receiver       user     @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
   review         review?  @relation(fields: [reviewId], references: [reviewId])
 
+  //maybe give this a weight thats somehow related to something else so that i can change the price whenever i want and make sure reviews arent messed up?
   @@index([givenUserId], map: "award_givenUserId_fkey")
   @@index([receivedUserId], map: "award_receivedUserId_fkey")
   @@index([reviewId], map: "award_reviewId_fkey")
