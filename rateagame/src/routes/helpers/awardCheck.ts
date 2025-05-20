@@ -61,7 +61,7 @@ const startingInventory: any : {
   },
 };
 
-const awardsForsSale : [2, 3];
+const awardsForsSale : [2, 3, 4, 5, 6];
 
 export async function awardCheck(awardId: number) {
   return awards[awardId] || null;
