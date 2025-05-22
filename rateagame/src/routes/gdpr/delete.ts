@@ -8,29 +8,37 @@ import { playerCheck } from "../helpers/playerCheck";
 const prisma = new PrismaClient();
 
 export const deleteUser = async (c: Context) => {
+  const secret = process.env.ROBLOX_WEBHOOK_SECRET;
+  if (!secret) throw new Error("Webhook secret missing");
   // 1. Grab headers + raw body
-  const sig = c.req.header("Roblox-Signature") || "";
-  const timestamp = c.req.header("Timestamp") || "";
-  const raw = await c.req.text();
+  const sigHeader = c.req.header("Roblox-Signature") ?? "";
+  const [tPart, v1Part] = sigHeader.split(",");
+  const ts = Number(tPart?.split("=")[1]);
+  const sig = v1Part?.split("=")[1] ?? "";
+  if (!ts || !sig || Math.abs(Date.now() / 1000 - ts) > 600)
+    return c.text("stale", 400);
 
   // 2. Verify signature (HMAC-SHA256 of `${timestamp}.${raw}`)
-  const hmac = createHmac("sha256", process.env.ROBLOX_WEBHOOK_SECRET!);
-  hmac.update(`${timestamp}.${raw}`);
-  if (hmac.digest("base64") !== sig) {
-    return c.json({ error: "Invalid signature" }, 401);
-  }
+  const raw = await c.req.text();
+  const h = createHmac("sha256", secret)
+    .update(`${ts}.${raw}`)
+    .digest("base64");
+  if (h !== sig) return c.text("bad sig", 401);
 
   // 3. Parse out the userId
   let userId: string;
+
   try {
-    const payload = JSON.parse(raw);
-    const desc: string = payload.embeds?.[0]?.description || "";
-    const match = desc.match(/User Id:\s*(\d+)/);
-    if (!match) throw new Error("UserId not found in payload");
-    userId = match[1];
+    const body = JSON.parse(raw);
+    userId = body?.EventPayload?.UserId?.toString();
+    if (!userId) {
+      const m = body?.embeds?.[0]?.description?.match(/User Id:\s*(\d+)/);
+      userId = m?.[1];
+    }
   } catch (err) {
     return c.json({ error: "Malformed payload" }, 400);
   }
+  if (!userId) return c.text("no uid", 400);
 
   // 4. Delete / anonymize all personal data in one transaction
   try {
