@@ -3,8 +3,14 @@
   "workspaces": {
     "": {
       "name": "rateagame",
+      "dependencies": {
+        "@prisma/client": "6.8.2",
+        "bun": "^1.2.14",
+        "hono": "^4.7.10",
+      },
       "devDependencies": {
         "@types/bun": "latest",
+        "prisma": "6.8.2",
       },
       "peerDependencies": {
         "typescript": "^5.0.0",
@@ -12,11 +18,55 @@
     },
   },
   "packages": {
+    "@oven/bun-darwin-aarch64": ["@oven/bun-darwin-aarch64@1.2.14", "", { "os": "darwin", "cpu": "arm64" }, "sha512-pGRsFypDOrV5rdMoOklMrj/RoV1xQirxjN8sAJNNlrQe/rvUbKSebDjlS70cBuxidLZq3+15y/KRr3njmcWkJQ=="],
+
+    "@oven/bun-darwin-x64": ["@oven/bun-darwin-x64@1.2.14", "", { "os": "darwin", "cpu": "x64" }, "sha512-GhbzN7qGRnbus0eaqVfxSEyQTTNdUXhkGNi4nFbj7gfVMLXQb5JNj/kmCRu7hX+TOTkF+hrB1FKXcb4A3B3kHg=="],
+
+    "@oven/bun-darwin-x64-baseline": ["@oven/bun-darwin-x64-baseline@1.2.14", "", { "os": "darwin", "cpu": "x64" }, "sha512-pxGVEuQUYA7ibNO92OgUtTpjN73sqHafl2MZNUGhFTwJN2Qw4Neq9nGIDwmVL6LFU0sMapNeh4I7snR3UO2xIg=="],
+
+    "@oven/bun-linux-aarch64": ["@oven/bun-linux-aarch64@1.2.14", "", { "os": "linux", "cpu": "arm64" }, "sha512-7JQBOjJ/w3Zp5i6tv9Evduy4fUXaj6z6YZ/iIgkw1wBwmIQ5hTJAy4UGHaqTqyU6rgUWTpbsQ+GBY2rHXgou9A=="],
+
+    "@oven/bun-linux-aarch64-musl": ["@oven/bun-linux-aarch64-musl@1.2.14", "", { "os": "linux", "cpu": "none" }, "sha512-K0QQ3srd900Xnx4++QS0KlaOYqiNN0RNJ1AZq0r31t1JdDP+tjuD/imAcE08A6XDkOvl00KSUdMyU8lERRDblQ=="],
+
+    "@oven/bun-linux-x64": ["@oven/bun-linux-x64@1.2.14", "", { "os": "linux", "cpu": "x64" }, "sha512-2TXQzbhFnoW9PUUy5Ey7qAIeY2l0iqYAOZGFMAvTbtqE+WreHS0NC3DKoyALwrBHddkwS+VGUwr+Hcl4TMjNvg=="],
+
+    "@oven/bun-linux-x64-baseline": ["@oven/bun-linux-x64-baseline@1.2.14", "", { "os": "linux", "cpu": "x64" }, "sha512-ZViqobm73HvPQVhNG07kfnLyDpMSi7vLTzzVSrVHvFGSeZ79MzdtHauYVnv8ovqgJmrWfhES74O8QVCUW4P0ZQ=="],
+
+    "@oven/bun-linux-x64-musl": ["@oven/bun-linux-x64-musl@1.2.14", "", { "os": "linux", "cpu": "x64" }, "sha512-u9j7hjkGhLbrpvTANVdmC9jrkfUINfZ4WD/Dir7BrII0XnpoIJXkn+B/gmvgtJFKmtLPF9b/nFVojVNFQ1zFUA=="],
+
+    "@oven/bun-linux-x64-musl-baseline": ["@oven/bun-linux-x64-musl-baseline@1.2.14", "", { "os": "linux", "cpu": "x64" }, "sha512-7Lb5/XqtGRtHv1TjlpS5863ZwsuFqZ8xIrCGrHcKyHpyih1mG9nsON7MEKctrWPzcPe1L/9y20y0z/72plzIYA=="],
+
+    "@oven/bun-windows-x64": ["@oven/bun-windows-x64@1.2.14", "", { "os": "win32", "cpu": "x64" }, "sha512-Zur1ecPTYOURe5USpC/EjbquHloAehoW2iWg4A2SMNg30MilykaL2l3MjZDuDgHWECmRFRyKQgMWkgozVL/6uw=="],
+
+    "@oven/bun-windows-x64-baseline": ["@oven/bun-windows-x64-baseline@1.2.14", "", { "os": "win32", "cpu": "x64" }, "sha512-4uXxPVTznUdQjsW9RBp6JybwhCZdt+mu4kJSpn1qWh6dCwDQhYvkCfako6x1FYW0+eZJEucwyyC36o1tbq2c+A=="],
+
+    "@prisma/client": ["@prisma/client@6.8.2", "", { "peerDependencies": { "prisma": "*", "typescript": ">=5.1.0" }, "optionalPeers": ["prisma", "typescript"] }, "sha512-5II+vbyzv4si6Yunwgkj0qT/iY0zyspttoDrL3R4BYgLdp42/d2C8xdi9vqkrYtKt9H32oFIukvyw3Koz5JoDg=="],
+
+    "@prisma/config": ["@prisma/config@6.8.2", "", { "dependencies": { "jiti": "2.4.2" } }, "sha512-ZJY1fF4qRBPdLQ/60wxNtX+eu89c3AkYEcP7L3jkp0IPXCNphCYxikTg55kPJLDOG6P0X+QG5tCv6CmsBRZWFQ=="],
+
+    "@prisma/debug": ["@prisma/debug@6.8.2", "", {}, "sha512-4muBSSUwJJ9BYth5N8tqts8JtiLT8QI/RSAzEogwEfpbYGFo9mYsInsVo8dqXdPO2+Rm5OG5q0qWDDE3nyUbVg=="],
+
+    "@prisma/engines": ["@prisma/engines@6.8.2", "", { "dependencies": { "@prisma/debug": "6.8.2", "@prisma/engines-version": "6.8.0-43.2060c79ba17c6bb9f5823312b6f6b7f4a845738e", "@prisma/fetch-engine": "6.8.2", "@prisma/get-platform": "6.8.2" } }, "sha512-XqAJ//LXjqYRQ1RRabs79KOY4+v6gZOGzbcwDQl0D6n9WBKjV7qdrbd042CwSK0v0lM9MSHsbcFnU2Yn7z8Zlw=="],
+
+    "@prisma/engines-version": ["@prisma/engines-version@6.8.0-43.2060c79ba17c6bb9f5823312b6f6b7f4a845738e", "", {}, "sha512-Rkik9lMyHpFNGaLpPF3H5q5TQTkm/aE7DsGM5m92FZTvWQsvmi6Va8On3pWvqLHOt5aPUvFb/FeZTmphI4CPiQ=="],
+
+    "@prisma/fetch-engine": ["@prisma/fetch-engine@6.8.2", "", { "dependencies": { "@prisma/debug": "6.8.2", "@prisma/engines-version": "6.8.0-43.2060c79ba17c6bb9f5823312b6f6b7f4a845738e", "@prisma/get-platform": "6.8.2" } }, "sha512-lCvikWOgaLOfqXGacEKSNeenvj0n3qR5QvZUOmPE2e1Eh8cMYSobxonCg9rqM6FSdTfbpqp9xwhSAOYfNqSW0g=="],
+
+    "@prisma/get-platform": ["@prisma/get-platform@6.8.2", "", { "dependencies": { "@prisma/debug": "6.8.2" } }, "sha512-vXSxyUgX3vm1Q70QwzwkjeYfRryIvKno1SXbIqwSptKwqKzskINnDUcx85oX+ys6ooN2ATGSD0xN2UTfg6Zcow=="],
+
     "@types/bun": ["@types/bun@1.2.14", "", { "dependencies": { "bun-types": "1.2.14" } }, "sha512-VsFZKs8oKHzI7zwvECiAJ5oSorWndIWEVhfbYqZd4HI/45kzW7PN2Rr5biAzvGvRuNmYLSANY+H59ubHq8xw7Q=="],
 
     "@types/node": ["@types/node@22.15.21", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-EV/37Td6c+MgKAbkcLG6vqZ2zEYHD7bvSrzqqs2RIhbA6w3x+Dqz8MZM3sP6kGTeLrdoOgKZe+Xja7tUB2DNkQ=="],
 
+    "bun": ["bun@1.2.14", "", { "optionalDependencies": { "@oven/bun-darwin-aarch64": "1.2.14", "@oven/bun-darwin-x64": "1.2.14", "@oven/bun-darwin-x64-baseline": "1.2.14", "@oven/bun-linux-aarch64": "1.2.14", "@oven/bun-linux-aarch64-musl": "1.2.14", "@oven/bun-linux-x64": "1.2.14", "@oven/bun-linux-x64-baseline": "1.2.14", "@oven/bun-linux-x64-musl": "1.2.14", "@oven/bun-linux-x64-musl-baseline": "1.2.14", "@oven/bun-windows-x64": "1.2.14", "@oven/bun-windows-x64-baseline": "1.2.14" }, "os": [ "linux", "win32", "darwin", ], "cpu": [ "x64", "arm64", ], "bin": { "bun": "bin/bun.exe", "bunx": "bin/bun.exe" } }, "sha512-xCd8eiUn5jju0+Noaz7aTWZFvrC8NbMjvcLDnk3gsa1UEaE3Gk4jMStZDsSzW97ynkb4d2ZYvwunstQxJhpZaA=="],
+
     "bun-types": ["bun-types@1.2.14", "", { "dependencies": { "@types/node": "*" } }, "sha512-Kuh4Ub28ucMRWeiUUWMHsT9Wcbr4H3kLIO72RZZElSDxSu7vpetRvxIUDUaW6QtaIeixIpm7OXtNnZPf82EzwA=="],
+
+    "hono": ["hono@4.7.10", "", {}, "sha512-QkACju9MiN59CKSY5JsGZCYmPZkA6sIW6OFCUp7qDjZu6S6KHtJHhAc9Uy9mV9F8PJ1/HQ3ybZF2yjCa/73fvQ=="],
+
+    "jiti": ["jiti@2.4.2", "", { "bin": { "jiti": "lib/jiti-cli.mjs" } }, "sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A=="],
+
+    "prisma": ["prisma@6.8.2", "", { "dependencies": { "@prisma/config": "6.8.2", "@prisma/engines": "6.8.2" }, "peerDependencies": { "typescript": ">=5.1.0" }, "optionalPeers": ["typescript"], "bin": { "prisma": "build/index.js" } }, "sha512-JNricTXQxzDtRS7lCGGOB4g5DJ91eg3nozdubXze3LpcMl1oWwcFddrj++Up3jnRE6X/3gB/xz3V+ecBk/eEGA=="],
 
     "typescript": ["typescript@5.8.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ=="],
 
