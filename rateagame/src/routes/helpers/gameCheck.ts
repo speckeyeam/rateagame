@@ -48,12 +48,10 @@ export async function gameCheck(gameId: string, gamePass: boolean) {
     const game = await prisma.game.upsert({
       where: { gameId: String(gameId) },
       update: {
-        price,
         forSale,
       },
       create: {
         gameId: String(gameId),
-        price,
         forSale,
       },
     });
