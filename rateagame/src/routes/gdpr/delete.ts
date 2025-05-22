@@ -14,7 +14,7 @@ export const deleteUser = async (c: Context) => {
   const raw = await c.req.text();
 
   // 2. Verify signature (HMAC-SHA256 of `${timestamp}.${raw}`)
-  const hmac = createHmac("sha256", process.env.ROBUX_WEBHOOK_SECRET!);
+  const hmac = createHmac("sha256", process.env.ROBLOX_WEBHOOK_SECRET!);
   hmac.update(`${timestamp}.${raw}`);
   if (hmac.digest("base64") !== sig) {
     return c.json({ error: "Invalid signature" }, 401);
