@@ -8,6 +8,9 @@ dependencies:
   '@prisma/client':
     specifier: 6.8.2
     version: 6.8.2(prisma@6.8.2)
+  hono:
+    specifier: ^4.7.10
+    version: 4.7.10
   typescript:
     specifier: ^5.0.0
     version: 5.8.3
@@ -87,6 +90,11 @@ packages:
     dependencies:
       '@types/node': 22.15.21
     dev: true
+
+  /hono@4.7.10:
+    resolution: {integrity: sha512-QkACju9MiN59CKSY5JsGZCYmPZkA6sIW6OFCUp7qDjZu6S6KHtJHhAc9Uy9mV9F8PJ1/HQ3ybZF2yjCa/73fvQ==}
+    engines: {node: '>=16.9.0'}
+    dev: false
 
   /jiti@2.4.2:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
