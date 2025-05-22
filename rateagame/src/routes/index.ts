@@ -8,6 +8,7 @@ import awardsRoute from "./awards";
 import feedRoute from "./feed";
 import billboardsRoute from "./billboards";
 import billboards2Route from "./billboards2";
+import gdprRoute from "./gdpr";
 
 const router = new Hono();
 
@@ -25,6 +26,8 @@ router.route("/apis", apisRoute);
 router.route("/awards", awardsRoute);
 
 router.route("/feed", feedRoute);
+
+router.route("/gdpr", gdprRoute);
 
 router.route("/billboards", billboardsRoute);
 router.route("/billboards2", billboards2Route);
