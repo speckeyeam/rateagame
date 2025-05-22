@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@prisma/client": "6.8.2",
+    "bun": "^1.2.14",
     "hono": "^4.7.10"
   },
-    "scripts": {
-      "start": "bun run dist/index.js", 
-      "build": "bun build --minify --target=bun --outdir=dist ./src/index.ts"
-    }
-  
+  "scripts": {
+    "start": "bun run dist/index.js",
+    "build": "bun build --minify --target=bun --outdir=dist ./src/index.ts"
+  }
 }
