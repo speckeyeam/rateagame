@@ -25,6 +25,7 @@ export const getTopGamePasses = async (c: Context) => {
         : undefined,
       // If days > 0, filter reviews within that time range.
       where: {
+        gamePassId: { not: null },
         deleted: false,
       },
       _count: {
