@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@prisma/client": "6.8.2",
+    "axios": "^1.9.0",
     "bun": "^1.2.14",
-    "hono": "^4.7.10"
+    "hono": "^4.7.10",
+    "md5": "^2.3.0"
   },
   "scripts": {
     "start": "bun run dist/index.js",
