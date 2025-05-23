@@ -18,14 +18,17 @@ export const getTopGamePasses = async (c: Context) => {
   if (userId && take) {
     const data: any = {
       by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
-      take: 4,
-      // skip: cursor ? 1 : 0, // Skip the cursor item itself
-      // cursor: cursor
-      //   ? { [gamePass ? "gamePassId" : "gameId"]: cursor }
-      //   : undefined,
+      take,
+      skip: cursor ? 1 : 0, // Skip the cursor item itself
+      cursor: cursor
+        ? { [gamePass ? "gamePassId" : "gameId"]: cursor }
+        : undefined,
       // If days > 0, filter reviews within that time range.
       where: {
         deleted: false,
+        gamePassId: {
+          not: null,
+        },
       },
       _count: {
         [gamePass ? "gamePassId" : "gameId"]: true, // Count based on grouping field
