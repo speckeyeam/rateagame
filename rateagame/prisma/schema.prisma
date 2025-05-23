@@ -16,18 +16,18 @@ model user {
   awardsGiven    award[]          @relation("GiverRelation")
   awardsReceived award[]          @relation("ReceiverRelation")
   awardInventory awardInventory[]
+  likes          like[]
   report         report[]
   reviews        review[]
   savedGames     saved[]
-  likes          like[]
   viewed         viewed[]
 }
 
 model game {
   gameId      String   @unique
-  reviews     review[]
   forSale     Boolean  @default(false)
   lastUpdated DateTime @default(now())
+  reviews     review[]
 }
 
 model gamePass {
@@ -43,19 +43,20 @@ model review {
   userId     String?
   recommends Boolean
   rating     Int
-  game       game?     @relation(fields: [gameId], references: [gameId])
-  user       user?     @relation(fields: [userId], references: [userId])
-  gamePass   gamePass? @relation(fields: [gamePassId], references: [gamePassId])
   gamePassId String?
   assetId    String
   deleted    Boolean   @default(false)
   text       String    @db.VarChar(2000)
   awards     award[]
   likes      like[]
+  game       game?     @relation(fields: [gameId], references: [gameId])
+  gamePass   gamePass? @relation(fields: [gamePassId], references: [gamePassId])
+  user       user?     @relation(fields: [userId], references: [userId])
   viewed     viewed[]
 
   @@index([gameId], map: "review_gameId_fkey")
   @@index([userId], map: "review_userId_fkey")
+  @@index([gamePassId], map: "review_gamePassId_fkey")
 }
 
 model like {
@@ -66,11 +67,12 @@ model like {
   gameId         String?
   userId         String?
   time           DateTime @default(now())
-  review         review?  @relation(fields: [reviewId], references: [reviewId])
-  user           user?    @relation(fields: [userId], references: [userId])
   recievedUserId String?
+  review         review   @relation(fields: [reviewId], references: [reviewId])
+  user           user?    @relation(fields: [userId], references: [userId])
 
   @@index([reviewId], map: "like_reviewId_fkey")
+  @@index([userId], map: "like_userId_fkey")
 }
 
 model award {
@@ -82,9 +84,8 @@ model award {
   receivedUserId String
   giver          user     @relation("GiverRelation", fields: [givenUserId], references: [userId])
   receiver       user     @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
-  review         review?  @relation(fields: [reviewId], references: [reviewId])
+  review         review   @relation(fields: [reviewId], references: [reviewId])
 
-  //maybe give this a weight thats somehow related to something else so that i can change the price whenever i want and make sure reviews arent messed up?
   @@index([givenUserId], map: "award_givenUserId_fkey")
   @@index([receivedUserId], map: "award_receivedUserId_fkey")
   @@index([reviewId], map: "award_reviewId_fkey")
@@ -105,8 +106,8 @@ model saved {
   gamePassId String?
   userId     String
   time       DateTime
-  user       user     @relation(fields: [userId], references: [userId])
   date       String
+  user       user     @relation(fields: [userId], references: [userId])
 
   @@index([userId], map: "saved_userId_fkey")
 }
@@ -127,9 +128,8 @@ model viewed {
   userId   String
   reviewId String
   time     DateTime @default(now())
-
-  user   user   @relation(fields: [userId], references: [userId])
-  review review @relation(fields: [reviewId], references: [reviewId])
+  review   review   @relation(fields: [reviewId], references: [reviewId])
+  user     user     @relation(fields: [userId], references: [userId])
 
   @@index([userId], map: "viewed_userId_fkey")
   @@index([reviewId], map: "viewed_reviewId_fkey")
