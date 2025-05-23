@@ -32,17 +32,13 @@ export async function gameCheck(gameId: string, gamePass: boolean) {
   }
 
   if (gamePass) {
-    const checkGamePass = await prisma.gamePass.findUnique({
+    const gamePassRecord = await prisma.gamePass.upsert({
       where: { gamePassId: String(gameId) },
+      create: { gamePassId: String(gameId) },
+      update: {},
     });
-    if (!checkGamePass) {
-      const newgame = await prisma.gamePass.create({
-        data: {
-          gamePassId: String(gameId),
-        },
-      });
-      return newgame;
-    }
+
+    return gamePassRecord;
   } else {
     const { price, forSale } = await getGamePrice(gameId);
     const game = await prisma.game.upsert({
