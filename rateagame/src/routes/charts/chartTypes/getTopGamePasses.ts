@@ -22,7 +22,7 @@ export const getTopGamePasses = async (c: Context) => {
   if (userId && take) {
     const data: any = {
       by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
-      take,
+      take: 4,
       skip: cursor ? 1 : 0, // Skip the cursor item itself
       cursor: cursor
         ? { [gamePass ? "gamePassId" : "gameId"]: cursor }
