@@ -9,7 +9,6 @@ const prisma = new PrismaClient();
 // Gets the most trending games in the past week (or a configurable number of days)
 // based on the most reviews. (For Roblox: you could paginate reviews by time.)
 export const getTopGamePasses = async (c: Context) => {
-  console.log("huh");
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const { userId, take, cursor = null } = requestData;
@@ -39,7 +38,6 @@ export const getTopGamePasses = async (c: Context) => {
     };
 
     const recentlyReviewed = await prisma.review.groupBy(data);
-    console.log(recentlyReviewed);
     if (recentlyReviewed) {
       return {
         games: recentlyReviewed,
