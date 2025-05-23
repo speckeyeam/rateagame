@@ -12,17 +12,12 @@ export const getTopGamePasses = async (c: Context) => {
   console.log("huh");
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const {
-    userId,
-
-    take,
-    cursor = null,
-  } = requestData;
+  const { userId, take, cursor = null } = requestData;
 
   const gamePass = true;
   if (userId && take) {
     const data: any = {
-      by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
+      by: ["gamePassId", "assetId"],
       take,
       skip: cursor ? 1 : 0, // Skip the cursor item itself
       cursor: cursor
