@@ -11,10 +11,7 @@ import { getLowestRated } from "./chartTypes/getLowestRated";
 import { getTrending } from "./chartTypes/getTrending";
 import { getMostReviewed } from "./chartTypes/getMostReviewed";
 import { getMostReviewedPaid } from "./chartTypes/getMostReviewedPaid";
-import {
-  getTopGamePasses,
-  getTopGamePasses,
-} from "./chartTypes/getTopGamePasses";
+import { getTopGamePasses } from "./chartTypes/getTopGamePasses";
 
 const prisma = new PrismaClient();
 
