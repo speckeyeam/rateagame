@@ -11,12 +11,8 @@ const prisma = new PrismaClient();
 export const getTopGamePasses = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const {
-    userId,
-
-    take,
-    cursor = null,
-  } = requestData;
+  const { userId, take, cursor = null } = requestData;
+  console.log(cursor);
   const gamePass = true;
   // Allow days === 0 as a valid input.
   if (userId && take) {
