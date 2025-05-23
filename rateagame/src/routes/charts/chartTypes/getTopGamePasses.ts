@@ -38,7 +38,7 @@ export const getTopGamePasses = async (c: Context) => {
     };
 
     const recentlyReviewed = await prisma.review.groupBy(data);
-
+    print(recentlyReviewed);
     if (recentlyReviewed) {
       return {
         games: recentlyReviewed,
