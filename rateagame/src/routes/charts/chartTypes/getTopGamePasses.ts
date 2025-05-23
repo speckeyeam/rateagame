@@ -11,12 +11,17 @@ const prisma = new PrismaClient();
 export const getTopGamePasses = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, take, cursor = null } = requestData;
+  const {
+    userId,
 
+    take,
+    cursor = null,
+  } = requestData;
   const gamePass = true;
+  // Allow days === 0 as a valid input.
   if (userId && take) {
     const data: any = {
-      by: ["gamePassId", "assetId"],
+      by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
       take,
       skip: cursor ? 1 : 0, // Skip the cursor item itself
       cursor: cursor
@@ -24,7 +29,6 @@ export const getTopGamePasses = async (c: Context) => {
         : undefined,
       // If days > 0, filter reviews within that time range.
       where: {
-        gamePassId: { not: null },
         deleted: false,
       },
       _count: {
@@ -38,6 +42,7 @@ export const getTopGamePasses = async (c: Context) => {
     };
 
     const recentlyReviewed = await prisma.review.groupBy(data);
+
     if (recentlyReviewed) {
       return {
         games: recentlyReviewed,
