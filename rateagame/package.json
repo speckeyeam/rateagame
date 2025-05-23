@@ -17,7 +17,7 @@
     "md5": "^2.3.0"
   },
   "scripts": {
-    "start": "bun run dist/index.js",
-    "build": "bun build --minify --target=bun --outdir=dist ./src/index.ts"
+    "build": "bunx prisma generate",
+    "start": "bun run src/index.ts"
   }
 }
