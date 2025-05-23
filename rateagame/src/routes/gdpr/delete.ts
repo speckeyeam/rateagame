@@ -8,6 +8,7 @@ import { playerCheck } from "../helpers/playerCheck";
 const prisma = new PrismaClient();
 
 export const deleteUser = async (c: Context) => {
+  console.log("delete webhook test");
   const secret = process.env.ROBLOX_WEBHOOK_SECRETE;
   if (!secret) throw new Error("Webhook secret missing");
   // 1. Grab headers + raw body
