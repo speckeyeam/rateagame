@@ -19,10 +19,10 @@ export const getTopGamePasses = async (c: Context) => {
     const data: any = {
       by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
       take: 4,
-      skip: cursor ? 1 : 0, // Skip the cursor item itself
-      cursor: cursor
-        ? { [gamePass ? "gamePassId" : "gameId"]: cursor }
-        : undefined,
+      // skip: cursor ? 1 : 0, // Skip the cursor item itself
+      // cursor: cursor
+      //   ? { [gamePass ? "gamePassId" : "gameId"]: cursor }
+      //   : undefined,
       // If days > 0, filter reviews within that time range.
       where: {
         deleted: false,
