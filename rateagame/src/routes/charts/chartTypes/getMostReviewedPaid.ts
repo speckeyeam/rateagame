@@ -32,7 +32,7 @@ export const getMostReviewedPaid = async (c: Context) => {
         deleted: false,
         game: {
           // <- relation filter
-          is: { forSale: true }, // only reviews whose related game/pass is for sale
+          forSale: true, // only reviews whose related game/pass is for sale
         },
       },
       _count: {
