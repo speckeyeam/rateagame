@@ -30,10 +30,6 @@ export const getTopGamePasses = async (c: Context) => {
       // If days > 0, filter reviews within that time range.
       where: {
         deleted: false,
-        game: {
-          // <- relation filter
-          forSale: true, // only reviews whose related game/pass is for sale
-        },
       },
       _count: {
         [gamePass ? "gamePassId" : "gameId"]: true, // Count based on grouping field
