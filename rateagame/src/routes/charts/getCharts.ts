@@ -30,7 +30,7 @@ export const getCharts = async (c: Context) => {
     mostReviewed: getMostReviewed,
     trending: getTrending,
     mostReviewedPaid: getMostReviewedPaid,
-    getTopGamePasses: getTopGamePasses,
+    topGamePasses: getTopGamePasses,
   };
   console.log(requestData);
   if (userId && token && call) {
