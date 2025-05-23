@@ -37,7 +37,7 @@ export const getCharts = async (c: Context) => {
         const lowestRated = await getLowestRated(c);
         const trending = await getTrending(c);
         const mostReviewed = await getMostReviewed(c);
-        const mostReviewdPaid = await getMostReviewedPaid(c);
+        const mostReviewedPaid = await getMostReviewedPaid(c);
 
         //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
         return c.json(
@@ -48,7 +48,7 @@ export const getCharts = async (c: Context) => {
             lowestRated,
             trending,
             mostReviewed,
-            mostReviewdPaid,
+            mostReviewedPaid,
           },
           200
         );
