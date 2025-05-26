@@ -33,6 +33,7 @@ export const getMostReviewed = async (c: Context) => {
         deleted: false,
       },
       _count: { _all: true },
+      _sum: { rating: true },
       orderBy: {
         _count: {
           [gamePass ? "gamePassId" : "gameId"]: "desc", // Sort by the count of the grouping field
