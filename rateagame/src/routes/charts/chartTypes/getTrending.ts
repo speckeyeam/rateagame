@@ -39,6 +39,7 @@ export const getTrending = async (c: Context) => {
         deleted: false,
       },
       _count: { _all: true },
+      _sum: { rating: true },
 
       orderBy: {
         _count: {
