@@ -20,11 +20,10 @@ export const getLowestRated = async (c: Context) => {
     _count: { _all: true },
     _avg: { rating: true },
 
-    orderBy: {
-      _sum: {
-        rating: "asc", // Order by highest total rating
-      },
-    },
+    orderBy: [
+      { _avg: { rating: "asc" } }, // worst avg first
+      { _count: { _all: "desc" } }, // and among equals, the one with more data
+    ],
     where: {
       deleted: false,
       [gamePass ? "gameId" : "gamePassId"]: null,
