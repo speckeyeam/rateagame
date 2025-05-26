@@ -16,14 +16,14 @@ export const getLowestRated = async (c: Context) => {
   const topRated = await prisma.review.groupBy({
     by: ["gameId", "assetId"],
 
-    _sum: { recommends: true },
-    _count: { _all: true },
+    _sum: { rating: true },
     _avg: { rating: true },
-
-    orderBy: [
-      { _avg: { rating: "asc" } }, // worst avg first
-      { _count: { _all: "desc" } }, // and among equals, the one with more data
-    ],
+    _count: { _all: true },
+    orderBy: {
+      _sum: {
+        rating: "asc", // Order by highest total rating
+      },
+    },
     where: {
       deleted: false,
       [gamePass ? "gameId" : "gamePassId"]: null,
