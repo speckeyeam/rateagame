@@ -29,6 +29,7 @@ export const getRecentlyReviewed = async (c: Context) => {
         },
         deleted: false,
       },
+
       take,
     };
 

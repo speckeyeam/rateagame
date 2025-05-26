@@ -35,9 +35,8 @@ export const getMostReviewedPaid = async (c: Context) => {
           forSale: true, // only reviews whose related game/pass is for sale
         },
       },
-      _count: {
-        [gamePass ? "gamePassId" : "gameId"]: true, // Count based on grouping field
-      },
+      _count: { _all: true },
+
       orderBy: {
         _count: {
           [gamePass ? "gamePassId" : "gameId"]: "desc", // Sort by the count of the grouping field

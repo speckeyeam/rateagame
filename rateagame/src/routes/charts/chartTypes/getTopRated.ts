@@ -18,7 +18,7 @@ export const getTopRated = async (c: Context) => {
 
     _sum: { rating: true },
     _avg: { rating: true },
-    _count: { rating: true },
+    _count: { _all: true },
     orderBy: {
       _sum: {
         rating: "desc", // Order by highest total rating
