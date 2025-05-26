@@ -16,7 +16,7 @@ export const getLowestRated = async (c: Context) => {
   const topRated = await prisma.review.groupBy({
     by: ["gameId", "assetId"],
 
-    _sum: { rating: true },
+    _sum: { rating: true, recommends: true },
     _avg: { rating: true },
     _count: { rating: true },
     orderBy: {
