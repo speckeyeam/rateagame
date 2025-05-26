@@ -31,6 +31,7 @@ export const getTopGamePasses = async (c: Context) => {
         },
       },
       _count: { _all: true },
+      _sum: { rating: true },
 
       orderBy: {
         _count: {
