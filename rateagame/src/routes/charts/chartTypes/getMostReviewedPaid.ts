@@ -51,8 +51,8 @@ export const getMostReviewedPaid = async (c: Context) => {
       return {
         games: recentlyReviewed,
         nextCursor:
-          recentlyReviewed[recentlyReviewed.length - 1][
-            gamePass ? "gamePassId" : "gameId"
+          recentlyReviewed.at(-1)?.[
+            (gamePass ? "gamePassId" : "gameId") as "gamePassId" | "gameId"
           ],
       };
     }
