@@ -32,6 +32,6 @@ router.route("/gdpr", gdprRoute);
 
 router.route("/billboards", billboardsRoute);
 router.route("/billboards2", billboards2Route);
-router.route("/games", gameRoute);
+router.route("/game", gameRoute);
 
 export default router;
