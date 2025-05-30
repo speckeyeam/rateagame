@@ -28,6 +28,7 @@ export const saveGame = async (c: Context) => {
         userId: String(userId),
         gameId: String(gameId),
         time: new Date(),
+        assetId: String(gameId),
       };
       if (gamePass) {
         data.gamePassId = String(gameId);
