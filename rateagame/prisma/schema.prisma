@@ -109,7 +109,7 @@ model saved {
   time       DateTime
   date       String
   user       user     @relation(fields: [userId], references: [userId])
-  assetId    String
+  assetId    String?
 
   @@index([userId], map: "saved_userId_fkey")
 }
