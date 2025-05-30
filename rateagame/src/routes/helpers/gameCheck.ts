@@ -38,7 +38,10 @@ export async function gameCheck(
   if (gamePass) {
     const gamePassRecord = await prisma.gamePass.upsert({
       where: { gamePassId: String(gameId) },
-      create: { gamePassId: String(gameId), parentId: String(parentId) },
+      create: {
+        gamePassId: String(gameId),
+        ...(parentId != null ? { parentId: String(parentId) } : {}),
+      },
       update: {},
     });
 
