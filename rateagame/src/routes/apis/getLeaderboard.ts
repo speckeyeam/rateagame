@@ -44,7 +44,7 @@ export async function getLeaderboard(c: Context) {
           id: "desc",
         },
       },
-      take: 100,
+      take: 40,
     });
     if (topReviewers && usersWithMostLikes) {
       return c.json({ success: true, topReviewers, usersWithMostLikes }, 500);
