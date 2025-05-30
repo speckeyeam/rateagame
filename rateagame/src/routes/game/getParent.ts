@@ -8,7 +8,7 @@ import { stringBufferToString } from "hono/utils/html";
 
 const prisma = new PrismaClient();
 
-export const GetParent = async (c: Context) => {
+export const getParent = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const { gamePassId } = requestData;
