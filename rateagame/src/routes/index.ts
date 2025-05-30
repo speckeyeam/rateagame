@@ -9,6 +9,7 @@ import feedRoute from "./feed";
 import billboardsRoute from "./billboards";
 import billboards2Route from "./billboards2";
 import gdprRoute from "./gdpr";
+import gameRoute from "./game";
 
 const router = new Hono();
 
@@ -31,5 +32,6 @@ router.route("/gdpr", gdprRoute);
 
 router.route("/billboards", billboardsRoute);
 router.route("/billboards2", billboards2Route);
+router.route("/games", gameRoute);
 
 export default router;
