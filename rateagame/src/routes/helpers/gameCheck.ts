@@ -26,7 +26,11 @@ export async function getGamePrice(
   return { price: 0, forSale: false };
 }
 
-export async function gameCheck(gameId: string, gamePass: boolean) {
+export async function gameCheck(
+  gameId: string,
+  gamePass: boolean,
+  parentId: string
+) {
   if (gameId.length > 100) {
     return null;
   }
@@ -34,7 +38,7 @@ export async function gameCheck(gameId: string, gamePass: boolean) {
   if (gamePass) {
     const gamePassRecord = await prisma.gamePass.upsert({
       where: { gamePassId: String(gameId) },
-      create: { gamePassId: String(gameId) },
+      create: { gamePassId: String(gameId), parentId: String(parentId) },
       update: {},
     });
 

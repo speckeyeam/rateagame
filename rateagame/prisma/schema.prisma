@@ -33,6 +33,7 @@ model game {
 model gamePass {
   gamePassId String   @unique
   reviews    review[]
+  gameId     String?
 }
 
 model review {

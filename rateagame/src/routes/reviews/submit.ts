@@ -4,6 +4,7 @@ import { Prisma, PrismaClient, reviewData } from "@prisma/client";
 
 import { playerCheck } from "../helpers/playerCheck";
 import { gameCheck } from "../helpers/gameCheck";
+import { NewLineKind } from "typescript";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +20,7 @@ export const submit = async (c: Context) => {
     reviewId,
     gamePass, // Default to false if not provided
     token,
+    parentId = null,
   } = requestData;
 
   console.log(token);
@@ -34,7 +36,7 @@ export const submit = async (c: Context) => {
     let player: any = await playerCheck(c);
     console.log(player);
     if (player) {
-      let game: any = await gameCheck(gameId, gamePass);
+      let game: any = await gameCheck(gameId, gamePass, parentId);
 
       if (text.length < 2001 && game) {
         const data: any = {
