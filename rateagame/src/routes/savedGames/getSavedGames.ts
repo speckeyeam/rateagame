@@ -31,11 +31,11 @@ export const getSavedGames = async (c: Context) => {
         },
         userId: String(userId),
       };
-      if (gamePass) {
-        data.gameId = null;
-      } else {
-        data.gamePassId = null; //i think this will only get the saved games that arent game passes, will have to test this out later and make it work for gamepasses too instead
-      }
+      // if (gamePass) {
+      //   data.gameId = null;
+      // } else {
+      //   data.gamePassId = null; //i think this will only get the saved games that arent game passes, will have to test this out later and make it work for gamepasses too instead
+      // }
       const savedGames = await prisma.saved.findMany({
         take: 100,
         where: data,

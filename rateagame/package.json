@@ -1,19 +1,23 @@
 {
   "name": "rateagame",
-  "scripts": {
-    "dev": "bun run --hot src/index.ts",
-    "lint": "eslint . && prettier --check .",
-    "format": "prettier --write . && eslint . --fix",
-    "build": "bun build --minify --target=bun --outfile=dist/index.js ./src/index.ts",
-    "start": "bun dist/index.js"
-  },
-  "dependencies": {
-    "@prisma/client": "^6.3.0-dev.31",
-    "hono": "^4.6.18",
-    "md5": "^2.3.0"
-  },
+  "module": "index.ts",
+  "type": "module",
   "devDependencies": {
     "@types/bun": "latest",
-    "prisma": "^6.3.0-dev.31"
+    "prisma": "6.8.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "6.8.2",
+    "axios": "^1.9.0",
+    "bun": "^1.2.14",
+    "hono": "^4.7.10",
+    "md5": "^2.3.0"
+  },
+  "scripts": {
+    "build": "bunx prisma generate",
+    "start": "bun run src/index.ts"
   }
 }

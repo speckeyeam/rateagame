@@ -10,6 +10,8 @@ import { getTopRated } from "./chartTypes/getTopRated";
 import { getLowestRated } from "./chartTypes/getLowestRated";
 import { getTrending } from "./chartTypes/getTrending";
 import { getMostReviewed } from "./chartTypes/getMostReviewed";
+import { getMostReviewedPaid } from "./chartTypes/getMostReviewedPaid";
+import { getTopGamePasses } from "./chartTypes/getTopGamePasses";
 
 const prisma = new PrismaClient();
 
@@ -24,6 +26,8 @@ export const getCharts = async (c: Context) => {
     lowestRated: getLowestRated,
     mostReviewed: getMostReviewed,
     trending: getTrending,
+    mostReviewedPaid: getMostReviewedPaid,
+    topGamePasses: getTopGamePasses,
   };
   console.log(requestData);
   if (userId && token && call) {
@@ -35,6 +39,8 @@ export const getCharts = async (c: Context) => {
         const lowestRated = await getLowestRated(c);
         const trending = await getTrending(c);
         const mostReviewed = await getMostReviewed(c);
+        const mostReviewedPaid = await getMostReviewedPaid(c);
+        const topGamePasses = await getTopGamePasses(c);
 
         //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
         return c.json(
@@ -45,6 +51,8 @@ export const getCharts = async (c: Context) => {
             lowestRated,
             trending,
             mostReviewed,
+            mostReviewedPaid,
+            topGamePasses,
           },
           200
         );

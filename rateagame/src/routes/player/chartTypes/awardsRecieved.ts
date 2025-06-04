@@ -15,6 +15,7 @@ export const awardsRecieved = async (c: Context) => {
       by: ["awardId"],
       where: {
         receivedUserId: userId.toString(),
+        NOT: { givenUserId: userId.toString() },
       },
       _count: {
         _all: true,

@@ -28,7 +28,7 @@ export const mostAwarded = async (c: Context, days: number) => {
         reviewId: "desc",
       },
     },
-    take: 20,
+    take: 10,
   });
   const reviewIds = awardCounts.map((a) => a.reviewId);
 

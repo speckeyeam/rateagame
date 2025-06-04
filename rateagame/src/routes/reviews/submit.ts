@@ -4,6 +4,7 @@ import { Prisma, PrismaClient, reviewData } from "@prisma/client";
 
 import { playerCheck } from "../helpers/playerCheck";
 import { gameCheck } from "../helpers/gameCheck";
+import { NewLineKind } from "typescript";
 
 const prisma = new PrismaClient();
 
@@ -19,16 +20,9 @@ export const submit = async (c: Context) => {
     reviewId,
     gamePass, // Default to false if not provided
     token,
+    parentId = null,
   } = requestData;
 
-  //   let gameId: string = requestData.gameId.toString();
-  //   let date = new Date(requestData.date * 1000);
-  //   let text = requestData.text;
-  //   let recommends = requestData.recommends;
-  //   let userId: string = requestData.userId.toString();
-  //   let reviewId = requestData.reviewId;
-  //   let gamePass = requestData.gamePass || false; //check if this works properly, it might be a string and not a boolean
-  //make sure that when looping out all user generated content u are using roblox's filter system
   console.log(token);
   if (
     gameId &&
@@ -42,9 +36,9 @@ export const submit = async (c: Context) => {
     let player: any = await playerCheck(c);
     console.log(player);
     if (player) {
-      let game: any = await gameCheck(gameId, gamePass);
+      let game: any = await gameCheck(gameId, gamePass, parentId);
 
-      if (text.length < 2001) {
+      if (text.length < 2001 && game) {
         const data: any = {
           reviewId: String(reviewId),
           time: new Date(time * 1000),

@@ -23,6 +23,7 @@ export const getMostReviewed = async (c: Context) => {
     const data: any = {
       by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
       take,
+
       skip: cursor ? 1 : 0, // Skip the cursor item itself
       cursor: cursor
         ? { [gamePass ? "gamePassId" : "gameId"]: cursor }
@@ -31,9 +32,8 @@ export const getMostReviewed = async (c: Context) => {
       where: {
         deleted: false,
       },
-      _count: {
-        [gamePass ? "gamePassId" : "gameId"]: true, // Count based on grouping field
-      },
+      _count: { _all: true },
+      _sum: { rating: true },
       orderBy: {
         _count: {
           [gamePass ? "gamePassId" : "gameId"]: "desc", // Sort by the count of the grouping field

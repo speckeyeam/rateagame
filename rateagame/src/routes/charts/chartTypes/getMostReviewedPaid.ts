@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 // Gets the most trending games in the past week (or a configurable number of days)
 // based on the most reviews. (For Roblox: you could paginate reviews by time.)
-export const getTrending = async (c: Context) => {
+export const getMostReviewedPaid = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
@@ -20,9 +20,6 @@ export const getTrending = async (c: Context) => {
 
   // Allow days === 0 as a valid input.
   if (userId && take) {
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 7); //add a filter parameeter maybe
-
     const data: any = {
       by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
       take,
@@ -32,11 +29,11 @@ export const getTrending = async (c: Context) => {
         : undefined,
       // If days > 0, filter reviews within that time range.
       where: {
-        time: {
-          gte: startDate,
-          lte: new Date(),
-        },
         deleted: false,
+        game: {
+          // <- relation filter
+          forSale: true, // only reviews whose related game/pass is for sale
+        },
       },
       _count: { _all: true },
       _sum: { rating: true },
@@ -50,12 +47,12 @@ export const getTrending = async (c: Context) => {
 
     const recentlyReviewed = await prisma.review.groupBy(data);
 
-    if (recentlyReviewed && recentlyReviewed[recentlyReviewed.length - 1]) {
+    if (recentlyReviewed) {
       return {
         games: recentlyReviewed,
         nextCursor:
-          recentlyReviewed[recentlyReviewed.length - 1][
-            gamePass ? "gamePassId" : "gameId"
+          recentlyReviewed.at(-1)?.[
+            (gamePass ? "gamePassId" : "gameId") as "gamePassId" | "gameId"
           ],
       };
     }
