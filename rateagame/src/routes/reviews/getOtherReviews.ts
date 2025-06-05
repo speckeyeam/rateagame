@@ -28,13 +28,15 @@ export const getOtherReviews = async (c: Context) => {
       };
       break;
     case "Newest":
-      orderBy = { createdAt: "desc" };
+      orderBy = { date: "desc" };
       break;
     case "Oldesr":
-      orderBy = { createdAt: "asc" };
+      orderBy = { date: "asc" };
       break;
     default:
-      orderBy = { createdAt: "desc" }; // fallback
+      orderBy = {
+        likes: { _count: "desc" },
+      }; //fallback
   }
   if (gameId && userId && token && date) {
     let player: any = await playerCheck(c);
