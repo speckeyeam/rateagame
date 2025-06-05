@@ -17,9 +17,25 @@ export const getOtherReviews = async (c: Context) => {
     gamePass, // Default to false if not provided
     token,
     date,
+    option,
   } = requestData;
 
-  console.log(token);
+  let orderBy: any = {};
+  switch (option) {
+    case "Most Liked":
+      orderBy = {
+        likes: { _count: "desc" },
+      };
+      break;
+    case "Newest":
+      orderBy = { createdAt: "desc" };
+      break;
+    case "Oldesr":
+      orderBy = { createdAt: "asc" };
+      break;
+    default:
+      orderBy = { createdAt: "desc" }; // fallback
+  }
   if (gameId && userId && token && date) {
     let player: any = await playerCheck(c);
     if (player) {
@@ -42,11 +58,7 @@ export const getOtherReviews = async (c: Context) => {
       const reviews = await prisma.review.findMany({
         take: 100,
         where: data,
-        orderBy: {
-          likes: {
-            _count: "desc", // Order by number of likes in descending order
-          },
-        },
+        orderBy,
         include: {
           _count: {
             select: { likes: { where: { value: true } } }, // Include the number of likes for each review
