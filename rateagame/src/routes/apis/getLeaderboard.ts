@@ -25,7 +25,7 @@ export async function getLeaderboard(c: Context) {
       where: {
         deleted: false,
       },
-      take: 100,
+      take: 40,
     });
 
     const usersWithMostLikes = await prisma.like.groupBy({
