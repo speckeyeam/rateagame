@@ -36,7 +36,7 @@ export const giveAward = async (c: Context) => {
                 where: { userId: userId.toString() },
                 data: {
                   coins: {
-                    increment: -award.price, // Increase coins by 500
+                    increment: -award.price, // decrease coins by the amount that the award cost
                   },
                 },
               });
@@ -48,6 +48,14 @@ export const giveAward = async (c: Context) => {
                     reviewId: reviewId.toString(),
                     awardId: award.id.toString(),
                     time: new Date(),
+                  },
+                });
+                const givePoints = await prisma.user.update({
+                  where: { userId: recieverId.toString() },
+                  data: {
+                    coins: {
+                      increment: Math.round(award.price / 2), // increase coins half of the award costs
+                    },
                   },
                 });
                 if (givenAward) {
