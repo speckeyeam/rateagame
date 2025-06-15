@@ -34,8 +34,10 @@ export const getProfile = async (c: Context) => {
         }),
 
         prisma.award.count({
-          where: { receivedUserId: userId.toString() },
-          NOT: { givenUserId: userId.toString() },
+          where: {
+            receivedUserId: userId.toString(),
+            NOT: { givenUserId: userId.toString() },
+          },
         }),
 
         prisma.award.count({

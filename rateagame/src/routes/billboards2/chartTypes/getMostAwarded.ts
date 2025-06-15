@@ -41,7 +41,12 @@ export const mostAwarded = async (c: Context, days: number) => {
     include: {
       user: true,
       game: true,
-      awards: true,
+      awards: {
+        where: {
+          receivedUserId: userId.toString(),
+          NOT: { givenUserId: userId.toString() },
+        },
+      },
       _count: {
         select: { likes: { where: { value: true } } }, // Include the number of likes for each review
       },
