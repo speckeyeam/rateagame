@@ -26,7 +26,7 @@ export const giveAward = async (c: Context) => {
         },
       });
 
-      if (review) {
+      if (review && review.userId != player.userId) {
         const recieverId = review.userId;
         if (buying && recieverId) {
           const saleCheck = await awardIsForSale(award.id);
