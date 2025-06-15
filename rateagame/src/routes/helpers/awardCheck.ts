@@ -61,9 +61,9 @@ const awards: any = {
 //2 is rare (any other one for now)
 //3...
 const startingInventory: any = {
-  2: {
-    quantity: 5,
-  },
+  // 2: {
+  //   quantity: 5,
+  // },
 };
 
 const awardsForsSale = [2, 3, 4, 5, 6, 7];
