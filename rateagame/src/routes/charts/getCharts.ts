@@ -30,44 +30,43 @@ export const getCharts = async (c: Context) => {
     topGamePasses: getTopGamePasses,
   };
   console.log(requestData);
-  if (userId && token && call) {
-    let player: any = await playerCheck(c);
-    if (player) {
-      if (call == "images") {
-        const recentlyReviewed = await getRecentlyReviewed(c);
-        const topRated = await getTopRated(c);
-        const lowestRated = await getLowestRated(c);
-        const trending = await getTrending(c);
-        const mostReviewed = await getMostReviewed(c);
-        const mostReviewedPaid = await getMostReviewedPaid(c);
-        const topGamePasses = await getTopGamePasses(c);
+  if (userId && call) {
+    // let player: any = await playerCheck(c);
+    if (call == "images") {
+      const recentlyReviewed = await getRecentlyReviewed(c);
+      const topRated = await getTopRated(c);
+      const lowestRated = await getLowestRated(c);
+      const trending = await getTrending(c);
+      const mostReviewed = await getMostReviewed(c);
+      const mostReviewedPaid = await getMostReviewedPaid(c);
+      const topGamePasses = await getTopGamePasses(c);
 
-        //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
-        return c.json(
-          {
-            success: true,
-            recentlyReviewed,
-            topRated,
-            lowestRated,
-            trending,
-            mostReviewed,
-            mostReviewedPaid,
-            topGamePasses,
-          },
-          200
-        );
-      } else {
-        const data = await functions[call](c);
-        return c.json(
-          {
-            success: true,
-            games: data?.games,
-            nextCursor: data?.nextCursor,
-          },
-          200
-        );
-      }
+      //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
+      return c.json(
+        {
+          success: true,
+          recentlyReviewed,
+          topRated,
+          lowestRated,
+          trending,
+          mostReviewed,
+          mostReviewedPaid,
+          topGamePasses,
+        },
+        200
+      );
+    } else {
+      const data = await functions[call](c);
+      return c.json(
+        {
+          success: true,
+          games: data?.games,
+          nextCursor: data?.nextCursor,
+        },
+        200
+      );
     }
   }
+
   return c.json({ success: false }, 500);
 };
