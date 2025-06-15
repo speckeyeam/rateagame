@@ -57,7 +57,7 @@ export const playerAdded = async (c: Context) => {
       create: {
         userId,
         dateJoined: new Date(),
-        coins: 150,
+        coins: 0,
         awardInventory: {
           create: awardsToInsert,
         },
