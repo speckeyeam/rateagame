@@ -53,7 +53,7 @@ export const likeReview = async (c: Context) => {
                 where: { userId: review.userId },
                 data: {
                   coins: {
-                    increment: 10, // Increase coins by 500
+                    increment: 1, // Increase coins by 500
                   },
                 },
               });
