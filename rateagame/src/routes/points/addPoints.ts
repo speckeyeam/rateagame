@@ -9,17 +9,16 @@ const prisma = new PrismaClient();
 export const addPoints = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, token } = requestData;
+  const { userId, token, coins } = requestData;
 
-  console.log(token);
-  if (userId && token) {
+  if (userId && token && coins) {
     let player: any = await playerCheck(c);
-    if (player) {
+    if (player && coins < 5001) {
       const updatedUser = await prisma.user.update({
         where: { userId: userId.toString() },
         data: {
           coins: {
-            increment: 50, // Increase coins by 50
+            increment: coins, // Increase coins by 50
           },
         },
       });
