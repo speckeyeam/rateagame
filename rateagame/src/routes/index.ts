@@ -10,6 +10,7 @@ import billboardsRoute from "./billboards";
 import billboards2Route from "./billboards2";
 import gdprRoute from "./gdpr";
 import gameRoute from "./game";
+import pointsRoute from "./points";
 
 const router = new Hono();
 
@@ -33,5 +34,7 @@ router.route("/gdpr", gdprRoute);
 router.route("/billboards", billboardsRoute);
 router.route("/billboards2", billboards2Route);
 router.route("/game", gameRoute);
+
+router.route("/points", pointsRoute);
 
 export default router;
