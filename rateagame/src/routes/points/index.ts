@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 
-import { redeemFree } from "./redeemFree";
+import { addPoints } from "./addPoints";
 
 const app = new Hono();
 
-app.post("/redeemFree", redeemFree);
+app.post("/addPoints", addPoints);
 
 export default app;
