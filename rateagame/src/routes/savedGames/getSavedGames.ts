@@ -22,9 +22,6 @@ export const getSavedGames = async (c: Context) => {
     console.log("went through");
     let player: any = await playerCheck(c);
     if (player) {
-      console.log(player);
-
-      console.log(date);
       const data: any = {
         time: {
           lt: new Date(date * 1000),
@@ -43,8 +40,6 @@ export const getSavedGames = async (c: Context) => {
           time: "desc",
         },
       });
-      console.log("never fetced?");
-      console.log(savedGames);
       if (savedGames) {
         return c.json({ success: true, games: savedGames }, 200);
       }
