@@ -43,6 +43,7 @@ export const getSavedGames = async (c: Context) => {
           time: "desc",
         },
       });
+      console.log("never fetced?");
       console.log(savedGames);
       if (savedGames) {
         return c.json({ success: true, games: savedGames }, 200);
