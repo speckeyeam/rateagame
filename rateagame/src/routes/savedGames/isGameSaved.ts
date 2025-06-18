@@ -2,7 +2,7 @@ import { Context } from "hono";
 
 import { PrismaClient } from "@prisma/client";
 
-import { playerCheck } from "../helpers/playerCheck";
+import { apikeycheck } from "../helpers/apikeycheck";
 
 const prisma = new PrismaClient();
 
@@ -13,13 +13,11 @@ export const isGameSaved = async (c: Context) => {
     gameId,
     userId,
     gamePass, // Default to false if not provided
-    token,
   } = requestData;
 
-  console.log(token);
-  if (gameId && userId && token) {
-    let player: any = await playerCheck(c);
-    if (player) {
+  if (gameId && userId) {
+    let check: any = await apikeycheck(c);
+    if (check) {
       console.log(requestData);
 
       const data: any = {
