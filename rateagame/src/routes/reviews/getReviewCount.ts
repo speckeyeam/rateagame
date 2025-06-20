@@ -10,9 +10,9 @@ const prisma = new PrismaClient();
 export const getReviewCount = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { userId, gameId, gamePass } = requestData;
+  const { gameId, gamePass } = requestData;
 
-  if (userId && gameId && gamePass) {
+  if (gameId && gamePass) {
     let check = await apikeycheck(c);
     if (check) {
       const total = await prisma.review.count({
