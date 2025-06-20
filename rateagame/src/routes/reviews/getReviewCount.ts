@@ -1,0 +1,26 @@
+import { Context } from "hono";
+
+import { PrismaClient } from "@prisma/client";
+
+import { apikeycheck } from "../helpers/apikeycheck";
+import { gameCheck } from "../helpers/gameCheck";
+
+const prisma = new PrismaClient();
+
+export const getReviewCount = async (c: Context) => {
+  const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
+
+  const { userId, gameId, gamePass } = requestData;
+
+  if (userId && gameId && gamePass) {
+    let check = await apikeycheck(c);
+    if (check) {
+      const total = await prisma.review.count({
+        where: { [gamePass ? "gamePassId" : "gameId"]: String(gameId) },
+      });
+      return c.json({ success: true, total }, 200);
+    }
+  }
+
+  return c.json({ success: false }, 500);
+};
