@@ -40,7 +40,7 @@ export async function gameCheck(
       where: { gamePassId: String(gameId) },
       create: {
         gamePassId: String(gameId),
-        ...(parentId != "" ? { parentId: String(parentId) } : {}),
+        ...(parentId != "" ? { gameId: String(parentId) } : {}),
       },
       update: {},
     });

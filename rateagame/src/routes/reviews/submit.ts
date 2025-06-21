@@ -49,7 +49,6 @@ export const submit = async (c: Context) => {
           rating: recommends ? 1 : -1,
           assetId: String(gameId),
           [gamePass ? "gamePassId" : "gameId"]: String(gameId),
-          parentId,
         };
 
         const data2: any = {
