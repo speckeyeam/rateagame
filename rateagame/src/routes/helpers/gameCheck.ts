@@ -29,7 +29,7 @@ export async function getGamePrice(
 export async function gameCheck(
   gameId: string,
   gamePass: boolean,
-  gameId: string = ""
+  parentId: string = ""
 ) {
   if (gameId.length > 100) {
     return null;
@@ -40,7 +40,7 @@ export async function gameCheck(
       where: { gamePassId: String(gameId) },
       create: {
         gamePassId: String(gameId),
-        ...(gameId != "" ? { gameId: String(gameId) } : {}),
+        ...(parentId != "" ? { gameId: String(parentId) } : {}),
       },
       update: {},
     });
