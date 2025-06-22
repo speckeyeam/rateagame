@@ -58,7 +58,7 @@ export const submit = async (c: Context) => {
         } else {
           data2.gameId = String(gameId);
         }
-        if ((await prisma.review.count({ data2 })) === 0) {
+        if ((await prisma.review.count({ where: data2 })) === 0) {
           const newreview = await prisma.review.create({
             data,
           });
