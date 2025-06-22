@@ -32,7 +32,11 @@ export const submit = async (c: Context) => {
     reviewId &&
     token
   ) {
+    const t0 = performance.now();
+
     let player: any = await playerCheck(c);
+    console.log("playerCheck:", performance.now() - t0);
+
     if (player) {
       if (text.length < 2001) {
         const data: any = {
@@ -56,14 +60,25 @@ export const submit = async (c: Context) => {
         } else {
           data2.gameId = String(gameId);
         }
+        const t1 = performance.now();
+
         if ((await prisma.review.count({ where: data2 })) === 0) {
+          console.log("dup-count:", performance.now() - t1);
+
+          const t2 = performance.now();
+
           const newreview = await prisma.review.create({
             data,
           });
+          console.log("create:", performance.now() - t2);
+
+          const t3 = performance.now();
 
           const userReviewCount = await prisma.review.count({
             where: { userId: userId.toString(), deleted: false },
           });
+          console.log("count-user:", performance.now() - t3);
+          console.log("TOTAL:", performance.now() - t0);
 
           if (newreview) {
             return c.json(
