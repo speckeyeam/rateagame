@@ -3,7 +3,6 @@ import { Context } from "hono";
 import { PrismaClient } from "@prisma/client";
 
 import { playerCheck } from "../helpers/playerCheck";
-import { gameCheck } from "../helpers/gameCheck";
 
 const prisma = new PrismaClient();
 
@@ -24,10 +23,6 @@ export const getMyReview = async (c: Context) => {
     if (player) {
       if (otherPlayerId) {
       } else {
-        console.log(player);
-
-        let game: any = await gameCheck(gameId, gamePass);
-
         const data: any = {
           userId: String(userId),
           deleted: false,
