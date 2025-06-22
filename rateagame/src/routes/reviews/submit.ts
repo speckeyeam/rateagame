@@ -57,11 +57,8 @@ export const submit = async (c: Context) => {
           data2.gamePassId = String(gameId);
         } else {
           data2.gameId = String(gameId);
-        }
-        const checkReviews = await prisma.review.findMany({
-          where: data2,
-        });
-        if (checkReviews.length == 0) {
+      
+        if (await prisma.review.count({ data2}) === 0) {
           const newreview = await prisma.review.create({
             data,
           });
