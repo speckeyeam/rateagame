@@ -23,7 +23,6 @@ export const submit = async (c: Context) => {
     parentId = null,
   } = requestData;
 
-  console.log(token);
   if (
     gameId &&
     time &&
@@ -34,7 +33,6 @@ export const submit = async (c: Context) => {
     token
   ) {
     let player: any = await playerCheck(c);
-    console.log(player);
     if (player) {
       if (text.length < 2001) {
         const data: any = {
@@ -62,7 +60,6 @@ export const submit = async (c: Context) => {
           const newreview = await prisma.review.create({
             data,
           });
-          console.log(newreview);
 
           const userReviewCount = await prisma.review.count({
             where: { userId: userId.toString(), deleted: false },
