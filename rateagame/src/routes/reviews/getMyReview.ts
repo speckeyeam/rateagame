@@ -45,6 +45,7 @@ export const getMyReview = async (c: Context) => {
         if (myReview) {
           return c.json({ success: true, review: myReview }, 200);
         }
+        return c.json({ success: false }, 200);
       }
     }
   }
