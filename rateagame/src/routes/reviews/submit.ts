@@ -32,14 +32,10 @@ export const submit = async (c: Context) => {
     reviewId &&
     token
   ) {
-    const t0 = performance.now();
-
-    let player: any = await playerCheck(c);
-    console.log("playerCheck:", performance.now() - t0);
-
+    let player = await playerCheck(c);
     if (player) {
       if (text.length < 2001) {
-        const data: any = {
+        const data = {
           reviewId: String(reviewId),
           time: new Date(time * 1000),
           text,
@@ -51,34 +47,19 @@ export const submit = async (c: Context) => {
           [gamePass ? "gamePassId" : "gameId"]: String(gameId),
         };
 
-        const data2: any = {
+        const data2 = {
           userId: userId.toString(),
           deleted: false,
+          [gamePass ? "gamePassId" : "gameId"]: String(gameId),
         };
-        if (gamePass) {
-          data2.gamePassId = String(gameId);
-        } else {
-          data2.gameId = String(gameId);
-        }
-        const t1 = performance.now();
-
         if ((await prisma.review.count({ where: data2 })) === 0) {
-          console.log("dup-count:", performance.now() - t1);
-
-          const t2 = performance.now();
-
           const newreview = await prisma.review.create({
             data,
           });
-          console.log("create:", performance.now() - t2);
-
-          const t3 = performance.now();
 
           const userReviewCount = await prisma.review.count({
             where: { userId: userId.toString(), deleted: false },
           });
-          console.log("count-user:", performance.now() - t3);
-          console.log("TOTAL:", performance.now() - t0);
 
           if (newreview) {
             return c.json(
