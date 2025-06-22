@@ -36,9 +36,7 @@ export const submit = async (c: Context) => {
     let player: any = await playerCheck(c);
     console.log(player);
     if (player) {
-      let game: any = await gameCheck(gameId, gamePass, parentId);
-
-      if (text.length < 2001 && game) {
+      if (text.length < 2001) {
         const data: any = {
           reviewId: String(reviewId),
           time: new Date(time * 1000),
@@ -81,8 +79,10 @@ export const submit = async (c: Context) => {
           }
         }
       }
-    } else {
-      return c.json({ success: false }, 500);
+      void gameCheck(gameId, gamePass, parentId).catch((err) =>
+        console.error("gameCheck failed:", err)
+      );
     }
+    return c.json({ success: false }, 500);
   }
 };
