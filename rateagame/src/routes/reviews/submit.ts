@@ -69,6 +69,13 @@ export const submit = async (c: Context) => {
       console.log("bullcum2");
     }
   } else {
+    console.log(gameId);
+    console.log(time);
+    console.log(text);
+    console.log(userId);
+    console.log(reviewId);
+    console.log(token);
+
     console.log("bullcum");
   }
   return c.json({ success: false }, 500);
