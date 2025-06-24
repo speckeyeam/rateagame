@@ -65,7 +65,11 @@ export const submit = async (c: Context) => {
       void gameCheck(gameId, gamePass, parentId).catch((err) =>
         console.error("gameCheck failed:", err)
       );
+    } else {
+      console.log("bullcum2");
     }
-    return c.json({ success: false }, 500);
+  } else {
+    console.log("bullcum");
   }
+  return c.json({ success: false }, 500);
 };
