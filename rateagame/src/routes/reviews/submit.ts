@@ -24,15 +24,7 @@ export const submit = async (c: Context) => {
     unsure = false,
   } = requestData;
 
-  if (
-    gameId &&
-    time &&
-    text &&
-    typeof recommends == "boolean" &&
-    userId &&
-    reviewId &&
-    token
-  ) {
+  if (gameId && time && text && userId && reviewId && token) {
     let player = await playerCheck(c);
     if (player) {
       if (text.length < 2001) {
