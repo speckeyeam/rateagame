@@ -33,7 +33,6 @@ export const setCache = async (c: Context) => {
   const {
     gameId,
     forSale,
-    lastUpdated,
     IconImageAssetId,
     Name,
     Created,
@@ -41,15 +40,7 @@ export const setCache = async (c: Context) => {
     Price,
   } = requestData;
 
-  if (
-    gameId &&
-    forSale &&
-    lastUpdated &&
-    IconImageAssetId &&
-    Name &&
-    Created &&
-    Description
-  ) {
+  if (gameId && forSale && IconImageAssetId && Name && Created && Description) {
     let check: any = await apikeycheck(c);
     if (check) {
       let visits = await getVisits(gameId);
@@ -59,7 +50,6 @@ export const setCache = async (c: Context) => {
         },
         update: {
           forSale,
-          lastUpdated,
           IconImageAssetId,
           Name,
           Created,
