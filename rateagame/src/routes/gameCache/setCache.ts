@@ -36,7 +36,7 @@ export const setCache = async (c: Context) => {
     IconImageAssetId,
     Name,
     Created,
-    Price,
+    Price = 0,
   } = requestData;
 
   if (gameId && IconImageAssetId && Name && Created) {
@@ -55,8 +55,8 @@ export const setCache = async (c: Context) => {
           Name,
           Created,
           lastUpdated: new Date(Date.now() + offset),
+          Price: Number(Price),
           ...(visits !== 0 && { visits }),
-          ...(Price && { Price }),
         },
         create: {
           gameId: gameId.toString(),
