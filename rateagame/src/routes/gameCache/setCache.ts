@@ -30,17 +30,10 @@ export async function getVisits(id: string | number): Promise<number> {
 export const setCache = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const {
-    gameId,
-    forSale,
-    IconImageAssetId,
-    Name,
-    Created,
-    Description,
-    Price,
-  } = requestData;
+  const { gameId, forSale, IconImageAssetId, Name, Created, Price } =
+    requestData;
 
-  if (gameId && forSale && IconImageAssetId && Name && Created && Description) {
+  if (gameId && forSale && IconImageAssetId && Name && Created) {
     let check: any = await apikeycheck(c);
     if (check) {
       let visits = await getVisits(gameId);
@@ -53,7 +46,6 @@ export const setCache = async (c: Context) => {
           IconImageAssetId: IconImageAssetId.toString(),
           Name,
           Created,
-          Description,
           lastUpdated: new Date(),
           visits: Number(visits),
           Price: Number(Price),
