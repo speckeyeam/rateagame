@@ -33,6 +33,7 @@ model game {
   Created          String?
   Description      String?
   visits           Int?
+  Price            Int?
 }
 
 // "IconImageAssetId"] = 104178370574409,

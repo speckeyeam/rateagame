@@ -38,6 +38,7 @@ export const setCache = async (c: Context) => {
     Name,
     Created,
     Description,
+    Price,
   } = requestData;
 
   if (
@@ -65,6 +66,7 @@ export const setCache = async (c: Context) => {
           Description,
           lastUpdated: new Date(),
           visits,
+          Price,
         },
         create: {
           gameId: String(gameId),
