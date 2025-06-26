@@ -46,11 +46,11 @@ export const setCache = async (c: Context) => {
       let visits = await getVisits(gameId);
       const game = await prisma.game.upsert({
         where: {
-          gameId: String(gameId),
+          gameId: gameId.toString(),
         },
         update: {
           forSale,
-          IconImageAssetId: String(IconImageAssetId),
+          IconImageAssetId: IconImageAssetId.toString(),
           Name,
           Created,
           Description,
@@ -59,7 +59,7 @@ export const setCache = async (c: Context) => {
           Price: Number(Price),
         },
         create: {
-          gameId: String(gameId),
+          gameId: gameId.toString(),
         },
       });
       if (game) {
@@ -67,6 +67,5 @@ export const setCache = async (c: Context) => {
       }
     }
   }
-  console.log("something wasnt right");
   return c.json({ success: false }, 500);
 };
