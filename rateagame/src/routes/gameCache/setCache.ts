@@ -67,5 +67,6 @@ export const setCache = async (c: Context) => {
       }
     }
   }
+  console.log("something wasnt right");
   return c.json({ success: false }, 500);
 };
