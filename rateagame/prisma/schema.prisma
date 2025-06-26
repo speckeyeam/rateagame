@@ -24,11 +24,35 @@ model user {
 }
 
 model game {
-  gameId      String   @unique
-  forSale     Boolean  @default(false)
-  lastUpdated DateTime @default(now())
-  reviews     review[]
+  gameId           String   @unique
+  forSale          Boolean  @default(false)
+  lastUpdated      DateTime @default(now())
+  reviews          review[]
+  IconImageAssetId String?
+  Name             String?
+  Created          String?
+  Description      String?
+  visits           Int?
 }
+
+// "IconImageAssetId"] = 104178370574409,
+//                     ["IsForSale"] = false,
+//                     ["IsLimited"] = false,
+//                     ["IsLimitedUnique"] = false,
+//                     ["IsNew"] = false,
+//                     ["IsPublicDomain"] = false,
+//                     ["MinimumMembershipLevel"] = 0,
+//                     ["Name"] = "Steal a Brainrot",
+//                     ["ProductId"] = 0,
+//                     ["Sales"] = 0,
+//                     ["TargetId"] = 0,
+//                     ["Updated"] = "2025-06-25T22:25:48.0759346Z"
+// ["AssetId"] = 109983668079237,
+//                     ["AssetTypeId"] = 9,
+//                     ["ContentRatingTypeId"] = 0,
+//                     ["Created"] = "2025-05-16T00:49:12.563Z",
+//                     ["Creator"] =  ▶ {...},
+//                     ["Description"]
 
 model gamePass {
   gamePassId String   @unique

@@ -11,6 +11,7 @@ import billboards2Route from "./billboards2";
 import gdprRoute from "./gdpr";
 import gameRoute from "./game";
 import pointsRoute from "./points";
+import gameCache from "./gameCache";
 
 const router = new Hono();
 
@@ -36,5 +37,7 @@ router.route("/billboards2", billboards2Route);
 router.route("/game", gameRoute);
 
 router.route("/points", pointsRoute);
+
+router.route("/gameCache", gameCache);
 
 export default router;
