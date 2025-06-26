@@ -32,6 +32,10 @@ export const setCache = async (c: Context) => {
 
   const { gameId, forSale, IconImageAssetId, Name, Created, Price } =
     requestData;
+  console.log(gameId);
+  console.log(forSale);
+  console.log(IconImageAssetId);
+  console.log(Created);
 
   if (gameId && forSale && IconImageAssetId && Name && Created) {
     let check: any = await apikeycheck(c);
