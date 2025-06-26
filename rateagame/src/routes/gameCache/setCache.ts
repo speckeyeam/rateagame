@@ -50,13 +50,13 @@ export const setCache = async (c: Context) => {
         },
         update: {
           forSale,
-          IconImageAssetId,
+          IconImageAssetId: String(IconImageAssetId),
           Name,
           Created,
           Description,
           lastUpdated: new Date(),
-          visits,
-          Price,
+          visits: Number(visits),
+          Price: Number(Price),
         },
         create: {
           gameId: String(gameId),
