@@ -43,6 +43,8 @@ export const setCache = async (c: Context) => {
     let check: any = await apikeycheck(c);
     if (check) {
       let visits = await getVisits(gameId);
+
+      const offset = Math.random() * 12 * 60 * 60 * 1000;
       const game = await prisma.game.upsert({
         where: {
           gameId: gameId.toString(),
@@ -52,7 +54,7 @@ export const setCache = async (c: Context) => {
           IconImageAssetId: IconImageAssetId.toString(),
           Name,
           Created,
-          lastUpdated: new Date(),
+          lastUpdated: new Date(Date.now() + offset),
           visits: Number(visits),
           Price: Number(Price),
         },
