@@ -6,6 +6,12 @@ import { apikeycheck } from "../helpers/apikeycheck";
 
 const prisma = new PrismaClient();
 
+const ONE_DAY_MS = 24 * 60 * 60 * 1000; // 86 400 000 ms
+
+function isOverADayOld(date: Date): boolean {
+  return Date.now() - date.getTime() > ONE_DAY_MS;
+}
+
 export const getCache = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
@@ -20,7 +26,10 @@ export const getCache = async (c: Context) => {
         },
       });
       if (game) {
-        return c.json({ success: true, game }, 200);
+        return c.json(
+          { success: true, game, outdated: isOverADayOld(game.lastUpdated) },
+          200
+        );
       }
     }
   }
