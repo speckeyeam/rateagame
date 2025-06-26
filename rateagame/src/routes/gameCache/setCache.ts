@@ -55,8 +55,8 @@ export const setCache = async (c: Context) => {
           Name,
           Created,
           lastUpdated: new Date(Date.now() + offset),
-          visits: Number(visits),
-          Price: Number(Price),
+          ...(visits !== 0 && { visits }),
+          ...(Price && { Price }),
         },
         create: {
           gameId: gameId.toString(),
