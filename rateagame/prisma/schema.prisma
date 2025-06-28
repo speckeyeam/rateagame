@@ -24,16 +24,17 @@ model user {
 }
 
 model game {
-  gameId           String   @unique
-  forSale          Boolean  @default(false)
-  lastUpdated      DateTime @default(now())
+  gameId           String    @unique
+  forSale          Boolean   @default(false)
+  lastUpdated      DateTime  @default(now())
   reviews          review[]
   IconImageAssetId String?
   Name             String?
   Created          String?
   Description      String?
-  visits           Int?
+  visits           BigInt?
   Price            Int?
+  date             DateTime?
 }
 
 // "IconImageAssetId"] = 104178370574409,
