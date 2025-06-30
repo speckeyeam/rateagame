@@ -28,6 +28,8 @@ export const getCache = async (c: Context) => {
       if (game) {
         if (game.visits !== undefined && !isNaN(Number(game.visits))) {
           game.visits = parseInt(String(game.visits));
+        } else {
+          game.visits = parseInt(String(0));
         }
         return c.json(
           { success: true, game, outdated: isOverADayOld(game.lastUpdated) },
