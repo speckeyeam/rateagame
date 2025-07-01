@@ -32,7 +32,7 @@ model game {
   Name             String?
   Created          String?
   Description      String?
-  visits           BigInt?
+  visits           Float?
   Price            Int?
   date             DateTime?
 }
