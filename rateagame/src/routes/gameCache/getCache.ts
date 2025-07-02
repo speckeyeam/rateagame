@@ -17,7 +17,7 @@ export const getCache = async (c: Context) => {
 
   const { gameId } = requestData;
 
-  if (gameId) {
+  if (gameId && requestData) {
     let check: any = await apikeycheck(c);
     if (check) {
       const game = await prisma.game.findFirst({
