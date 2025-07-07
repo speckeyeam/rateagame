@@ -27,6 +27,7 @@ export const sort = async (c: Context) => {
   };
   console.log(requestData);
   if (userId && call) {
+    console.log("test");
     const data = await functions[call](c);
     return c.json(
       {
@@ -37,6 +38,7 @@ export const sort = async (c: Context) => {
       200
     );
   }
+  console.log("fail");
 
   return c.json({ success: false }, 500);
 };
