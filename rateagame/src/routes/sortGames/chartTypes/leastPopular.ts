@@ -1,65 +1,49 @@
+//honestly just like get all the reviews, or something like a 100 reviews max. when the maximum is reached, on roblox, get the time of the oldest or newest one (depending on the sort method) and use that as a filter to load reviews that came after or before that.
 import { Context } from "hono";
+
 import { PrismaClient } from "@prisma/client";
 
-import { playerCheck } from "../../helpers/playerCheck";
-import { gameCheck } from "../../helpers/gameCheck";
-
 const prisma = new PrismaClient();
-
-// Gets the most trending games in the past week (or a configurable number of days)
-// based on the most reviews. (For Roblox: you could paginate reviews by time.)
-export const getTrending = async (c: Context) => {
+//gets the most trending games in the past week, games with the most reviews, could get the most trending games and games passes in the last x amount of days
+export const getLeastPopular = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
-    userId,
-    gamePass = false, // Default to false if not provided
     take,
+    ascending = false,
+    costRobux = false,
+    visits = 0,
+    reviews = 0,
     cursor = null,
   } = requestData;
 
-  // Allow days === 0 as a valid input.
-  if (userId && take) {
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 7); //add a filter parameeter maybe
+  const games = await prisma.review.groupBy({
+    by: ["gameId", "assetId"],
 
-    const data: any = {
-      by: gamePass ? ["gamePassId", "assetId"] : ["gameId", "assetId"],
-      take,
-      skip: cursor ? 1 : 0, // Skip the cursor item itself
-      cursor: cursor
-        ? { [gamePass ? "gamePassId" : "gameId"]: cursor }
-        : undefined,
-      // If days > 0, filter reviews within that time range.
-      where: {
-        time: {
-          gte: startDate,
-          lte: new Date(),
-        },
-        deleted: false,
+    _sum: { rating: true },
+    _avg: { rating: true },
+    _count: { _all: true },
+    orderBy: {
+      game: {
+        visits: ascending ? "asc" : "desc",
       },
-      _count: { _all: true },
-      _sum: { rating: true },
+    },
+    cursor: cursor ? { gameId: cursor } : undefined,
+    skip: cursor ? 1 : 0, // Skip the cursor item itself
 
-      orderBy: {
+    where: {
+      gamePassId: null,
+      game: {
+        forSale: costRobux,
+        visits: { gt: visits - 1 },
         _count: {
-          [gamePass ? "gamePassId" : "gameId"]: "desc", // Sort by the count of the grouping field
+          reviews: { gte: reviews - 1 },
         },
       },
-    };
+      deleted: false,
+    },
 
-    const recentlyReviewed = await prisma.review.groupBy(data);
-
-    if (recentlyReviewed && recentlyReviewed[recentlyReviewed.length - 1]) {
-      return {
-        games: recentlyReviewed,
-        nextCursor:
-          recentlyReviewed[recentlyReviewed.length - 1][
-            gamePass ? "gamePassId" : "gameId"
-          ],
-      };
-    }
-  }
-
-  return null;
+    take,
+  });
+  return { games, nextCursor: games[games.length - 1].gameId };
 };

@@ -21,17 +21,20 @@ function buildCursor(row: any): string {
   return JSON.stringify(cur);
 }
 
-function cursorPredicate(cur?: string): Prisma.Sql {
-  if (!cur) return Prisma.sql``; // first page
+function cursorPredicate(cur?: string) {
+  if (!cur) return prisma.$queryRaw < ``; // first page
   const { pctPositive, totalReviews, gameId } = JSON.parse(cur) as Cursor;
 
-  return Prisma.sql`
+  return (
+    prisma.$queryRaw <
+    `
     AND (
          pctPositive  < ${pctPositive}
       OR (pctPositive = ${pctPositive} AND totalReviews < ${totalReviews})
       OR (pctPositive = ${pctPositive} AND totalReviews = ${totalReviews}
                                  AND g.gameId < ${gameId})
-    )`;
+    )`
+  );
 }
 
 // main handler ---------------------------------------------------------
@@ -66,8 +69,7 @@ export const getHighestRating = async (c: Context) => {
       positiveReviews: number;
       pctPositive: number;
     }>
-  >(
-    await prisma.$queryRaw`
+  >`
     WITH ranked AS (
       SELECT
         g.gameId,
@@ -100,9 +102,7 @@ export const getHighestRating = async (c: Context) => {
     ${prisma.$queryRaw(cursorClause)}
     ORDER BY pctPositive DESC, totalReviews DESC, g.gameId DESC
     LIMIT ${take};
-  `
-  );
-
+  `;
   if (!rows.length) return c.json({ games: [], nextCursor: null });
 
   return c.json({

@@ -5,34 +5,47 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 //gets the most trending games in the past week, games with the most reviews, could get the most trending games and games passes in the last x amount of days
-export const getTopRated = async (c: Context) => {
+export const getNewest = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
-    gamePass = false, // Default to false if not provided
     take,
+    ascending = false,
+    costRobux = false,
+    visits = 0,
+    reviews = 0,
+    cursor = null,
   } = requestData;
 
-  const topRated = await prisma.review.groupBy({
+  const games = await prisma.review.groupBy({
     by: ["gameId", "assetId"],
 
     _sum: { rating: true },
     _avg: { rating: true },
     _count: { _all: true },
     orderBy: {
-      _sum: {
-        rating: "desc", // Order by highest total rating
+      game: {
+        date: ascending ? "asc" : "desc",
       },
     },
+    cursor: cursor ? { gameId: cursor } : undefined,
+    skip: cursor ? 1 : 0, // Skip the cursor item itself
+
     where: {
-      [gamePass ? "gameId" : "gamePassId"]: null,
-      time: {
-        lte: new Date(),
+      // [gamePass ? "gameId" : "gamePassId"]: null,
+      gamePassId: null,
+
+      game: {
+        forSale: costRobux,
+        visits: { gt: visits - 1 },
+        _count: {
+          reviews: { gte: reviews - 1 },
+        },
       },
       deleted: false,
     },
 
     take,
   });
-  return { games: topRated };
+  return { games, nextCursor: games[games.length - 1].gameId };
 };
