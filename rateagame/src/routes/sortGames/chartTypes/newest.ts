@@ -9,7 +9,7 @@ export const getNewest = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
-    take,
+    take = 45,
     ascending = false,
     costRobux = false,
     visits = 0,
