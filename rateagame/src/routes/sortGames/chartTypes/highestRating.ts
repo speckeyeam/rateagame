@@ -94,6 +94,7 @@ export const getHighestRating = async (c: Context) => {
     LIMIT ${Prisma.sql`${take}`}
   `);
 
+  console.log(rows);
   if (!rows.length) return c.json({ games: [], nextCursor: null });
 
   return c.json({
