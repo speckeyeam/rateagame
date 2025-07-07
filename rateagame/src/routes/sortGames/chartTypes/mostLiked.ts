@@ -48,13 +48,12 @@ export const getMostLiked = async (c: Context) => {
           forSale: costRobux,
           visits: { gt: visits - 1 },
         },
-        _count: {
-          reviews: { gte: reviews - 1 },
-        },
       },
       deleted: false,
     },
-
+    having: {
+      _count: { _all: { gte: reviews } },
+    },
     take,
   });
   return { games, nextCursor: games[games.length - 1].gameId };

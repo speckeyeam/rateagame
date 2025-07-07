@@ -26,11 +26,11 @@ export const getLeastPopular = async (c: Context) => {
           forSale: costRobux,
           visits: { gt: visits - 1 },
         },
-        _count: {
-          reviews: { gte: reviews - 1 },
-        },
       },
       deleted: false,
+    },
+    having: {
+      _count: { _all: { gte: reviews } },
     },
     _sum: { rating: true },
     _avg: { rating: true },
