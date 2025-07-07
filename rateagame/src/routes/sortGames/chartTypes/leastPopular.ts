@@ -34,10 +34,12 @@ export const getLeastPopular = async (c: Context) => {
     where: {
       gamePassId: null,
       game: {
-        forSale: costRobux,
-        visits: { gt: visits - 1 },
-        _count: {
-          reviews: { gte: reviews - 1 },
+        is: {
+          forSale: costRobux,
+          visits: { gt: visits - 1 },
+          _count: {
+            reviews: { gte: reviews - 1 },
+          },
         },
       },
       deleted: false,
