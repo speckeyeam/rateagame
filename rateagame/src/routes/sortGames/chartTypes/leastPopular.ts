@@ -19,18 +19,6 @@ export const getLeastPopular = async (c: Context) => {
 
   const games = await prisma.review.groupBy({
     by: ["gameId", "assetId"],
-
-    _sum: { rating: true },
-    _avg: { rating: true },
-    _count: { _all: true },
-    orderBy: {
-      game: {
-        visits: ascending ? "asc" : "desc",
-      },
-    },
-    cursor: cursor ? { gameId: cursor } : undefined,
-    skip: cursor ? 1 : 0, // Skip the cursor item itself
-
     where: {
       gamePassId: null,
       game: {
@@ -44,7 +32,18 @@ export const getLeastPopular = async (c: Context) => {
       },
       deleted: false,
     },
-
+    _sum: { rating: true },
+    _avg: { rating: true },
+    _count: { _all: true },
+    orderBy: {
+      game: {
+        visits: ascending ? "asc" : "desc",
+      },
+    },
+    ...(cursor && {
+      cursor: { gameId_assetId: cursor }, // must include *every* field in `by`
+      skip: 1,
+    }),
     take,
   });
   return { games, nextCursor: games[games.length - 1].gameId };
