@@ -26,7 +26,7 @@ export const sort = async (c: Context) => {
     "Highest Rating": getHighestRating,
   };
   console.log(requestData);
-  if (userId) {
+  if (userId && call) {
     const data = await functions[call](c);
     return c.json(
       {
