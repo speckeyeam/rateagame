@@ -21,6 +21,9 @@ export const getLeastPopular = async (c: Context) => {
     where: {
       forSale: costRobux,
       visits: { gt: visits - 1 },
+      reviews: {
+        _count: { gte: reviews }, // keep only games with ≥ N reviews
+      },
     },
     orderBy: { visits: ascending ? "asc" : "desc" },
     ...(cursor && { cursor: { gameId: cursor }, skip: 1 }),
@@ -28,7 +31,7 @@ export const getLeastPopular = async (c: Context) => {
     select: {
       gameId: true,
       visits: true,
-      _count: { select: { reviews: { gte: reviews } } },
+      // _count: { select: { reviews: { gte: reviews } } },
     },
   });
 
