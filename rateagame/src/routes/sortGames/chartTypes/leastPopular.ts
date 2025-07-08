@@ -21,10 +21,9 @@ export const getLeastPopular = async (c: Context) => {
     where: {
       forSale: costRobux,
       visits: { gt: visits - 1 },
-      some: {
-        reviews: {
-          gt: 10,
-        },
+      reviews: {
+        // relation filter
+        some: {}, // empty filter = “there exists ≥ 1 review”
       },
     },
     orderBy: { visits: ascending ? "asc" : "desc" },
