@@ -106,9 +106,8 @@ ORDER BY pctPositive ${dir},
     positiveReviews: Number(r.positiveReviews),
     pctPositive: Number(r.pctPositive), // Decimal → number
   }));
-  console.log(games);
   return c.json({
-    games,
+    games: games,
     nextCursor: buildCursor(games[games.length - 1]),
   });
 };
