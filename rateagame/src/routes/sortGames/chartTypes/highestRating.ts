@@ -36,14 +36,22 @@ export const getHighestRating = async (c: Context) => {
   const {
     userId,
     take = 50,
+    ascending = false,
     cursor = null,
-    minReviews = 1,
-    minVisits = 0,
-    sinceDays = 7,
+    reviews = 1,
+    visits = 0,
+    date = 7,
     costsRobux = null, // true ➜ Price > 0 ; false ➜ free ; null ➜ ignore
   } = body;
 
   if (!userId) return c.json({ error: "userId required" }, 400);
+
+  const dir = ascending ? Prisma.sql`ASC` : Prisma.sql`DESC`; // ⇦ choose once
+  const orderSql = Prisma.sql`
+ORDER BY pctPositive ${dir},
+         totalReviews ${dir},
+         g.gameId     ${dir}
+`;
 
   const startDate = new Date(Date.now() - sinceDays * 86_400_000);
   const cursorClause = cursorPredicate(cursor);
@@ -81,6 +89,7 @@ export const getHighestRating = async (c: Context) => {
         AND COALESCE(g.visits, 0) >= ${minVisits}
         AND (r.gamePassId IS NULL AND r.gameId IS NOT NULL)
         ${costsRobuxSql}
+         ${orderSql}
       GROUP BY g.gameId
       HAVING COUNT(*) >= ${minReviews}
     )
