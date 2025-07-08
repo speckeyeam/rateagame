@@ -23,13 +23,13 @@ export const getMostReviewed = async (c: Context) => {
     _sum: { rating: true },
     _avg: { rating: true },
     _count: { _all: true },
+
     orderBy: {
-      orderBy: {
-        _count: {
-          gameId: ascending ? "asc" : "desc", // Sort by the count of the grouping field
-        },
+      _count: {
+        gameId: ascending ? "asc" : "desc", // Sort by the count of the grouping field
       },
     },
+
     cursor: cursor ? { gameId: cursor } : undefined,
     skip: cursor ? 1 : 0, // Skip the cursor item itself
 
