@@ -89,17 +89,14 @@ ORDER BY pctPositive ${dir},
         AND COALESCE(g.visits, 0) >= ${visits}
         AND (r.gamePassId IS NULL AND r.gameId IS NOT NULL)
         ${costsRobuxSql}
-         ${orderSql}
       GROUP BY g.gameId
       HAVING COUNT(*) >= ${reviews}
+      ${orderSql}
     )
     SELECT *
     FROM ranked g
     WHERE 1 = 1
       ${cursorClause}
-    ORDER BY pctPositive DESC,
-             totalReviews DESC,
-             g.gameId     DESC
     LIMIT 100
   `);
 
