@@ -101,7 +101,6 @@ ORDER BY pctPositive ${dir},
   `);
 
   console.log(rows);
-  if (!rows.length) return c.json({ games: [], nextCursor: null });
   const games = rows.map((r: any) => ({
     ...r,
     totalReviews: Number(r.totalReviews), // ← or String()
