@@ -100,13 +100,13 @@ ORDER BY pctPositive ${dir},
     LIMIT 100
   `);
 
-  console.log(rows);
   const games = rows.map((r: any) => ({
     ...r,
     totalReviews: Number(r.totalReviews), // ← or String()
     positiveReviews: Number(r.positiveReviews),
     pctPositive: Number(r.pctPositive), // Decimal → number
   }));
+  console.log(games);
   return c.json({
     games,
     nextCursor: buildCursor(games[games.length - 1]),
