@@ -32,7 +32,6 @@ export const getLeastPopular = async (c: Context) => {
     select: {
       gameId: true,
       visits: true,
-      _count: { select: { reviews: { gte: reviews } } },
     },
   });
 
