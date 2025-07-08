@@ -37,7 +37,7 @@ export const getHighestRating = async (c: Context) => {
     userId,
     take = 50,
     cursor = null,
-    minReviews = 20,
+    minReviews = 1,
     minVisits = 0,
     sinceDays = 7,
     costsRobux = null, // true ➜ Price > 0 ; false ➜ free ; null ➜ ignore
