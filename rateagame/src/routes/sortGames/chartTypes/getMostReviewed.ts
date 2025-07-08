@@ -23,7 +23,14 @@ export const getMostReviewed = async (c: Context) => {
     _sum: { rating: true },
     _avg: { rating: true },
     _count: { _all: true },
-
+    having: {
+      gameId: {
+        // <-- must be in `by`
+        _count: {
+          gte: reviews, // min # of reviews you want
+        },
+      },
+    },
     orderBy: {
       _count: {
         gameId: ascending ? "asc" : "desc", // Sort by the count of the grouping field
@@ -45,9 +52,7 @@ export const getMostReviewed = async (c: Context) => {
       },
       deleted: false,
     },
-    having: {
-      _count: { _all: { gte: reviews } },
-    },
+
     take,
   });
   return { games, nextCursor: games[games.length - 1].gameId };
