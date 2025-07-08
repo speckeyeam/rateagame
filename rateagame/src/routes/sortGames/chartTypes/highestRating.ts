@@ -100,7 +100,7 @@ ORDER BY pctPositive ${dir},
     ORDER BY pctPositive DESC,
              totalReviews DESC,
              g.gameId     DESC
-    LIMIT ${Prisma.sql`${take}`}
+    LIMIT 100
   `);
 
   console.log(rows);
