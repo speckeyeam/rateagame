@@ -24,6 +24,7 @@ export const getMostLiked = async (c: Context) => {
     _sum: { rating: true },
     _avg: { rating: true },
     _count: { _all: true },
+    having: { _count: { _all: { gte: reviews } } },
     orderBy: {
       _sum: {
         rating: ascending ? "asc" : "desc", // Order by highest total rating
@@ -51,9 +52,7 @@ export const getMostLiked = async (c: Context) => {
       },
       deleted: false,
     },
-    having: {
-      _count: { _all: { gte: reviews } },
-    },
+
     take,
   });
   return { games, nextCursor: games[games.length - 1].gameId };
