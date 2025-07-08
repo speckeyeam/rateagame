@@ -31,7 +31,7 @@ export const sort = async (c: Context) => {
     const data = await functions[call](c);
     console.log(data);
     if (data.success) {
-      return c.json(data, 200);
+      return c.json({ success: true, ...data }, 200);
     }
   }
 

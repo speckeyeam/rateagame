@@ -107,7 +107,6 @@ ORDER BY pctPositive ${dir},
     pctPositive: Number(r.pctPositive), // Decimal → number
   }));
   return c.json({
-    success: true,
     games: games,
     nextCursor: buildCursor(games[games.length - 1]),
   });
