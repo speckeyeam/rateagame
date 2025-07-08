@@ -30,8 +30,9 @@ export const sort = async (c: Context) => {
     console.log("test");
     const data = await functions[call](c);
     console.log(data);
-
-    return c.json(data, 200);
+    if (data.success) {
+      return c.json(data, 200);
+    }
   }
 
   return c.json({ success: false }, 500);
