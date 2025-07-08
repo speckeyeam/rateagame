@@ -109,6 +109,6 @@ ORDER BY pctPositive ${dir},
   }));
   return c.json({
     games,
-    nextCursor: buildCursor(rows[rows.length - 1]),
+    nextCursor: buildCursor(games[games.length - 1]),
   });
 };
