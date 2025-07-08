@@ -17,36 +17,21 @@ export const getNewest = async (c: Context) => {
     cursor = null,
   } = requestData;
 
-  const games = await prisma.review.groupBy({
-    by: ["gameId", "assetId"],
-
-    _sum: { rating: true },
-    _avg: { rating: true },
-    _count: { _all: true },
-    orderBy: {
-      game: {
-        date: ascending ? "asc" : "desc",
-      },
-    },
-    cursor: cursor ? { gameId: cursor } : undefined,
-    skip: cursor ? 1 : 0, // Skip the cursor item itself
-
+  const games = await prisma.game.findMany({
     where: {
-      // [gamePass ? "gameId" : "gamePassId"]: null,
-      gamePassId: null,
-
-      game: {
-        is: {
-          forSale: costRobux,
-          visits: { gt: visits - 1 },
-        },
-      },
-      deleted: false,
+      forSale: costRobux,
+      visits: { gt: visits - 1 },
+      // keep only games that already have ≥ N reviews
+      _count: { reviews: { gte: reviews } },
     },
-    having: {
-      _count: { _all: { gte: reviews } },
-    },
+    orderBy: { date: ascending ? "asc" : "desc" },
+    ...(cursor && { cursor: { gameId: cursor }, skip: 1 }),
     take,
+    select: {
+      gameId: true,
+      visits: true,
+    },
   });
+
   return { games, nextCursor: games[games.length - 1].gameId };
 };
