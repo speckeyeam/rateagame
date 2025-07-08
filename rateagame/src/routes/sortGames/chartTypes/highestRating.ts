@@ -102,9 +102,14 @@ ORDER BY pctPositive ${dir},
 
   console.log(rows);
   if (!rows.length) return c.json({ games: [], nextCursor: null });
-
+  const games = rows.map((r: any) => ({
+    ...r,
+    totalReviews: Number(r.totalReviews), // ← or String()
+    positiveReviews: Number(r.positiveReviews),
+    pctPositive: Number(r.pctPositive), // Decimal → number
+  }));
   return c.json({
-    games: rows,
+    games,
     nextCursor: buildCursor(rows[rows.length - 1]),
   });
 };
