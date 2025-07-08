@@ -29,9 +29,16 @@ export const sort = async (c: Context) => {
   if (userId && call) {
     console.log("test");
     const data = await functions[call](c);
-    console.log(data);
+    console.log(data.games);
 
-    return c.json({ success: true, ...data }, 200);
+    return c.json(
+      {
+        success: true,
+        games: data?.games,
+        nextCursor: data?.nextCursor,
+      },
+      200
+    );
   }
 
   return c.json({ success: false }, 500);
