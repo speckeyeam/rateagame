@@ -86,12 +86,12 @@ ORDER BY pctPositive ${dir},
       JOIN review r ON r.gameId = g.gameId
       WHERE r.deleted   = FALSE
         AND r.time      >= ${startDate}
-        AND COALESCE(g.visits, 0) >= ${minVisits}
+        AND COALESCE(g.visits, 0) >= ${visits}
         AND (r.gamePassId IS NULL AND r.gameId IS NOT NULL)
         ${costsRobuxSql}
          ${orderSql}
       GROUP BY g.gameId
-      HAVING COUNT(*) >= ${minReviews}
+      HAVING COUNT(*) >= ${reviews}
     )
     SELECT *
     FROM ranked g
