@@ -21,8 +21,10 @@ export const getLeastPopular = async (c: Context) => {
     where: {
       forSale: costRobux,
       visits: { gt: visits - 1 },
-      reviews: {
-        gte: reviews, // keep only games with ≥ N reviews
+      some: {
+        reviews: {
+          gt: 10,
+        },
       },
     },
     orderBy: { visits: ascending ? "asc" : "desc" },
