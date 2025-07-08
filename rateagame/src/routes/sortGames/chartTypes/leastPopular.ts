@@ -19,51 +19,20 @@ export const getLeastPopular = async (c: Context) => {
 
   const games = await prisma.game.findMany({
     where: {
-      forSale: costRobux, // true / false  ➜ matches your UI filter
-      visits: { gt: visits - 1 }, // minimum-visits screen
+      forSale: costRobux,
+      visits: { gt: visits - 1 },
+      // keep only games that already have ≥ N reviews
+      _count: { reviews: { gte: reviews } },
     },
-
-    // Cursor paging
+    orderBy: { visits: ascending ? "asc" : "desc" },
     ...(cursor && { cursor: { gameId: cursor }, skip: 1 }),
     take,
-
-    // Sort by a scalar on `game`
-    orderBy: { visits: ascending ? "asc" : "desc" },
-
-    /**
-     * Everything we want to show:
-     *  • raw game fields
-     *  • review aggregates (total, positive, avgRating)
-     */
     select: {
       gameId: true,
-      Name: true,
       visits: true,
-
-      _count: {
-        select: {
-          reviews: {
-            where: {
-              deleted: false,
-              gamePassId: null,
-            },
-          },
-
-          reviewsPos: {
-            where: {
-              deleted: false,
-              gamePassId: null,
-              recommends: true,
-            },
-          },
-        },
-      },
-      reviews: {
-        where: { deleted: false, gamePassId: null },
-        _avg: { rating: true },
-        take: 0,
-      },
+      _count: { select: { reviews: true } },
     },
   });
+
   return { games, nextCursor: games[games.length - 1].gameId };
 };
