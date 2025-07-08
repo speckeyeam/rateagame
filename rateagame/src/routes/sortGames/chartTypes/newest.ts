@@ -21,6 +21,9 @@ export const getNewest = async (c: Context) => {
     where: {
       forSale: costRobux,
       visits: { gt: visits - 1 },
+      reviews: {
+        _count: { gte: reviews }, // keep only games with ≥ N reviews
+      },
       // keep only games that already have ≥ N reviews
     },
     orderBy: { date: ascending ? "asc" : "desc" },
@@ -29,7 +32,6 @@ export const getNewest = async (c: Context) => {
     select: {
       gameId: true,
       visits: true,
-      _count: { reviews: { gte: reviews } },
     },
   });
 
