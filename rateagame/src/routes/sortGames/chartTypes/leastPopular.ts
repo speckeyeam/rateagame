@@ -29,10 +29,6 @@ export const getLeastPopular = async (c: Context) => {
     orderBy: { visits: ascending ? "asc" : "desc" },
     ...(cursor && { cursor: { gameId: cursor }, skip: 1 }),
     take,
-    select: {
-      gameId: true,
-      visits: true,
-    },
   });
 
   return { games, nextCursor: games[games.length - 1].gameId };
