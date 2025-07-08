@@ -31,5 +31,5 @@ export const getNewest = async (c: Context) => {
     take,
   });
 
-  return { success: true, games, nextCursor: games[games.length - 1].gameId };
+  return { games, nextCursor: games[games.length - 1].gameId };
 };
