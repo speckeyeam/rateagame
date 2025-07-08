@@ -22,7 +22,9 @@ export const getNewest = async (c: Context) => {
       forSale: costRobux,
       visits: { gt: visits - 1 },
       // keep only games that already have ≥ N reviews
-      _count: { reviews: { gte: reviews } },
+      reviews: {
+        _count: { gte: reviews },
+      },
     },
     orderBy: { date: ascending ? "asc" : "desc" },
     ...(cursor && { cursor: { gameId: cursor }, skip: 1 }),
