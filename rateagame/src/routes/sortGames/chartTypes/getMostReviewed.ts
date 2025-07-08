@@ -55,5 +55,5 @@ export const getMostReviewed = async (c: Context) => {
 
     take,
   });
-  return { games, nextCursor: games[games.length - 1].gameId };
+  return { success: true, games, nextCursor: games[games.length - 1].gameId };
 };

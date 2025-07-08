@@ -31,14 +31,7 @@ export const sort = async (c: Context) => {
     const data = await functions[call](c);
     console.log(data);
 
-    return c.json(
-      {
-        success: true,
-        games: data?.games,
-        nextCursor: data?.nextCursor,
-      },
-      200
-    );
+    return c.json(data, 200);
   }
 
   return c.json({ success: false }, 500);
