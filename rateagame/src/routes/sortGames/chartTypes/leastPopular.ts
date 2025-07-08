@@ -37,7 +37,9 @@ export const getLeastPopular = async (c: Context) => {
     _count: { _all: true },
     orderBy: {
       game: {
-        visits: ascending ? "asc" : "desc",
+        is: {
+          visits: ascending ? "asc" : "desc",
+        },
       },
     },
     ...(cursor && {
