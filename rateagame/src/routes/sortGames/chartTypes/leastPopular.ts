@@ -26,7 +26,7 @@ export const getLeastPopular = async (c: Context) => {
         some: {}, // empty filter = “there exists ≥ 1 review”
       },
     },
-    orderBy: { visits: ascending ? "asc" : "desc" },
+    orderBy: { visits: !ascending ? "asc" : "desc" },
     ...(cursor && { cursor: { gameId: cursor }, skip: 1 }),
     take,
   });
