@@ -37,8 +37,6 @@ export const getMostLiked = async (c: Context) => {
         rating: ascending ? "asc" : "desc", // Order by highest total rating
       },
     },
-    cursor: cursor ? { gameId: cursor } : undefined,
-    skip: cursor ? 1 : 0, // Skip the cursor item itself
 
     where: {
       // [gamePass ? "gameId" : "gamePassId"]: null,
@@ -59,6 +57,7 @@ export const getMostLiked = async (c: Context) => {
       },
       deleted: false,
     },
+    ...(cursor && { cursor: { gameId: cursor }, skip: 1 }),
 
     take,
   });
