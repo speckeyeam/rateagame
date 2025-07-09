@@ -15,7 +15,7 @@ export const getMostLiked = async (c: Context) => {
     date,
     visits = 0,
     reviews = 0,
-    cursor = null,
+    cursor = 0,
   } = requestData;
   let now = new Date();
 
@@ -58,9 +58,8 @@ export const getMostLiked = async (c: Context) => {
       },
       deleted: false,
     },
-    ...(cursor && { cursor: { gameId: cursor }, skip: 1 }),
-
+    skip: parseInt(cursor) * 100,
     take,
   });
-  return { games, nextCursor: games[games.length - 1].gameId };
+  return { games, nextCursor: cursor + 1 };
 };
