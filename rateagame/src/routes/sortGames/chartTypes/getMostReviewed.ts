@@ -31,7 +31,7 @@ export const getMostReviewed = async (c: Context) => {
       gameId: {
         // <-- must be in `by`
         _count: {
-          gte: reviews, // min # of reviews you want
+          gte: parseInt(reviews), // min # of reviews you want
         },
       },
     },
