@@ -53,7 +53,8 @@ ORDER BY pctPositive ${dir},
          g.gameId     ${dir}
 `;
 
-  const startDate = new Date(Date.now() - date * 86_400_000);
+  const startDate =
+    date > 0 ? new Date(Date.now() - date * 24 * 60 * 60 * 1000) : null;
   const cursorClause = cursorPredicate(cursor);
   const costsRobuxSql: Prisma.sql =
     costsRobux === true

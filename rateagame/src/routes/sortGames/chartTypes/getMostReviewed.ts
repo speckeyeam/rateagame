@@ -15,11 +15,11 @@ export const getMostReviewed = async (c: Context) => {
     visits = 0,
     reviews = 0,
     cursor = null,
-    days = 7,
+    date = 7,
   } = requestData;
 
   const startDate =
-    days > 0 ? new Date(Date.now() - days * 24 * 60 * 60 * 1000) : null;
+    date > 0 ? new Date(Date.now() - date * 24 * 60 * 60 * 1000) : null;
 
   const games = await prisma.review.groupBy({
     by: ["gameId", "assetId"],

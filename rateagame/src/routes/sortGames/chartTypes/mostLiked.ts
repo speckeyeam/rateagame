@@ -12,12 +12,13 @@ export const getMostLiked = async (c: Context) => {
     take = 45,
     ascending = false,
     costRobux = false,
-    days,
+    date,
     visits = 0,
     reviews = 0,
     cursor = null,
   } = requestData;
   let now = new Date();
+
   const games = await prisma.review.groupBy({
     by: ["gameId", "assetId"],
 
@@ -44,9 +45,9 @@ export const getMostLiked = async (c: Context) => {
 
       time: {
         lte: now,
-        ...(days <= 365 && {
+        ...(date <= 365 && {
           // add gte only when days ≤ 365
-          gte: new Date(now.getTime() - days * 86400000),
+          gte: new Date(now.getTime() - date * 86400000),
         }),
       },
       game: {
