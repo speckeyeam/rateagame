@@ -42,8 +42,6 @@ export const getMostReviewed = async (c: Context) => {
       },
     },
 
-    skip: cursor ? 1 : 0, // Skip the cursor item itself
-
     where: {
       // [gamePass ? "gameId" : "gamePassId"]: null,
       gamePassId: null,
