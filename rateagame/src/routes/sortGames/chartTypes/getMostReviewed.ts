@@ -23,7 +23,8 @@ export const getMostReviewed = async (c: Context) => {
 
   const games = await prisma.review.groupBy({
     by: ["gameId", "assetId"],
-
+    skip: cursor ? 1 : 0, // Skip the cursor item itself
+    cursor: cursor ? { gameId: cursor } : undefined,
     _sum: { rating: true },
     _avg: { rating: true },
     _count: { _all: true },
@@ -53,7 +54,6 @@ export const getMostReviewed = async (c: Context) => {
           visits: { gt: visits - 1 },
         },
       },
-      ...(cursor && { cursor: { gameId: cursor }, skip: 1 }),
       deleted: false,
     },
 
