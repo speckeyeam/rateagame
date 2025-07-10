@@ -15,24 +15,40 @@ export const getMostLiked = async (c: Context) => {
     reviews = 0,
     cursor = 0,
   } = requestData;
-  const now = new Date();
-  const since = date ? new Date(now.getTime() - date * 86_400_000) : undefined;
+  let now = new Date();
+
   const games = await prisma.review.groupBy({
-    by: ["gamePassId"], // one row per pass
-    where: {
-      gamePassId: { not: null },
-      deleted: false,
-      ...(since && { time: { gte: since, lte: now } }),
-    },
+    by: ["gamePassId", "assetId"],
+
     _sum: { rating: true },
     _avg: { rating: true },
     _count: { _all: true },
     having: {
-      // keep passes with ≥ N reviews
-      _count: { _all: { gte: reviews } },
+      gamePassId: {
+        // <-- must be in `by`
+        _count: {
+          gte: parseInt(reviews), // min # of reviews you want
+        },
+      },
     },
-    orderBy: { _sum: { rating: ascending ? "asc" : "desc" } },
-    skip: cursor * take,
+    orderBy: {
+      _sum: {
+        rating: ascending ? "asc" : "desc", // Order by highest total rating
+      },
+    },
+
+    where: {
+      gamePassId: { not: null }, // keep only pass reviews
+      time: {
+        lte: now,
+        ...(date <= 365 && {
+          // add gte only when days ≤ 365
+          gte: new Date(now.getTime() - date * 86400000),
+        }),
+      },
+      deleted: false,
+    },
+    skip: parseInt(cursor) * 100,
     take,
   });
   return { games, nextCursor: cursor + 1 };
