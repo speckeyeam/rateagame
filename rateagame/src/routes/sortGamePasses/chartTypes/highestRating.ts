@@ -3,12 +3,16 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-type Cursor = { pctPositive: number; totalReviews: number; gamePassId: string };
+type Cursor = {
+  pctPositive: number;
+  totalReviews: number;
+  gamePassId: string;
+};
 
-// ---------- helpers -------------------------------------------------------
+/* ---------------- helpers ---------------- */
 
-const cursorPredicate = (cur?: string): Prisma.sql => {
-  if (!cur) return Prisma.sql``; // first page → no filter
+const cursorPredicate = (cur?: string): Prisma.Sql => {
+  if (!cur) return Prisma.sql``; // first page – no filter
   const { pctPositive, totalReviews, gamePassId } = JSON.parse(cur) as Cursor;
 
   return Prisma.sql`
@@ -21,78 +25,79 @@ const cursorPredicate = (cur?: string): Prisma.sql => {
   `;
 };
 
-const buildCursor = (row: any): string =>
+const buildCursor = (row: {
+  pctPositive: number;
+  totalReviews: number;
+  gamePassId: string;
+}) =>
   JSON.stringify({
-    pctPositive: Number(row.pctPositive),
-    totalReviews: Number(row.totalReviews),
+    pctPositive: row.pctPositive,
+    totalReviews: row.totalReviews,
     gamePassId: row.gamePassId,
-  } as Cursor);
+  } satisfies Cursor);
 
-// ---------- main handler --------------------------------------------------
+/* --------------- main handler ------------- */
 
 export const getHighestRating = async (c: Context) => {
-  const body = await c.req.json().catch(() => ({}));
-
   const {
     userId,
     take = 100,
     ascending = false,
-    cursor = null,
+    cursor,
     reviews = 1,
     date = 7,
-  } = body;
+  } = (await c.req.json().catch(() => ({}))) as Record<string, any>;
 
   if (!userId) return c.json({ error: "userId required" }, 400);
 
-  const dir = ascending ? Prisma.sql`ASC` : Prisma.sql`DESC`; // ⇦ choose once
-  const orderSql = Prisma.sql`
-ORDER BY pctPositive ${dir},
-         totalReviews ${dir},
-         g.gamePassId     ${dir}
-`;
+  const dir = ascending ? Prisma.sql`ASC` : Prisma.sql`DESC`;
 
-  const startDate =
-    date > 0 ? new Date(Date.now() - date * 24 * 60 * 60 * 1000) : null;
-  const cursorClause = cursorPredicate(cursor);
+  /* optional “past N days” filter */
+  const timeFilter =
+    date > 0
+      ? Prisma.sql`AND r.time >= ${new Date(Date.now() - date * 86_400_000)}`
+      : Prisma.sql``;
 
   const rows = await prisma.$queryRaw<
     Array<{
       gamePassId: string;
-      totalReviews: number;
-      positiveReviews: number;
+      totalReviews: bigint; // MySQL returns bigint for COUNT/SUM
+      positiveReviews: bigint;
       pctPositive: number;
     }>
   >(Prisma.sql`
     WITH ranked AS (
       SELECT
         g.gamePassId,
-        COUNT(r.reviewId)                               AS totalReviews,
-        SUM(r.recommends)                               AS positiveReviews,
-        SUM(r.recommends) / COUNT(*)                    AS pctPositive
+        COUNT(r.reviewId)               AS totalReviews,
+        SUM(r.recommends)               AS positiveReviews,
+        AVG(r.recommends)               AS pctPositive       -- cleaner than SUM/COUNT
       FROM gamePass  g
-      JOIN review r ON r.gamePassId = g.gamePassId
-      WHERE r.deleted   = FALSE
-        AND r.time      >= ${startDate}
-        AND (r.gamePassId IS NOT NULL AND r.gameId IS NULL)
+      JOIN review r  ON r.gamePassId = g.gamePassId
+      WHERE r.deleted = FALSE
+        ${timeFilter}
       GROUP BY g.gamePassId
       HAVING COUNT(*) >= ${reviews}
-      ${orderSql}
     )
     SELECT *
     FROM ranked g
     WHERE 1 = 1
-      ${cursorClause}
-    LIMIT 100
+      ${cursorPredicate(cursor)}
+    ORDER BY pctPositive ${dir},
+             totalReviews ${dir},
+             g.gamePassId ${dir}
+    LIMIT ${take}
   `);
 
-  const games = rows.map((r: any) => ({
-    ...r,
-    totalReviews: Number(r.totalReviews), // ← or String()
+  const games = rows.map((r) => ({
+    gamePassId: r.gamePassId,
+    totalReviews: Number(r.totalReviews),
     positiveReviews: Number(r.positiveReviews),
-    pctPositive: Number(r.pctPositive), // Decimal → number
+    pctPositive: Number(r.pctPositive),
   }));
+
   return {
-    games: games,
-    nextCursor: buildCursor(games[games.length - 1]),
+    games,
+    nextCursor: games.length ? buildCursor(games[games.length - 1]) : null,
   };
 };
