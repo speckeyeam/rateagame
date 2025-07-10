@@ -77,9 +77,6 @@ ORDER BY pctPositive ${dir},
     WITH ranked AS (
       SELECT
         g.gamePassId,
-        g.Name,
-        g.visits,
-        g.Price,
         COUNT(r.reviewId)                               AS totalReviews,
         SUM(r.recommends)                               AS positiveReviews,
         SUM(r.recommends) / COUNT(*)                    AS pctPositive
