@@ -47,7 +47,7 @@ export const setCache = async (c: Context) => {
       if (gamePass) {
         const game = await prisma.gamePass.upsert({
           where: {
-            gameId: gameId.toString(),
+            gamePassId: gameId.toString(),
           },
           update: {
             IconImageAssetId: IconImageAssetId.toString(),
@@ -59,6 +59,9 @@ export const setCache = async (c: Context) => {
             gamePassId: gameId.toString(),
           },
         });
+        if (game) {
+          return c.json({ success: true }, 200);
+        }
       } else {
         let visits = await getVisits(gameId);
 
