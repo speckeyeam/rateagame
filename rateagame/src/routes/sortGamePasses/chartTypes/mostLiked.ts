@@ -38,6 +38,8 @@ export const getMostLiked = async (c: Context) => {
     },
 
     where: {
+      gameId: null,
+
       time: {
         lte: now,
         ...(date <= 365 && {
