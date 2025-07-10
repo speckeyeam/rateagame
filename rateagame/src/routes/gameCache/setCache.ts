@@ -53,10 +53,10 @@ export const setCache = async (c: Context) => {
             IconImageAssetId: IconImageAssetId.toString(),
             Name,
             lastUpdated: new Date(Date.now() + offset),
-            date: new Date(Created.toString()),
           },
           create: {
             gamePassId: gameId.toString(),
+            date: new Date(Created.toString()),
           },
         });
         if (game) {
