@@ -25,7 +25,7 @@ export const getMostReviewed = async (c: Context) => {
     _avg: { rating: true },
     _count: { _all: true },
     having: {
-      gamePassId: {
+      reviewId: {
         // <-- must be in `by`
         _count: {
           gte: parseInt(reviews), // min # of reviews you want
