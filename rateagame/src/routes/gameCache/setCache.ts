@@ -76,11 +76,11 @@ export const setCache = async (c: Context) => {
             Created,
             lastUpdated: new Date(Date.now() + offset),
             Price: Number(Price),
-            date: new Date(Created.toString()),
             ...(visits !== 0 && { visits }),
           },
           create: {
             gameId: gameId.toString(),
+            date: new Date(Created.toString()),
           },
         });
         if (game) {
