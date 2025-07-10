@@ -13,6 +13,7 @@ import gameRoute from "./game";
 import pointsRoute from "./points";
 import gameCache from "./gameCache";
 import sortGamesRoute from "./sortGames";
+import sortGamePassesRoute from "./sortGamePasses";
 
 const router = new Hono();
 
@@ -41,5 +42,6 @@ router.route("/points", pointsRoute);
 
 router.route("/gameCache", gameCache);
 router.route("/sortGames", sortGamesRoute);
+router.route("/sortGamePasses", sortGamePassesRoute);
 
 export default router;
