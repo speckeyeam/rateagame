@@ -15,26 +15,44 @@ function isOverADayOld(date: Date): boolean {
 export const getCache = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const { gameId } = requestData;
+  const { gameId, gamePass } = requestData;
 
   if (gameId && requestData) {
     let check: any = await apikeycheck(c);
     if (check) {
-      const game = await prisma.game.findFirst({
-        where: {
-          gameId: String(gameId),
-        },
-      });
-      if (game) {
-        if (game.visits !== undefined && !isNaN(Number(game.visits))) {
-          game.visits = parseInt(String(game.visits));
-        } else {
-          game.visits = parseInt(String(0));
+      if (gamePass) {
+        const gamePass = await prisma.gamePass.findFirst({
+          where: {
+            gamePassId: String(gameId),
+          },
+        });
+        if (gamePass) {
+          return c.json(
+            {
+              success: true,
+              gamePass,
+              outdated: isOverADayOld(gamePass.lastUpdated),
+            },
+            200
+          );
         }
-        return c.json(
-          { success: true, game, outdated: isOverADayOld(game.lastUpdated) },
-          200
-        );
+      } else {
+        const game = await prisma.game.findFirst({
+          where: {
+            gameId: String(gameId),
+          },
+        });
+        if (game) {
+          if (game.visits !== undefined && !isNaN(Number(game.visits))) {
+            game.visits = parseInt(String(game.visits));
+          } else {
+            game.visits = parseInt(String(0));
+          }
+          return c.json(
+            { success: true, game, outdated: isOverADayOld(game.lastUpdated) },
+            200
+          );
+        }
       }
     }
   }

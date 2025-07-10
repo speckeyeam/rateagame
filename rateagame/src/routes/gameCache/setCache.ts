@@ -35,36 +35,54 @@ export const setCache = async (c: Context) => {
     forSale = false,
     IconImageAssetId,
     Name,
-    Created,
+    Created = new Date(),
     Price = 0,
+    gamePass = false,
   } = requestData;
 
-  if (gameId && IconImageAssetId && Name && Created) {
+  if (gameId && IconImageAssetId && Name) {
     let check: any = await apikeycheck(c);
     if (check) {
-      let visits = await getVisits(gameId);
-
       const offset = Math.random() * 12 * 60 * 60 * 1000;
-      const game = await prisma.game.upsert({
-        where: {
-          gameId: gameId.toString(),
-        },
-        update: {
-          forSale,
-          IconImageAssetId: IconImageAssetId.toString(),
-          Name,
-          Created,
-          lastUpdated: new Date(Date.now() + offset),
-          Price: Number(Price),
-          date: new Date(Created.toString()),
-          ...(visits !== 0 && { visits }),
-        },
-        create: {
-          gameId: gameId.toString(),
-        },
-      });
-      if (game) {
-        return c.json({ success: true }, 200);
+      if (gamePass) {
+        const game = await prisma.gamePass.upsert({
+          where: {
+            gameId: gameId.toString(),
+          },
+          update: {
+            IconImageAssetId: IconImageAssetId.toString(),
+            Name,
+            lastUpdated: new Date(Date.now() + offset),
+            date: new Date(Created.toString()),
+          },
+          create: {
+            gamePassId: gameId.toString(),
+          },
+        });
+      } else {
+        let visits = await getVisits(gameId);
+
+        const game = await prisma.game.upsert({
+          where: {
+            gameId: gameId.toString(),
+          },
+          update: {
+            forSale,
+            IconImageAssetId: IconImageAssetId.toString(),
+            Name,
+            Created,
+            lastUpdated: new Date(Date.now() + offset),
+            Price: Number(Price),
+            date: new Date(Created.toString()),
+            ...(visits !== 0 && { visits }),
+          },
+          create: {
+            gameId: gameId.toString(),
+          },
+        });
+        if (game) {
+          return c.json({ success: true }, 200);
+        }
       }
     }
   }
