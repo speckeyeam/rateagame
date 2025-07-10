@@ -83,7 +83,7 @@ ORDER BY pctPositive ${dir},
         COUNT(r.reviewId)                               AS totalReviews,
         SUM(r.recommends)                               AS positiveReviews,
         SUM(r.recommends) / COUNT(*)                    AS pctPositive
-      FROM game  g
+      FROM gamePass  g
       JOIN review r ON r.gamePassId = g.gamePassId
       WHERE r.deleted   = FALSE
         AND r.time      >= ${startDate}

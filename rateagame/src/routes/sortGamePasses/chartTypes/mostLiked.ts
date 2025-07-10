@@ -41,7 +41,7 @@ export const getMostLiked = async (c: Context) => {
 
     where: {
       // [gamePass ? "gameId" : "gamePassId"]: null,
-      gamePassId: null,
+      gameId: null,
 
       time: {
         lte: now,
