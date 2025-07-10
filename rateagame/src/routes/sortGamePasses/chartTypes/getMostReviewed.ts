@@ -11,8 +11,6 @@ export const getMostReviewed = async (c: Context) => {
   const {
     take = 45,
     ascending = false,
-    costRobux = false,
-    visits = 0,
     reviews = 0,
     cursor = 0,
     date = 7,
@@ -44,12 +42,6 @@ export const getMostReviewed = async (c: Context) => {
       // [gamePass ? "gameId" : "gamePassId"]: null,
       gamePassId: null,
       ...(startDate && { time: { gte: startDate } }),
-      game: {
-        is: {
-          forSale: costRobux,
-          visits: { gt: visits - 1 },
-        },
-      },
       deleted: false,
     },
     skip: parseInt(cursor) * 100,
