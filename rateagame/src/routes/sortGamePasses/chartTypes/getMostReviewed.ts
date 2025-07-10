@@ -6,45 +6,39 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 //gets the most trending games in the past week, games with the most reviews, could get the most trending games and games passes in the last x amount of days
 export const getMostReviewed = async (c: Context) => {
-  const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
-
   const {
     take = 100,
     ascending = false,
     reviews = 0,
     cursor = 0,
     date = 7,
-  } = requestData;
+  } = await c.req.json().catch(() => ({}));
 
-  const startDate =
-    date > 0 ? new Date(Date.now() - date * 24 * 60 * 60 * 1000) : null;
+  const startDate = date > 0 ? new Date(Date.now() - date * 86_400_000) : null; // 24 h × 60 m × 60 s × 1000 ms
 
   const games = await prisma.review.groupBy({
     by: ["gamePassId", "assetId"],
     _sum: { rating: true },
     _avg: { rating: true },
     _count: { _all: true },
+
     having: {
-      gamePassId: {
-        // <-- must be in `by`
-        _count: {
-          gte: parseInt(reviews), // min # of reviews you want
-        },
-      },
+      _count: { _all: { gte: reviews } },
     },
+
     orderBy: {
-      _count: {
-        gamePassId: ascending ? "asc" : "desc", // Sort by the count of the grouping field
-      },
+      _count: { _all: ascending ? "asc" : "desc" },
     },
 
     where: {
-      gameId: null,
-      ...(startDate && { time: { gte: startDate } }),
+      gamePassId: { not: null }, // <-- key change
       deleted: false,
+      ...(startDate && { time: { gte: startDate } }),
     },
-    skip: parseInt(cursor) * 100,
+
+    skip: Number(cursor) * take,
     take,
   });
-  return { games, nextCursor: cursor + 1 };
+
+  return { games, nextCursor: Number(cursor) + 1 };
 };
