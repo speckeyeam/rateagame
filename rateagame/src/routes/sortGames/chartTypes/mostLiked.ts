@@ -9,7 +9,7 @@ export const getMostLiked = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const {
-    take = 45,
+    take = 100,
     ascending = false,
     costRobux = false,
     date,

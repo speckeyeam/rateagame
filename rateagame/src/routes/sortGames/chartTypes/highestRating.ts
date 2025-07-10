@@ -35,7 +35,7 @@ export const getHighestRating = async (c: Context) => {
 
   const {
     userId,
-    take = 50,
+    take = 100,
     ascending = false,
     cursor = null,
     reviews = 1,
