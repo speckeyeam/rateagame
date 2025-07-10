@@ -57,12 +57,13 @@ model game {
 //                     ["Description"]
 
 model gamePass {
-  gamePassId       String   @unique
+  gamePassId       String    @unique
   reviews          review[]
   gameId           String?
-  lastUpdated      DateTime @default(now())
+  lastUpdated      DateTime  @default(now())
   IconImageAssetId String?
   Name             String?
+  date             DateTime?
 }
 
 model review {
