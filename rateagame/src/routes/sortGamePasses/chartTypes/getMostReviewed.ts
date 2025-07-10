@@ -39,6 +39,7 @@ export const getMostReviewed = async (c: Context) => {
     },
 
     where: {
+      // [gamePass ? "gameId" : "gamePassId"]: null,
       gameId: null,
       ...(startDate && { time: { gte: startDate } }),
       deleted: false,
