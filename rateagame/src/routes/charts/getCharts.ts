@@ -35,11 +35,11 @@ export const getCharts = async (c: Context) => {
     if (call == "images") {
       const recentlyReviewed = await getRecentlyReviewed(c);
       const topRated = await getTopRated(c);
-      const lowestRated = await getLowestRated(c);
+      // const lowestRated = await getLowestRated(c);
       const trending = await getTrending(c);
       const mostReviewed = await getMostReviewed(c);
-      const mostReviewedPaid = await getMostReviewedPaid(c);
-      const topGamePasses = await getTopGamePasses(c);
+      // const mostReviewedPaid = await getMostReviewedPaid(c);
+      // const topGamePasses = await getTopGamePasses(c);
 
       //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
       return c.json(
@@ -47,11 +47,11 @@ export const getCharts = async (c: Context) => {
           success: true,
           recentlyReviewed,
           topRated,
-          lowestRated,
+          // lowestRated,
           trending,
           mostReviewed,
-          mostReviewedPaid,
-          topGamePasses,
+          // mostReviewedPaid,
+          // topGamePasses,
         },
         200
       );
