@@ -11,9 +11,7 @@ export const getMostLiked = async (c: Context) => {
   const {
     take = 100,
     ascending = false,
-    costRobux = false,
     date,
-    visits = 0,
     reviews = 0,
     cursor = 0,
   } = requestData;
@@ -40,21 +38,12 @@ export const getMostLiked = async (c: Context) => {
     },
 
     where: {
-      // [gamePass ? "gameId" : "gamePassId"]: null,
-      gameId: null,
-
       time: {
         lte: now,
         ...(date <= 365 && {
           // add gte only when days ≤ 365
           gte: new Date(now.getTime() - date * 86400000),
         }),
-      },
-      game: {
-        is: {
-          forSale: costRobux,
-          visits: { gt: visits - 1 },
-        },
       },
       deleted: false,
     },
