@@ -39,9 +39,7 @@ export const getHighestRating = async (c: Context) => {
     ascending = false,
     cursor = null,
     reviews = 1,
-    visits = 0,
     date = 7,
-    costsRobux = null, // true ➜ Price > 0 ; false ➜ free ; null ➜ ignore
   } = body;
 
   if (!userId) return c.json({ error: "userId required" }, 400);
@@ -56,19 +54,10 @@ ORDER BY pctPositive ${dir},
   const startDate =
     date > 0 ? new Date(Date.now() - date * 24 * 60 * 60 * 1000) : null;
   const cursorClause = cursorPredicate(cursor);
-  const costsRobuxSql: Prisma.sql =
-    costsRobux === true
-      ? Prisma.sql`AND g.Price > 0`
-      : costsRobux === false
-      ? Prisma.sql`AND (g.Price = 0 OR g.Price IS NULL)`
-      : Prisma.sql``; // no extra filter
 
   const rows = await prisma.$queryRaw<
     Array<{
       gamePassId: string;
-      Name: string | null;
-      visits: number | null;
-      Price: number | null;
       totalReviews: number;
       positiveReviews: number;
       pctPositive: number;
@@ -84,9 +73,7 @@ ORDER BY pctPositive ${dir},
       JOIN review r ON r.gamePassId = g.gamePassId
       WHERE r.deleted   = FALSE
         AND r.time      >= ${startDate}
-        AND COALESCE(g.visits, 0) >= ${visits}
-        AND (r.gamePassId IS NOT NULL AND r.gamePassId IS NULL)
-        ${costsRobuxSql}
+        AND (r.gamePassId IS NOT NULL AND r.gameId IS NULL)
       GROUP BY g.gamePassId
       HAVING COUNT(*) >= ${reviews}
       ${orderSql}
