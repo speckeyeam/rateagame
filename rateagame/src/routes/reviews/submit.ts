@@ -53,7 +53,9 @@ export const submit = async (c: Context) => {
           const userReviewCount = await prisma.review.count({
             where: { userId: userId.toString(), deleted: false },
           });
-
+          void gameCheck(gameId, gamePass, parentId).catch((err) =>
+            console.error("gameCheck failed:", err)
+          );
           if (newreview) {
             return c.json(
               { success: true, review: newreview, userReviewCount },
@@ -62,9 +64,6 @@ export const submit = async (c: Context) => {
           }
         }
       }
-      void gameCheck(gameId, gamePass, parentId).catch((err) =>
-        console.error("gameCheck failed:", err)
-      );
     } else {
     }
   } else {
