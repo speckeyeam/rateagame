@@ -34,6 +34,7 @@ export const submit = async (c: Context) => {
             update: {},
             create: {
               gamePassId: String(gameId),
+              gameId: String(parentId),
               date: new Date(),
             },
           });
