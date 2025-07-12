@@ -28,6 +28,16 @@ export const submit = async (c: Context) => {
     let player = await playerCheck(c);
     if (player) {
       if (text.length < 2001) {
+        if (gamePass) {
+          let createPass = await prisma.gamePass.upsert({
+            where: { gamePassId: String(gameId) },
+            update: {},
+            create: {
+              gamePassId: String(gameId),
+              date: new Date(),
+            },
+          });
+        }
         const data = {
           reviewId: String(reviewId),
           time: new Date(time * 1000),
