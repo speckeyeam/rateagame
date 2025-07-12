@@ -9,11 +9,7 @@ const prisma = new PrismaClient();
 export const recentlyReviewed = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
-  const {
-    userId,
-    gamePass, // Default to false if not provided,
-    date,
-  } = requestData;
+  const { userId, date } = requestData;
 
   if (userId && date) {
     console.log("test");
@@ -41,6 +37,7 @@ export const recentlyReviewed = async (c: Context) => {
     };
 
     const recentlyReviewed = await prisma.review.findMany(data);
+    console.log("test2");
     if (recentlyReviewed) {
       return c.json({ success: true, games: recentlyReviewed }, 200);
     }
