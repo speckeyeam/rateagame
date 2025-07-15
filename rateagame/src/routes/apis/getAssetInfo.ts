@@ -43,7 +43,7 @@ async function getGameInfo(universeId: any) {
 
 async function getGamePassInfo(gamePassId: any) {
   try {
-    const gamePassUrl = `https://apis.roblox.com/game-passes/v1/game-passes/${gamePassId}`;
+    const gamePassUrl = `https://apis.roblox.com/game-passes/v1/game-passes/${gamePassId}/details`;
 
     const response = await fetch(gamePassUrl);
     if (!response.ok) {
