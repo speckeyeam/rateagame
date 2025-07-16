@@ -44,8 +44,12 @@ async function getGameInfo(universeId: any) {
 async function getGamePassInfo(gamePassId: any) {
   try {
     const gamePassUrl = `https://apis.roblox.com/game-passes/v1/game-passes/${gamePassId}/details`;
+    const apiKey = process.env.game_passes!; // set in your host’s env vars
 
-    const response = await fetch(gamePassUrl);
+    const response = await fetch(gamePassUrl, {
+      headers: { "x-api-key": apiKey, accept: "application/json" },
+    });
+
     if (!response.ok) {
       throw new Error(`Failed to fetch GamePass: ${response.status}`);
     }
