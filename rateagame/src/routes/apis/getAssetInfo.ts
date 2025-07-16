@@ -58,7 +58,7 @@ async function getGamePassInfo(gamePassId: any) {
       throw new Error(`Failed to fetch GamePass: ${response.status}`);
     }
     const data = await response.json();
-
+    console.log(data);
     if (data.data && data.data.length > 0) {
       return data.data;
     }
