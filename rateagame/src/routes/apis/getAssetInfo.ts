@@ -50,7 +50,7 @@ async function getGamePassInfo(gamePassId: any) {
       headers: {
         cookie: `.ROBLOSECURITY=${process.env.robo_sec!};`, // <— key bit
         accept: "application/json",
-        "user-agent": "RateAGame‑backend/1.0",
+        // "x-csrf-token": csrf,
       },
     });
 
