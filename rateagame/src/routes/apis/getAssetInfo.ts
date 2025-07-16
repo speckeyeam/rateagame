@@ -45,9 +45,12 @@ async function getGamePassInfo(gamePassId: any) {
   try {
     const gamePassUrl = `https://apis.roblox.com/game-passes/v1/game-passes/${gamePassId}/details`;
     const apiKey = process.env.game_passes!; // set in your host’s env vars
-
+    console.log(apiKey);
     const response = await fetch(gamePassUrl, {
-      headers: { "x-api-key": apiKey, accept: "application/json" },
+      headers: {
+        "x-api-key": process.env.game_passes!,
+        accept: "application/json",
+      },
     });
 
     if (!response.ok) {
