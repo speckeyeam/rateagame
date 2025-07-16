@@ -48,8 +48,9 @@ async function getGamePassInfo(gamePassId: any) {
     console.log(apiKey);
     const response = await fetch(gamePassUrl, {
       headers: {
-        "x-api-key": process.env.game_passes!,
+        cookie: `.ROBLOSECURITY=${process.env.robo_sec!};`, // <— key bit
         accept: "application/json",
+        "user-agent": "RateAGame‑backend/1.0",
       },
     });
 
