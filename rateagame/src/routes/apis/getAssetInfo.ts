@@ -83,6 +83,7 @@ export const getAssetInfo = async (c: Context) => {
         }
       } else {
         let data = await getGamePassInfo(assetId);
+        console.log(data);
         if (data) {
           return c.json({ success: true, data }, 200);
         }
