@@ -22,24 +22,24 @@ export const getCharts = async (c: Context) => {
 
   const key = authHeader.slice("Bearer ".length);
 
-  if (key == process.env.MY_API_KEY) {
-    const weeklyMostAwarded = await mostAwarded(c, 7);
-    const weeklyMostLiked = await mostLiked(c, 7);
-
-    const monthlyMostAwarded = await mostAwarded(c, 30);
-    const monthlyMostLiked = await mostLiked(c, 30);
-
-    //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
-    return c.json(
-      {
-        success: true,
-        weeklyMostAwarded,
-        weeklyMostLiked,
-        monthlyMostAwarded,
-        monthlyMostLiked,
-      },
-      200
-    );
+  if (key != process.env.MY_API_KEY) {
+    return c.json({ success: false }, 500);
   }
-  return c.json({ success: false }, 500);
+  const weeklyMostAwarded = await mostAwarded(c, 7);
+  const weeklyMostLiked = await mostLiked(c, 7);
+
+  const monthlyMostAwarded = await mostAwarded(c, 30);
+  const monthlyMostLiked = await mostLiked(c, 30);
+
+  //const recentlyReviewed = getRecentlyReviewed(c); get the rest with this, highest lowest, etc
+  return c.json(
+    {
+      success: true,
+      weeklyMostAwarded,
+      weeklyMostLiked,
+      monthlyMostAwarded,
+      monthlyMostLiked,
+    },
+    200
+  );
 };
