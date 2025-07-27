@@ -20,76 +20,40 @@ export const giveAwardGame = async (c: Context) => {
     let player: any = await playerCheck(c);
     let award = await awardCheck(awardId);
     if (player && award) {
-      let game;
-      if (gamePass) {
-        game = await prisma.gamePass.findFirst({
-          where: {
-            gamePassId: gameId.toString(),
-          },
-        });
-      } else {
-        game = await prisma.game.findFirst({
-          where: {
-            gameId: gameId.toString(),
-          },
-        });
-      }
+      //   let game;
+      //   if (gamePass) {
+      //     game = await prisma.gamePass.findFirst({
+      //       where: {
+      //         gamePassId: gameId.toString(),
+      //       },
+      //     });
+      //   } else {
+      //     game = await prisma.game.findFirst({
+      //       where: {
+      //         gameId: gameId.toString(),
+      //       },
+      //     });
+      //   }
 
-      if (game) {
-        console.log("test1");
-        if (buying) {
-          console.log("test3");
+      //   if (game) {
+      console.log("test1");
+      if (buying) {
+        console.log("test3");
 
-          const saleCheck = await awardIsForSale(award.id);
-          if (saleCheck) {
-            console.log("test4");
+        const saleCheck = await awardIsForSale(award.id);
+        if (saleCheck) {
+          console.log("test4");
 
-            if (player.coins >= award.price) {
-              const updatedUser = await prisma.user.update({
-                where: { userId: userId.toString() },
-                data: {
-                  coins: {
-                    increment: -award.price, // decrease coins by the amount that the award cost
-                  },
+          if (player.coins >= award.price) {
+            const updatedUser = await prisma.user.update({
+              where: { userId: userId.toString() },
+              data: {
+                coins: {
+                  increment: -award.price, // decrease coins by the amount that the award cost
                 },
-              });
-              if (updatedUser) {
-                const givenAward = await prisma.award.create({
-                  data: {
-                    givenUserId: userId.toString(),
-                    [gamePass ? "gamePassId" : "gameId"]: gameId.toString(),
-                    awardId: award.id.toString(),
-                    time: new Date(),
-                  },
-                });
-                if (givenAward) {
-                  return c.json(
-                    {
-                      success: true,
-                      updatedPoints: player.coins - award.price,
-                    },
-                    200
-                  );
-                }
-              }
-            }
-          }
-        } else {
-          console.log("test2");
-          const hasAward = await prisma.awardInventory.findFirst({
-            where: {
-              userId: userId.toString(),
-              awardId: award.id.toString(),
-            },
-          });
-          if (hasAward) {
-            const deleteAward = await prisma.awardInventory.delete({
-              where: {
-                userId: userId.toString(),
-                id: hasAward.id,
               },
             });
-            if (deleteAward) {
+            if (updatedUser) {
               const givenAward = await prisma.award.create({
                 data: {
                   givenUserId: userId.toString(),
@@ -99,12 +63,48 @@ export const giveAwardGame = async (c: Context) => {
                 },
               });
               if (givenAward) {
-                return c.json({ success: true }, 200);
+                return c.json(
+                  {
+                    success: true,
+                    updatedPoints: player.coins - award.price,
+                  },
+                  200
+                );
               }
             }
           }
         }
+      } else {
+        console.log("test2");
+        const hasAward = await prisma.awardInventory.findFirst({
+          where: {
+            userId: userId.toString(),
+            awardId: award.id.toString(),
+          },
+        });
+        if (hasAward) {
+          const deleteAward = await prisma.awardInventory.delete({
+            where: {
+              userId: userId.toString(),
+              id: hasAward.id,
+            },
+          });
+          if (deleteAward) {
+            const givenAward = await prisma.award.create({
+              data: {
+                givenUserId: userId.toString(),
+                [gamePass ? "gamePassId" : "gameId"]: gameId.toString(),
+                awardId: award.id.toString(),
+                time: new Date(),
+              },
+            });
+            if (givenAward) {
+              return c.json({ success: true }, 200);
+            }
+          }
+        }
       }
+      //   }
     }
   }
   return c.json({ success: false }, 500);
