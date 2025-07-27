@@ -109,19 +109,21 @@ model like {
 }
 
 model award {
-  id             Int       @id @default(autoincrement())
-  time           DateTime
-  reviewId       String?
-  gameId         String?
-  gamePassId     String?
-  awardId        String
-  givenUserId    String
-  receivedUserId String?
-  giver          user      @relation("GiverRelation", fields: [givenUserId], references: [userId])
-  receiver       user?     @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
-  review         review?   @relation(fields: [reviewId], references: [reviewId])
-  game           game?     @relation(fields: [gameId], references: [gameId])
-  gamePass       gamePass? @relation(fields: [gamePassId], references: [gamePassId])
+  id                 Int       @id @default(autoincrement())
+  time               DateTime
+  reviewId           String?
+  gameId             String?
+  gamePassId         String?
+  awardId            String
+  givenUserId        String
+  receivedUserId     String?
+  giver              user      @relation("GiverRelation", fields: [givenUserId], references: [userId])
+  receiver           user?     @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
+  review             review?   @relation(fields: [reviewId], references: [reviewId])
+  game               game?     @relation(fields: [gameGameId], references: [gameId])
+  gameGameId         String?
+  gamePass           gamePass? @relation(fields: [gamePassGamePassId], references: [gamePassId])
+  gamePassGamePassId String?
 
   @@index([givenUserId], map: "award_givenUserId_fkey")
   @@index([receivedUserId], map: "award_receivedUserId_fkey")
