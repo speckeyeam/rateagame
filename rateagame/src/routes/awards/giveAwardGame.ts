@@ -36,10 +36,15 @@ export const giveAwardGame = async (c: Context) => {
       }
 
       if (game) {
+        console.log("test1");
         const recieverId = gameId;
-        if (buying && recieverId) {
+        if (buying) {
+          console.log("test3");
+
           const saleCheck = await awardIsForSale(award.id);
           if (saleCheck) {
+            console.log("test4");
+
             if (player.coins >= award.price) {
               const updatedUser = await prisma.user.update({
                 where: { userId: userId.toString() },
@@ -79,7 +84,8 @@ export const giveAwardGame = async (c: Context) => {
               }
             }
           }
-        } else if (recieverId) {
+        } else {
+          console.log("test2");
           const hasAward = await prisma.awardInventory.findFirst({
             where: {
               userId: userId.toString(),
@@ -98,7 +104,7 @@ export const giveAwardGame = async (c: Context) => {
                 data: {
                   givenUserId: userId.toString(),
                   receivedUserId: recieverId.toString(),
-                  reviewId: reviewId.toString(),
+                  [gamePass ? "gamePassId" : "gameId"]: gameId.toString(),
                   awardId: award.id.toString(),
                   time: new Date(),
                 },
