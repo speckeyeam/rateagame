@@ -72,26 +72,25 @@ export const getAssetInfo = async (c: Context) => {
   const { assetId, gamePass = false } = requestData;
   //finish this later lol
   let apicheck = await apikeycheck(c);
-  if (apicheck) {
-    let universeId: any;
-    if (assetId) {
-      if (!gamePass) {
-        universeId = await getUniverseId(assetId);
-        let data = await getGameInfo(universeId);
-        if (data) {
-          return c.json({ success: true, data }, 200);
-        }
-      } else {
-        let data = await getGamePassInfo(assetId);
-        console.log(data);
-        if (data) {
-          return c.json({ success: true, data }, 200);
-        }
+  if (!apicheck) {
+    return c.json({ success: false }, 500);
+  }
+  let universeId: any;
+  if (assetId) {
+    if (!gamePass) {
+      universeId = await getUniverseId(assetId);
+      let data = await getGameInfo(universeId);
+      if (data) {
+        return c.json({ success: true, data }, 200);
+      }
+    } else {
+      let data = await getGamePassInfo(assetId);
+      console.log(data);
+      if (data) {
+        return c.json({ success: true, data }, 200);
       }
     }
   }
-
-  return c.json({ success: false }, 500);
 };
 
 //THIS CODE WORKS FOR GETTING A GAMEPASS ICON!
