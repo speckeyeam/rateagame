@@ -37,7 +37,6 @@ export const giveAwardGame = async (c: Context) => {
 
       if (game) {
         console.log("test1");
-        const recieverId = gameId;
         if (buying) {
           console.log("test3");
 
@@ -58,18 +57,9 @@ export const giveAwardGame = async (c: Context) => {
                 const givenAward = await prisma.award.create({
                   data: {
                     givenUserId: userId.toString(),
-                    receivedUserId: recieverId.toString(),
                     [gamePass ? "gamePassId" : "gameId"]: gameId.toString(),
                     awardId: award.id.toString(),
                     time: new Date(),
-                  },
-                });
-                const givePoints = await prisma.user.update({
-                  where: { userId: recieverId.toString() },
-                  data: {
-                    coins: {
-                      increment: Math.round(award.price / 2), // increase coins half of the award costs
-                    },
                   },
                 });
                 if (givenAward) {
@@ -103,7 +93,6 @@ export const giveAwardGame = async (c: Context) => {
               const givenAward = await prisma.award.create({
                 data: {
                   givenUserId: userId.toString(),
-                  receivedUserId: recieverId.toString(),
                   [gamePass ? "gamePassId" : "gameId"]: gameId.toString(),
                   awardId: award.id.toString(),
                   time: new Date(),
