@@ -35,6 +35,7 @@ model game {
   visits           Float?
   Price            Int?
   date             DateTime?
+  award            award[]
 }
 
 // "IconImageAssetId"] = 104178370574409,
@@ -64,6 +65,7 @@ model gamePass {
   IconImageAssetId String?
   Name             String?
   date             DateTime?
+  award            award[]
 }
 
 model review {
@@ -107,15 +109,19 @@ model like {
 }
 
 model award {
-  id             Int      @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   time           DateTime
-  reviewId       String
+  reviewId       String?
+  gameId         String?
+  gamePassId     String?
   awardId        String
   givenUserId    String
   receivedUserId String
-  giver          user     @relation("GiverRelation", fields: [givenUserId], references: [userId])
-  receiver       user     @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
-  review         review   @relation(fields: [reviewId], references: [reviewId])
+  giver          user      @relation("GiverRelation", fields: [givenUserId], references: [userId])
+  receiver       user      @relation("ReceiverRelation", fields: [receivedUserId], references: [userId])
+  review         review?   @relation(fields: [reviewId], references: [reviewId])
+  game           game?     @relation(fields: [gameId], references: [gameId])
+  gamePass       gamePass? @relation(fields: [gamePassId], references: [gamePassId])
 
   @@index([givenUserId], map: "award_givenUserId_fkey")
   @@index([receivedUserId], map: "award_receivedUserId_fkey")
