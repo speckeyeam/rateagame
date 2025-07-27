@@ -9,7 +9,7 @@ import { awardIsForSale } from "../helpers/awardCheck";
 
 const prisma = new PrismaClient();
 
-export const giveAward = async (c: Context) => {
+export const giveAwardGame = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const { userId, token, awardId, buying, gamePass, gameId } =
