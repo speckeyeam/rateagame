@@ -14,9 +14,6 @@ export const giveAwardGame = async (c: Context) => {
 
   const { userId, token, awardId, buying, gamePass, gameId } =
     await requestData;
-  console.log(userId);
-  console.log(awardId);
-  console.log(gameId);
 
   console.log(requestData);
   if (userId && token && awardId && gameId) {
@@ -25,15 +22,15 @@ export const giveAwardGame = async (c: Context) => {
     if (player && award) {
       let game;
       if (gamePass) {
-        game = await prisma.game.findFirst({
-          where: {
-            gameId: gameId.toString(),
-          },
-        });
-      } else {
         game = await prisma.gamePass.findFirst({
           where: {
             gamePassId: gameId.toString(),
+          },
+        });
+      } else {
+        game = await prisma.game.findFirst({
+          where: {
+            gameId: gameId.toString(),
           },
         });
       }
