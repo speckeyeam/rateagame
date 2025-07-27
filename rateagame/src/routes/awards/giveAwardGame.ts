@@ -14,6 +14,9 @@ export const giveAwardGame = async (c: Context) => {
 
   const { userId, token, awardId, buying, gamePass, gameId } =
     await requestData;
+  console.log(userId);
+  console.log(awardId);
+  console.log(gameId);
 
   console.log(requestData);
   if (userId && token && awardId && gameId) {
