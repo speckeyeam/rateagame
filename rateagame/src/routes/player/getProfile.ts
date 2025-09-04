@@ -11,46 +11,49 @@ export const getProfile = async (c: Context) => {
   const requestData = await c.req.json().catch(() => null); // catch in case no JSON is sent
 
   const { userId } = requestData;
+  if (!userId) {
+    return c.json({ success: false }, 500);
+  }
 
-  if (userId) {
-    let apiCheck: any = await apikeycheck(c);
-    if (apiCheck) {
-      const [
-        totalReviews = 0,
-        totalLikes = 0,
-        totalAwardsReceived = 0,
-        totalAwardsGiven = 0,
-      ] = await Promise.all([
-        prisma.review.count({
-          where: { userId: userId.toString(), deleted: false },
-        }),
+  let apiCheck: any = await apikeycheck(c);
+  if (apiCheck) {
+    const [
+      totalReviews = 0,
+      totalLikes = 0,
+      totalAwardsReceived = 0,
+      totalAwardsGiven = 0,
+    ] = await Promise.all([
+      prisma.review.count({
+        where: { userId: userId.toString(), deleted: false },
+      }),
 
-        prisma.like.count({
-          where: {
-            review: {
-              userId: userId.toString(),
-            },
+      prisma.like.count({
+        where: {
+          review: {
+            userId: userId.toString(),
           },
-        }),
+        },
+      }),
 
-        prisma.award.count({
-          where: {
-            receivedUserId: userId.toString(),
-            NOT: { givenUserId: userId.toString() },
-          },
-        }),
+      prisma.award.count({
+        where: {
+          receivedUserId: userId.toString(),
+          NOT: { givenUserId: userId.toString() },
+        },
+      }),
 
-        prisma.award.count({
-          where: { givenUserId: userId.toString() },
-        }),
-      ]);
-      const user = await prisma.user.findUnique({
-        where: { userId: String(userId) },
-      });
-      const dateJoined =
-        user?.dateJoined instanceof Date
-          ? Math.floor(user.dateJoined.getTime() / 1000)
-          : 0;
+      prisma.award.count({
+        where: { givenUserId: userId.toString() },
+      }),
+    ]);
+    const user = await prisma.user.findUnique({
+      where: { userId: String(userId) },
+    });
+    const dateJoined =
+      user?.dateJoined instanceof Date
+        ? Math.floor(user.dateJoined.getTime() / 1000)
+        : 0;
+    if (user) {
       return c.json(
         {
           success: true,
@@ -62,7 +65,8 @@ export const getProfile = async (c: Context) => {
         },
         200
       );
+    } else {
+      return c.json({ success: false }, 500);
     }
   }
-  return c.json({ success: false }, 500);
 };
