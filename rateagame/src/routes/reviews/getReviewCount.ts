@@ -14,16 +14,18 @@ export const getReviewCount = async (c: Context) => {
 
   if (gameId && gamePass) {
     let check = await apikeycheck(c);
-    if (check) {
-      const total = await prisma.review.count({
-        where: {
-          [gamePass ? "gamePassId" : "gameId"]: String(gameId),
-          deleted: false,
-        },
-      });
-      return c.json({ success: true, total }, 200);
+    if (!check) {
+      return c.json({ success: false }, 500);
     }
-  }
 
-  return c.json({ success: false }, 500);
+    const total = await prisma.review.count({
+      where: {
+        [gamePass ? "gamePassId" : "gameId"]: String(gameId),
+        deleted: false,
+      },
+    });
+    return c.json({ success: true, total }, 200);
+  } else {
+    return c.json({ success: false }, 500);
+  }
 };
